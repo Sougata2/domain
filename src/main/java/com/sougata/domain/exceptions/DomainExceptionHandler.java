@@ -1,0 +1,22 @@
+package com.sougata.domain.exceptions;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.Timestamp;
+
+@RestControllerAdvice
+public class DomainExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDto> domainException(Exception e, HttpServletRequest request) {
+        ErrorDto.ErrorDtoBuilder response = new ErrorDto.ErrorDtoBuilder();
+        response.message(e.getMessage());
+        response.path(request.getRequestURI());
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        response.timestamp(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.build());
+    }
+}
