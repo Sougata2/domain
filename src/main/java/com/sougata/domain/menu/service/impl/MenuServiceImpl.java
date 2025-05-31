@@ -1,8 +1,10 @@
 package com.sougata.domain.menu.service.impl;
 
+import com.sougata.domain.mapper.CycleAvoidingMappingContext;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.menu.entity.MenuEntity;
+import com.sougata.domain.menu.mapper.MenuMapper;
 import com.sougata.domain.menu.repository.MenuRepository;
 import com.sougata.domain.menu.service.MenuService;
 import jakarta.persistence.EntityManager;
@@ -16,11 +18,13 @@ import java.util.List;
 public class MenuServiceImpl implements MenuService {
     private final MenuRepository repository;
     private final EntityManager entityManager;
+    private final MenuMapper mapper;
+    private final CycleAvoidingMappingContext context;
 
     @Override
     public List<MenuDto> findAllTopLevelMenus() {
         List<MenuEntity> entities = repository.findAllMenusWithSubMenus();
-        return entities.stream().map(e -> (MenuDto) RelationalMapper.mapToDto(e)).toList();
+        return entities.stream().map(e -> mapper.toDto(e, context)).toList();
     }
 
     @Override
