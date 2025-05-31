@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RoleService {
     List<RoleDto> getAllRoles();
+
+    RoleDto updateRole(RoleDto roleDto);
 }

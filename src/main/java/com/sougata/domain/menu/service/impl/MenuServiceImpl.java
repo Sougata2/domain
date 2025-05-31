@@ -5,6 +5,7 @@ import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.menu.repository.MenuRepository;
 import com.sougata.domain.menu.service.MenuService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
     private final MenuRepository repository;
+    private final EntityManager entityManager;
 
     @Override
     public List<MenuDto> findAllTopLevelMenus() {
@@ -24,5 +26,14 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuDto createMenu(MenuDto menuDto) {
         return null;
+    }
+
+    @Override
+    public MenuDto updateMenu(MenuDto menuDto) {
+        MenuEntity og = repository.findById(menuDto.getId()).orElse(null);
+        if (og == null) return null;
+        MenuEntity nu = (MenuEntity) RelationalMapper.mapToEntity(menuDto);
+        MenuEntity updated = (MenuEntity) RelationalMapper.merge(nu, og, entityManager);
+        return (MenuDto) RelationalMapper.mapToDto(updated);
     }
 }

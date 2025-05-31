@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,17 @@ public class MenuController {
         logger.info("getTopLevelMenus");
         try {
             return ResponseEntity.ok(service.findAllTopLevelMenus());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<MenuDto> updateMenu(@RequestBody MenuDto menuDto) {
+        logger.info("updateMenu {}", menuDto);
+        try {
+            MenuDto updated = service.updateMenu(menuDto);
+            return ResponseEntity.ok(updated);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

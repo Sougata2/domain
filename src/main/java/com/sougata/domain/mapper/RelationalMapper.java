@@ -157,11 +157,7 @@ public class RelationalMapper {
                             ef.set(d, new ArrayList<>());
                         }
                     } else if (isComplex(df)) {
-                        if (u.parent() != null) {
-                            if (df.getType() == u.parent().getClass()) {
-                                df.set(d, u.parent());
-                            }
-                        }
+                        df.set(d, null);
                     } else if (!isComplex(df)) {
                         Object efValue = ef.get(childClass);
                         if (efValue != null) {
@@ -248,7 +244,8 @@ public class RelationalMapper {
                     }
                 } else if (isComplex(ogf)) {
                     try {
-                        Object managedEntity = entityManager.getReference(ogf.getType(), nu.getId());
+                        Object managedEntity = entityManager.getReference(ogf.getType(), ((MasterEntity) nuf.get(nu)).getId());
+                        System.out.println("managedEntity = " + managedEntity);
                         if (managedEntity instanceof MasterEntity) {
                             ogf.set(og, managedEntity);
                         }

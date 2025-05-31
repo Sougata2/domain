@@ -8,4 +8,6 @@ public interface MenuService {
     List<MenuDto> findAllTopLevelMenus();
 
     MenuDto createMenu(MenuDto menuDto);
+
+    MenuDto updateMenu(MenuDto menuDto);
 }

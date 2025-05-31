@@ -38,7 +38,13 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         UserEntity nu = (UserEntity) RelationalMapper.mapToEntity(dto);
+        System.out.println("*************************");
+        System.out.println("og = " + og.get());
+        System.out.println("nu = " + nu);
         UserEntity merged = (UserEntity) RelationalMapper.merge(nu, og.get(), entityManager);
+        System.out.println("merged = " + merged);
+        System.out.println("*************************");
+
         UserEntity updated = repository.save(merged);
         return (UserDto) RelationalMapper.mapToDto(updated);
     }
