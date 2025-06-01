@@ -245,13 +245,15 @@ public class RelationalMapper {
                 } else if (isComplex(ogf)) {
                     try {
                         MasterEntity relation = (MasterEntity) nuf.get(nu);
-                        if (relation.getId() == null) {
-                            ogf.set(og, null);
-                        } else {
-                            Object managedEntity = entityManager.getReference(ogf.getType(), relation.getId());
-                            System.out.println("managedEntity = " + managedEntity);
-                            if (managedEntity instanceof MasterEntity) {
-                                ogf.set(og, managedEntity);
+                        if (relation != null) {
+                            if (relation.getId() == null) {
+                                ogf.set(og, null);
+                            } else if (relation.getId() != null) {
+                                Object managedEntity = entityManager.getReference(ogf.getType(), relation.getId());
+                                System.out.println("managedEntity = " + managedEntity);
+                                if (managedEntity instanceof MasterEntity) {
+                                    ogf.set(og, managedEntity);
+                                }
                             }
                         }
                     } catch (EntityNotFoundException e) {
