@@ -10,4 +10,6 @@ public interface MenuService {
     MenuDto createMenu(MenuDto menuDto);
 
     MenuDto updateMenu(MenuDto menuDto);
+
+    MenuDto deleteMenu(MenuDto menuDto);
 }

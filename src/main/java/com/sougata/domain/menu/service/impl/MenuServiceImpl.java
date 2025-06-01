@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +39,13 @@ public class MenuServiceImpl implements MenuService {
         MenuEntity merged = (MenuEntity) RelationalMapper.merge(nu, og, entityManager);
         MenuEntity updated = repository.save(merged);
         return (MenuDto) RelationalMapper.mapToDto(updated);
+    }
+
+    @Override
+    public MenuDto deleteMenu(MenuDto menuDto) {
+        Optional<MenuEntity> og = repository.findById(menuDto.getId());
+        if (og.isEmpty()) return null;
+        repository.delete(og.get());
+        return (MenuDto) RelationalMapper.mapToDto(og.get());
     }
 }

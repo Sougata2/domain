@@ -5,6 +5,7 @@ import com.sougata.domain.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,20 @@ public class MenuController {
         try {
             MenuDto updated = service.updateMenu(menuDto);
             return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<MenuDto> deleteMenu(MenuDto dto) {
+        logger.info("deleteMenu {}", dto);
+        try {
+            MenuDto deleted = service.deleteMenu(dto);
+            if (deleted == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(deleted);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
