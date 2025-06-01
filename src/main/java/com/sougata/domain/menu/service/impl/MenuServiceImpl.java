@@ -25,7 +25,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuDto createMenu(MenuDto menuDto) {
-        return null;
+        MenuEntity entity = (MenuEntity) RelationalMapper.mapToEntity(menuDto);
+        MenuEntity saved = repository.save(entity);
+        return (MenuDto) RelationalMapper.mapToDto(saved);
     }
 
     @Override
@@ -33,7 +35,8 @@ public class MenuServiceImpl implements MenuService {
         MenuEntity og = repository.findById(menuDto.getId()).orElse(null);
         if (og == null) return null;
         MenuEntity nu = (MenuEntity) RelationalMapper.mapToEntity(menuDto);
-        MenuEntity updated = (MenuEntity) RelationalMapper.merge(nu, og, entityManager);
+        MenuEntity merged = (MenuEntity) RelationalMapper.merge(nu, og, entityManager);
+        MenuEntity updated = repository.save(merged);
         return (MenuDto) RelationalMapper.mapToDto(updated);
     }
 }

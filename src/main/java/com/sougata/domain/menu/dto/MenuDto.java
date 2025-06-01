@@ -23,7 +23,6 @@ public class MenuDto implements Serializable, MasterDto {
     private String name;
     private String url;
     private Set<MenuDto> subMenus;
-    @JsonIgnore
     private MenuDto menu;
     @JsonIgnore
     private Set<RoleDto> roles;

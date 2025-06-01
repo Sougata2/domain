@@ -27,6 +27,17 @@ public class MenuController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<MenuDto> createMenu(@RequestBody MenuDto dto) {
+        logger.info("createMenu : {}", dto);
+        try {
+            MenuDto created = service.createMenu(dto);
+            return ResponseEntity.ok(created);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PutMapping
     public ResponseEntity<MenuDto> updateMenu(@RequestBody MenuDto menuDto) {
         logger.info("updateMenu {}", menuDto);
