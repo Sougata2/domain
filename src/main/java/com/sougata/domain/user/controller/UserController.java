@@ -5,6 +5,7 @@ import com.sougata.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +57,20 @@ public class UserController {
         try {
             UserDto user = service.updateUser(dto);
             return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<UserDto> deleteUser(@RequestBody UserDto dto) {
+        logger.info("deleteUser : {}", dto);
+        try {
+            UserDto deleted = service.deleteUser(dto);
+            if (deleted == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(deleted);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

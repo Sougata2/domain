@@ -54,4 +54,14 @@ public class UserServiceImpl implements UserService {
         UserEntity entity = repository.findById(id).orElse(null);
         return (UserDto) RelationalMapper.mapToDto(entity);
     }
+
+    @Override
+    public UserDto deleteUser(UserDto dto) {
+        Optional<UserEntity> og = repository.findById(dto.getId());
+        if (og.isEmpty()) {
+            return null;
+        }
+        repository.delete(og.get());
+        return (UserDto) RelationalMapper.mapToDto(og.get());
+    }
 }
