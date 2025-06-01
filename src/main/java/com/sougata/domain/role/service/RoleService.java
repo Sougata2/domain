@@ -8,4 +8,6 @@ public interface RoleService {
     List<RoleDto> getAllRoles();
 
     RoleDto updateRole(RoleDto roleDto);
+
+    RoleDto createRole(RoleDto dto);
 }

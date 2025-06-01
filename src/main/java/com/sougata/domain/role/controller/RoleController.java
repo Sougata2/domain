@@ -28,6 +28,17 @@ public class RoleController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto dto) {
+        logger.info("createRole : {}", dto);
+        try {
+            RoleDto created = service.createRole(dto);
+            return ResponseEntity.ok(created);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PutMapping
     public ResponseEntity<RoleDto> updateRole(@RequestBody RoleDto dto) {
         logger.info("updateRole : {}", dto);

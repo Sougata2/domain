@@ -33,4 +33,11 @@ public class RoleServiceImpl implements RoleService {
         RoleEntity updated = repository.save(merged);
         return (RoleDto) RelationalMapper.mapToDto(updated);
     }
+
+    @Override
+    public RoleDto createRole(RoleDto dto) {
+        RoleEntity nu = (RoleEntity) RelationalMapper.mapToEntity(dto);
+        RoleEntity saved = repository.save(nu);
+        return (RoleDto) RelationalMapper.mapToDto(saved);
+    }
 }
