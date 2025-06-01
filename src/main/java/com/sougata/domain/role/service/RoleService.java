@@ -10,4 +10,6 @@ public interface RoleService {
     RoleDto updateRole(RoleDto roleDto);
 
     RoleDto createRole(RoleDto dto);
+
+    RoleDto deleteRole(RoleDto dto);
 }

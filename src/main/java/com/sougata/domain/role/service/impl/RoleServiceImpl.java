@@ -40,4 +40,12 @@ public class RoleServiceImpl implements RoleService {
         RoleEntity saved = repository.save(nu);
         return (RoleDto) RelationalMapper.mapToDto(saved);
     }
+
+    @Override
+    public RoleDto deleteRole(RoleDto dto) {
+        Optional<RoleEntity> og = repository.findById(dto.getId());
+        if (og.isEmpty()) return null;
+        repository.delete(og.get());
+        return (RoleDto) RelationalMapper.mapToDto(og.get());
+    }
 }
