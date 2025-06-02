@@ -12,4 +12,6 @@ public interface RoleService {
     RoleDto createRole(RoleDto dto);
 
     RoleDto deleteRole(RoleDto dto);
+
+    RoleDto getRoleById(Long roleId);
 }

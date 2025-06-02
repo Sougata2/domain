@@ -29,6 +29,19 @@ public class RoleController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RoleDto> getRoleById(@PathVariable(name = "id") Long roleId) {
+        try {
+            RoleDto role = service.getRoleById(roleId);
+            if (role == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(role);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto dto) {
         logger.info("createRole : {}", dto);
