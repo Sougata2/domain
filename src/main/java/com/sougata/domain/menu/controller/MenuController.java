@@ -28,6 +28,20 @@ public class MenuController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<MenuDto> getMenuById(@PathVariable(name = "id") Long menuId) {
+        logger.info("getMenuById : {}", menuId);
+        try {
+            MenuDto menuDto = service.findMenuById(menuId);
+            if (menuDto == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(menuDto);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<MenuDto> createMenu(@RequestBody MenuDto dto) {
         logger.info("createMenu : {}", dto);

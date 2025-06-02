@@ -48,4 +48,10 @@ public class MenuServiceImpl implements MenuService {
         repository.delete(og.get());
         return (MenuDto) RelationalMapper.mapToDto(og.get());
     }
+
+    @Override
+    public MenuDto findMenuById(Long menuId) {
+        Optional<MenuEntity> og = repository.findById(menuId);
+        return og.map(e -> (MenuDto) RelationalMapper.mapToDto(e)).orElse(null);
+    }
 }
