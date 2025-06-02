@@ -1,6 +1,8 @@
 package com.sougata.domain.user.service.impl;
 
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.role.dto.RoleDto;
+import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
@@ -63,5 +65,13 @@ public class UserServiceImpl implements UserService {
         }
         repository.delete(og.get());
         return (UserDto) RelationalMapper.mapToDto(og.get());
+    }
+
+    @Override
+    public RoleDto getDefaultRoleForUser(Long userId) {
+        Optional<UserEntity> og = repository.findById(userId);
+        if (og.isEmpty()) return null;
+        RoleEntity defaultRole = repository.findDefaultRoleForUser(userId);
+        return (RoleDto) RelationalMapper.mapToDto(defaultRole);
     }
 }

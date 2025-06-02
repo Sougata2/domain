@@ -1,5 +1,6 @@
 package com.sougata.domain.user.service;
 
+import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.user.dto.UserDto;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface UserService {
     UserDto findUserById(Long id);
 
     UserDto deleteUser(UserDto dto);
+
+    RoleDto getDefaultRoleForUser(Long userId);
 }

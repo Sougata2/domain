@@ -1,5 +1,6 @@
 package com.sougata.domain.user.controller;
 
+import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,20 @@ public class UserController {
         try {
             UserDto user = service.findUserById(id);
             return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/default-role/{id}")
+    public ResponseEntity<RoleDto> getDefaultRoleForUser(@PathVariable Long id) {
+        logger.info("getDefaultRoleForUser id: {}", id);
+        try {
+            RoleDto defaultRole = service.getDefaultRoleForUser(id);
+            if (defaultRole == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(defaultRole);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
