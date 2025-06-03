@@ -18,10 +18,13 @@ public class MenuController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MenuService service;
 
-    @GetMapping("/top-level")
-    public ResponseEntity<List<MenuDto>> getTopLevelMenus() {
-        logger.info("getTopLevelMenus");
+    @GetMapping
+    public ResponseEntity<List<MenuDto>> getMenus(@RequestParam(name = "top-level", required = false) Integer topLevel) {
+        logger.info("getMenus");
         try {
+            if (topLevel == null) {
+                return ResponseEntity.ok(service.findAllMenus());
+            }
             return ResponseEntity.ok(service.findAllTopLevelMenus());
         } catch (Exception e) {
             throw new RuntimeException(e);
