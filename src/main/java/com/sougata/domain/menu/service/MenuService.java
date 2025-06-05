@@ -13,6 +13,8 @@ public interface MenuService {
 
     MenuDto updateMenu(MenuDto menuDto);
 
+    List<MenuDto> bulkUpdateMenus(List<MenuDto> dtos);
+
     MenuDto deleteMenu(MenuDto menuDto);
 
     MenuDto findMenuById(Long menuId);

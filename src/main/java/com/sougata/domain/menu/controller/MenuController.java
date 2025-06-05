@@ -67,6 +67,17 @@ public class MenuController {
         }
     }
 
+    @PutMapping("/bulk")
+    public ResponseEntity<List<MenuDto>> bulkUpdateMenu(@RequestBody List<MenuDto> dtos) {
+        logger.info("bulkUpdateMenu {}", dtos);
+        try {
+            List<MenuDto> updatedList = service.bulkUpdateMenus(dtos);
+            return ResponseEntity.ok(updatedList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @DeleteMapping
     public ResponseEntity<MenuDto> deleteMenu(MenuDto dto) {
         logger.info("deleteMenu {}", dto);

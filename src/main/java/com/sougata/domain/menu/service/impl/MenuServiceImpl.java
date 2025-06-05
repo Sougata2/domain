@@ -9,8 +9,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +44,23 @@ public class MenuServiceImpl implements MenuService {
         MenuEntity merged = (MenuEntity) RelationalMapper.merge(nu, og, entityManager);
         MenuEntity updated = repository.save(merged);
         return (MenuDto) RelationalMapper.mapToDto(updated);
+    }
+
+    @Override
+    public List<MenuDto> bulkUpdateMenus(List<MenuDto> dtos) {
+        Map<MenuEntity, MenuEntity> map = new HashMap<>();
+        dtos.forEach(d -> {
+            MenuEntity nu = (MenuEntity) RelationalMapper.mapToEntity(d);
+            MenuEntity og = repository.findById(d.getId()).orElseThrow();
+            map.put(nu, og);
+        });
+        List<MenuEntity> mergedList = new ArrayList<>();
+        for (Map.Entry<MenuEntity, MenuEntity> entry : map.entrySet()) {
+            MenuEntity merged = (MenuEntity) RelationalMapper.merge(entry.getKey(), entry.getValue(), entityManager);
+            mergedList.add(merged);
+        }
+        List<MenuEntity> updatedList = repository.saveAll(mergedList);
+        return updatedList.stream().map(e -> (MenuDto) RelationalMapper.mapToDto(e)).toList();
     }
 
     @Override
