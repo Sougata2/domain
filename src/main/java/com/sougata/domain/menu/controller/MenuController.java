@@ -79,7 +79,7 @@ public class MenuController {
     }
 
     @DeleteMapping
-    public ResponseEntity<MenuDto> deleteMenu(MenuDto dto) {
+    public ResponseEntity<MenuDto> deleteMenu(@RequestBody MenuDto dto) {
         logger.info("deleteMenu {}", dto);
         try {
             MenuDto deleted = service.deleteMenu(dto);

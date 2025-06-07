@@ -8,6 +8,7 @@ import com.sougata.domain.menu.service.MenuService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public MenuDto createMenu(MenuDto menuDto) {
         MenuEntity entity = (MenuEntity) RelationalMapper.mapToEntity(menuDto);
         MenuEntity saved = repository.save(entity);
@@ -37,6 +39,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public MenuDto updateMenu(MenuDto menuDto) {
         MenuEntity og = repository.findById(menuDto.getId()).orElse(null);
         if (og == null) return null;
@@ -47,6 +50,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public List<MenuDto> bulkUpdateMenus(List<MenuDto> dtos) {
         Map<MenuEntity, MenuEntity> map = new HashMap<>();
         dtos.forEach(d -> {
@@ -64,6 +68,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public MenuDto deleteMenu(MenuDto menuDto) {
         Optional<MenuEntity> og = repository.findById(menuDto.getId());
         if (og.isEmpty()) return null;
