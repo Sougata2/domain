@@ -7,11 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("select ue from UserEntity ue")
     List<UserEntity> findAllUsersWithRolesAndDefaultRole();
+
+    @Query("select ue from UserEntity ue where ue.email = :email")
+    Optional<UserEntity> findByEmail(String email);
 
     @Query("select re from UserEntity ue " +
             "left join ue.defaultRole re " +
