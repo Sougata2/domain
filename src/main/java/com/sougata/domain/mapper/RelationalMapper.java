@@ -52,13 +52,13 @@ public class RelationalMapper {
                                     }
                                 }
                             }
-                        }
 
-                        // initialize an empty collection so that corresponding relation could be added here.
-                        if (Set.class.isAssignableFrom(df.getType())) {
-                            ef.set(e, new HashSet<>());
-                        } else if (ArrayList.class.isAssignableFrom(df.getType())) {
-                            ef.set(e, new ArrayList<>());
+                            // initialize an empty collection so that corresponding relation could be added here.
+                            if (Set.class.isAssignableFrom(df.getType())) {
+                                ef.set(e, new HashSet<>());
+                            } else if (ArrayList.class.isAssignableFrom(df.getType())) {
+                                ef.set(e, new ArrayList<>());
+                            }
                         }
                     } else if (isComplex(df)) {
                         // setting manyToOne | oneToOne relations if any.
