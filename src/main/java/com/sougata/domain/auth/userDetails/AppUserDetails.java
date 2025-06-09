@@ -33,4 +33,8 @@ public class AppUserDetails implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return UserDetails.super.isCredentialsNonExpired();
     }
+
+    public Long getId() {
+        return user.getId();
+    }
 }
