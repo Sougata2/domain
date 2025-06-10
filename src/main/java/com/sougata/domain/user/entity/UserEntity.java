@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
 import java.util.Set;
 
@@ -61,4 +62,15 @@ public class UserEntity implements MasterEntity {
                 '}';
     }
 
+    @PrePersist
+    protected void onCreate() {
+        this.password = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(password);
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        if (this.password != null && !this.password.startsWith("{bcrypt}")) {
+            this.password = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(password);
+        }
+    }
 }
