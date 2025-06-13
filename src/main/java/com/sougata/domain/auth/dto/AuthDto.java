@@ -10,6 +10,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class AuthDto {
+    private Long id;
     private String username;
     private String password;
     private String token;
