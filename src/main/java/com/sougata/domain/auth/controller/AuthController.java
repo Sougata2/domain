@@ -3,7 +3,6 @@ package com.sougata.domain.auth.controller;
 import com.sougata.domain.auth.authentication.AuthenticationService;
 import com.sougata.domain.auth.dto.AuthDto;
 import com.sougata.domain.auth.jwt.JwtProperties;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,12 +19,12 @@ public class AuthController {
     private final JwtProperties jwtProperties;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDto> login(@RequestBody AuthDto dto, HttpServletRequest request) {
+    public ResponseEntity<AuthDto> login(@RequestBody AuthDto dto) {
         UserDetails authenticatedUser = service.authenticate(dto.getUsername(), dto.getPassword());
         String token = service.generateToken(authenticatedUser);
         return ResponseEntity.ok(AuthDto.builder()
                 .username(authenticatedUser.getUsername())
-                .id(Long.parseLong(request.getAttribute("user-id").toString()))
+                .id(dto.getId())
                 .token(token)
                 .expiration(jwtProperties.getExpiry())
                 .build());
