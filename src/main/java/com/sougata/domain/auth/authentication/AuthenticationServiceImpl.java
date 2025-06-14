@@ -1,6 +1,9 @@
 package com.sougata.domain.auth.authentication;
 
 import com.sougata.domain.auth.jwt.JwtProperties;
+import com.sougata.domain.exceptions.TokenExpiredException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +46,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public UserDetails validateToken(String token) {
-        String userName = Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-        return userDetailsService.loadUserByUsername(userName);
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith((SecretKey) getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            String userName = claims.getSubject();
+            return userDetailsService.loadUserByUsername(userName);
+        } catch (ExpiredJwtException e) {
+            throw new TokenExpiredException("Token expired");
+        }
     }
 
     private Key getSigningKey() {

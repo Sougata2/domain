@@ -19,4 +19,14 @@ public class DomainExceptionHandler {
         response.timestamp(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.build());
     }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ErrorDto> accountExpiredException(TokenExpiredException e, HttpServletRequest request) {
+        ErrorDto.ErrorDtoBuilder response = new ErrorDto.ErrorDtoBuilder();
+        response.message(e.getMessage());
+        response.path(request.getRequestURI());
+        response.status(HttpStatus.UNAUTHORIZED);
+        response.timestamp(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response.build());
+    }
 }

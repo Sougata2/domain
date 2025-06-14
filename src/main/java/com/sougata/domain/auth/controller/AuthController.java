@@ -3,6 +3,7 @@ package com.sougata.domain.auth.controller;
 import com.sougata.domain.auth.authentication.AuthenticationService;
 import com.sougata.domain.auth.dto.AuthDto;
 import com.sougata.domain.auth.jwt.JwtProperties;
+import com.sougata.domain.auth.userDetails.AppUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,17 @@ public class AuthController {
                 .username(authenticatedUser.getUsername())
                 .id(dto.getId())
                 .token(token)
+                .expiration(jwtProperties.getExpiry())
+                .build());
+    }
+
+    @PostMapping("/validate-token")
+    public ResponseEntity<AuthDto> validateToken(@RequestBody AuthDto dto) {
+        UserDetails authenticatedUser = service.validateToken(dto.getToken());
+        return ResponseEntity.ok(AuthDto.builder()
+                .id(((AppUserDetails) authenticatedUser).getId())
+                .username(authenticatedUser.getUsername())
+                .token(dto.getToken())
                 .expiration(jwtProperties.getExpiry())
                 .build());
     }
