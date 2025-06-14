@@ -25,7 +25,7 @@ public class AuthController {
         String token = service.generateToken(authenticatedUser);
         return ResponseEntity.ok(AuthDto.builder()
                 .username(authenticatedUser.getUsername())
-                .id(dto.getId())
+                .id(((AppUserDetails) authenticatedUser).getId())
                 .token(token)
                 .expiration(jwtProperties.getExpiry())
                 .build());
