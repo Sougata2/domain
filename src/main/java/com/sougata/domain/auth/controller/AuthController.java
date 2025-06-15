@@ -25,6 +25,7 @@ public class AuthController {
         String token = service.generateToken(authenticatedUser);
         return ResponseEntity.ok(AuthDto.builder()
                 .username(authenticatedUser.getUsername())
+                .name(((AppUserDetails) authenticatedUser).getName())
                 .id(((AppUserDetails) authenticatedUser).getId())
                 .token(token)
                 .expiration(jwtProperties.getExpiry())
@@ -36,6 +37,7 @@ public class AuthController {
         UserDetails authenticatedUser = service.validateToken(dto.getToken());
         return ResponseEntity.ok(AuthDto.builder()
                 .id(((AppUserDetails) authenticatedUser).getId())
+                .name(((AppUserDetails) authenticatedUser).getName())
                 .username(authenticatedUser.getUsername())
                 .token(dto.getToken())
                 .expiration(jwtProperties.getExpiry())

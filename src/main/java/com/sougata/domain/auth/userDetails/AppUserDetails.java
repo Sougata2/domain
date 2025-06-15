@@ -37,4 +37,8 @@ public class AppUserDetails implements UserDetails {
     public Long getId() {
         return user.getId();
     }
+
+    public String getName() {
+        return "%s %s".formatted(user.getFirstName(), user.getLastName());
+    }
 }
