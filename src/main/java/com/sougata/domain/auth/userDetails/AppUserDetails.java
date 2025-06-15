@@ -1,5 +1,6 @@
 package com.sougata.domain.auth.userDetails;
 
+import com.sougata.domain.exceptions.DefaultRoleNotFoundException;
 import com.sougata.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +17,9 @@ public class AppUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).toList();
+        if (user.getDefaultRole() == null) {
+            throw new DefaultRoleNotFoundException("No Default Role found this user.");
+        }
         return List.of(new SimpleGrantedAuthority(user.getDefaultRole().getName()));
     }
 
