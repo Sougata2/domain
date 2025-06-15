@@ -8,6 +8,7 @@ import com.sougata.domain.role.service.RoleService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto updateRole(RoleDto roleDto) {
         Optional<RoleEntity> og = repository.findById(roleDto.getId());
         if (og.isEmpty()) return null;
@@ -35,6 +37,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto createRole(RoleDto dto) {
         RoleEntity nu = (RoleEntity) RelationalMapper.mapToEntity(dto);
         RoleEntity saved = repository.save(nu);
@@ -42,6 +45,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto deleteRole(RoleDto dto) {
         Optional<RoleEntity> og = repository.findById(dto.getId());
         if (og.isEmpty()) return null;

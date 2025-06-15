@@ -60,4 +60,27 @@ public class RoleEntity implements MasterEntity {
                 '}';
     }
 
+    @PrePersist
+    protected void onCreate() {
+        if (!name.startsWith("ROLE_")) {
+            name = "ROLE_" + name.toUpperCase();
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        if (!name.startsWith("ROLE_")) {
+            name = "ROLE_" + name.toUpperCase();
+        }
+    }
+
+    @PreRemove
+    protected void onDelete() {
+        menus.clear();
+        users.clear();
+        for (UserEntity user : defaultRoleUsers) {
+            user.setDefaultRole(null);
+        }
+    }
+
 }
