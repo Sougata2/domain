@@ -61,4 +61,13 @@ public class MenuEntity implements MasterEntity {
                 '}';
     }
 
+
+    @PreRemove
+    protected void preRemove() {
+        for (MenuEntity m : subMenus) {
+            m.setMenu(null);
+        }
+        roles.clear();
+    }
+
 }
