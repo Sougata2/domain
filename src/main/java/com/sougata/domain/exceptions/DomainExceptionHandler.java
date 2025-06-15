@@ -29,4 +29,14 @@ public class DomainExceptionHandler {
         response.timestamp(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response.build());
     }
+
+    @ExceptionHandler(DefaultRoleNotFoundException.class)
+    public ResponseEntity<ErrorDto> defaultRoleNotFoundException(DefaultRoleNotFoundException e, HttpServletRequest request) {
+        ErrorDto.ErrorDtoBuilder response = new ErrorDto.ErrorDtoBuilder();
+        response.message(e.getMessage());
+        response.path(request.getRequestURI());
+        response.status(HttpStatus.NOT_FOUND);
+        response.timestamp(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.build());
+    }
 }
