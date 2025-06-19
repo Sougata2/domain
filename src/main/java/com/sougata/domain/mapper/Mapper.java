@@ -96,7 +96,13 @@ public class Mapper {
             for (Field dtoField : dto.getClass().getDeclaredFields()) {
                 dtoField.setAccessible(true);
 
-                Field entityField = entity.getClass().getDeclaredField(dtoField.getName());
+                Field entityField;
+                if (entity instanceof HibernateProxy) {
+                    entity = (MasterEntity) Hibernate.unproxy(entity);
+                    entityField = getDeclaredField(entity.getClass(), dtoField.getName());
+                } else {
+                    entityField = entity.getClass().getDeclaredField(dtoField.getName());
+                }
                 entityField.setAccessible(true);
                 if (Collection.class.isAssignableFrom(dtoField.getType())) {
                     Set<MasterEntity> set = new HashSet<>();
