@@ -11,10 +11,8 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -133,6 +131,81 @@ public class Mapper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private MasterEntity merge(MasterEntity nu, MasterEntity og) {
+        if (nu == null) return og;
+        if (og == null) return null;
+
+        try {
+            for (Field ogField : og.getClass().getDeclaredFields()) {
+                ogField.setAccessible(true);
+
+                Field nuField = nu.getClass().getDeclaredField(ogField.getName());
+                nuField.setAccessible(true);
+
+                if (Collection.class.isAssignableFrom(ogField.getType())) {
+                    Object nuValue = nuField.get(nu);
+                    Object ogValue = ogField.get(nu);
+
+                    if (nuValue != null) {
+                        //noinspection unchecked
+                        Collection<MasterEntity> nuCollection = (Collection<MasterEntity>) nuValue;
+                        //noinspection unchecked
+                        Collection<MasterEntity> ogCollection = (Collection<MasterEntity>) ogValue;
+
+                        Map<Long, MasterEntity> nuMap = nuCollection.stream().collect(Collectors.toMap(MasterEntity::getId, e -> e));
+                        Map<Long, MasterEntity> ogMap = ogCollection.stream().collect(Collectors.toMap(MasterEntity::getId, e -> e));
+
+                        HashSet<MasterEntity> insertSet = new HashSet<>();
+                        for (MasterEntity obj : nuCollection) {
+                            if (obj != null) {
+                                if (!ogMap.containsKey(obj.getId())) {
+                                    MasterEntity managedEntity = entityManager.getReference(obj.getClass(), obj.getId());
+                                    if (managedEntity != null) {
+                                        insertSet.add(managedEntity);
+                                    }
+                                }
+                            }
+                        }
+
+                        ogCollection.addAll(insertSet);
+
+                        // delete
+                        HashSet<MasterEntity> deleteSet = new HashSet<>();
+                        for (MasterEntity obj : ogCollection) {
+                            if (obj != null) {
+                                if (!nuMap.containsKey(obj.getId())) {
+                                    deleteSet.add(obj);
+                                }
+                            }
+                        }
+                        deleteSet.forEach(ogCollection::remove);
+                    }
+                } else if (isComplex(ogField)) {
+                    MasterEntity relation = (MasterEntity) nuField.get(nu);
+                    if (relation != null) {
+                        if (relation.getId() == null) {
+                            ogField.set(nu, null);
+                        } else if (relation.getId() != null) {
+                            Object managedEntity = entityManager.getReference(ogField.getType(), relation.getId());
+                            if (managedEntity instanceof MasterEntity) {
+                                ogField.set(og, managedEntity);
+                            }
+                        }
+                    }
+                } else if (!isComplex(ogField)) {
+                    Object nuValue = nuField.get(nu);
+                    if (nuValue != null) {
+                        ogField.set(nu, nuValue);
+                    }
+                }
+            }
+            return og;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private <T, S> T mapObject(S source, Class<T> targetClass) {
