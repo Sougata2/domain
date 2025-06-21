@@ -101,21 +101,21 @@ public class Mapper {
                 }
                 entityField.setAccessible(true);
                 if (Collection.class.isAssignableFrom(dtoField.getType())) {
-                    Set<MasterEntity> set = new HashSet<>();
+                    Set<MasterDto> set = new HashSet<>();
                     Object entityValues = entityField.get(entity);
                     if (entityValues instanceof Collection) {
                         for (Object item : (Collection<?>) entityValues) {
                             if (item instanceof MasterEntity) {
-                                Object mappedItem = mapObject(item, entityDtoMapping.getEntityToDtoMap().get(dtoField.getClass()));
-                                set.add((MasterEntity) mappedItem);
+                                Object mappedItem = mapObject(item, entityDtoMapping.getEntityToDtoMap().get(item.getClass()));
+                                set.add((MasterDto) mappedItem);
                             }
                         }
                     }
-                    entityField.set(entity, set);
+                    dtoField.set(dto, set);
                 } else if (isComplex(dtoField)) {
                     Object entityValue = entityField.get(entity);
                     if (entityValue != null) {
-                        Object mappedDto = mapObject(entityValue, dtoField.getClass());
+                        Object mappedDto = mapObject(entityValue, dtoField.getType());
                         dtoField.set(dto, mappedDto);
                     }
                 } else if (!isComplex(dtoField)) {
