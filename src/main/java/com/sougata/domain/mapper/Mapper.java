@@ -21,9 +21,7 @@ public class Mapper {
     private final EntityManager entityManager;
 
     public MasterEntity toEntity(MasterDto dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
 
         try {
             Class<? extends MasterEntity> entityClass = entityDtoMapping.getDtoToEntityMap().get(dto.getClass());
