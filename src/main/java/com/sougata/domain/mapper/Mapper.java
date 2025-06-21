@@ -136,25 +136,25 @@ public class Mapper {
         if (og == null) return null;
 
         try {
-            for (Field ogField : og.getClass().getDeclaredFields()) {
-                ogField.setAccessible(true);
+            for (Field ogf : og.getClass().getDeclaredFields()) {
+                ogf.setAccessible(true);
+                Field nuf = nu.getClass().getDeclaredField(ogf.getName());
+                nuf.setAccessible(true);
 
-                Field nuField = nu.getClass().getDeclaredField(ogField.getName());
-                nuField.setAccessible(true);
-
-                if (Collection.class.isAssignableFrom(ogField.getType())) {
-                    Object nuValue = nuField.get(nu);
-                    Object ogValue = ogField.get(nu);
-
-                    if (nuValue != null) {
+                if (Collection.class.isAssignableFrom(ogf.getType())) {
+                    Object nufValue = nuf.get(nu);
+                    Object ogfValue = ogf.get(og);
+                    if (nufValue != null) {
                         //noinspection unchecked
-                        Collection<MasterEntity> nuCollection = (Collection<MasterEntity>) nuValue;
+                        Collection<MasterEntity> nuCollection = (Collection<MasterEntity>) nufValue;
                         //noinspection unchecked
-                        Collection<MasterEntity> ogCollection = (Collection<MasterEntity>) ogValue;
+                        Collection<MasterEntity> ogCollection = (Collection<MasterEntity>) ogfValue;
 
+                        // pre process [insert, delete]
                         Map<Long, MasterEntity> nuMap = nuCollection.stream().collect(Collectors.toMap(MasterEntity::getId, e -> e));
                         Map<Long, MasterEntity> ogMap = ogCollection.stream().collect(Collectors.toMap(MasterEntity::getId, e -> e));
 
+                        // insert
                         HashSet<MasterEntity> insertSet = new HashSet<>();
                         for (MasterEntity obj : nuCollection) {
                             if (obj != null) {
@@ -166,8 +166,8 @@ public class Mapper {
                                 }
                             }
                         }
-
                         ogCollection.addAll(insertSet);
+
 
                         // delete
                         HashSet<MasterEntity> deleteSet = new HashSet<>();
@@ -180,22 +180,23 @@ public class Mapper {
                         }
                         deleteSet.forEach(ogCollection::remove);
                     }
-                } else if (isComplex(ogField)) {
-                    MasterEntity relation = (MasterEntity) nuField.get(nu);
+                } else if (isComplex(ogf)) {
+                    MasterEntity relation = (MasterEntity) nuf.get(nu);
                     if (relation != null) {
                         if (relation.getId() == null) {
-                            ogField.set(nu, null);
+                            ogf.set(og, null);
                         } else if (relation.getId() != null) {
-                            Object managedEntity = entityManager.getReference(ogField.getType(), relation.getId());
+                            Object managedEntity = entityManager.getReference(ogf.getType(), relation.getId());
+                            System.out.println("managedEntity = " + managedEntity);
                             if (managedEntity instanceof MasterEntity) {
-                                ogField.set(og, managedEntity);
+                                ogf.set(og, managedEntity);
                             }
                         }
                     }
-                } else if (!isComplex(ogField)) {
-                    Object nuValue = nuField.get(nu);
-                    if (nuValue != null) {
-                        ogField.set(nu, nuValue);
+                } else if (!isComplex(nuf)) {
+                    Object nufValue = nuf.get(nu);
+                    if (nufValue != null) {
+                        ogf.set(og, nufValue);
                     }
                 }
             }
@@ -203,7 +204,6 @@ public class Mapper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private <T, S> T mapObject(S source, Class<T> targetClass) {
