@@ -39,7 +39,8 @@ public class Mapper {
                     if (dtoValue instanceof Collection) {
                         for (Object item : (Collection<?>) dtoValue) {
                             if (item instanceof MasterDto) {
-                                MasterEntity itemEntity = (MasterEntity) entityManager.getReference(item.getClass(), ((MasterDto) item).getId());
+                                Class<? extends MasterEntity> itemClass = entityDtoMapping.getDtoToEntityMap().get(item.getClass());
+                                MasterEntity itemEntity = entityManager.getReference(itemClass, ((MasterDto) item).getId());
                                 set.add(itemEntity);
                             }
                         }
@@ -159,7 +160,13 @@ public class Mapper {
                         for (MasterEntity obj : nuCollection) {
                             if (obj != null) {
                                 if (!ogMap.containsKey(obj.getId())) {
-                                    MasterEntity managedEntity = entityManager.getReference(obj.getClass(), obj.getId());
+                                    Class<? extends MasterEntity> objClass;
+                                    if (obj instanceof HibernateProxy) {
+                                        objClass = Hibernate.getClass(obj);
+                                    } else {
+                                        objClass = obj.getClass();
+                                    }
+                                    MasterEntity managedEntity = entityManager.getReference(objClass, obj.getId());
                                     if (managedEntity != null) {
                                         insertSet.add(managedEntity);
                                     }
