@@ -106,8 +106,8 @@ public class Mapper {
                     if (entityValues instanceof Collection) {
                         for (Object item : (Collection<?>) entityValues) {
                             if (item instanceof MasterEntity) {
-                                Object mappedItem = mapObject(item, entityDtoMapping.getEntityToDtoMap().get(item.getClass()));
-                                set.add((MasterDto) mappedItem);
+                                MasterDto mappedItem = mapObject(item, entityDtoMapping.getEntityToDtoMap().get(item.getClass()));
+                                set.add(mappedItem);
                             }
                         }
                     }
