@@ -20,7 +20,7 @@ public class Mapper {
     private final EntityDtoMapping entityDtoMapping;
     private final EntityManager entityManager;
 
-    private MasterEntity toEntity(MasterDto dto) {
+    public MasterEntity toEntity(MasterDto dto) {
         if (dto == null) {
             return null;
         }
@@ -76,7 +76,7 @@ public class Mapper {
         }
     }
 
-    private MasterDto toDto(MasterEntity entity) {
+    public MasterDto toDto(MasterEntity entity) {
         if (entity == null) {
             return null;
         }
@@ -133,7 +133,7 @@ public class Mapper {
         }
     }
 
-    private MasterEntity merge(MasterEntity nu, MasterEntity og) {
+    public MasterEntity merge(MasterEntity nu, MasterEntity og) {
         if (nu == null) return og;
         if (og == null) return null;
 
