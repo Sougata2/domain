@@ -157,7 +157,32 @@ public class RelationalMapper {
                             ef.set(d, new ArrayList<>());
                         }
                     } else if (isComplex(df)) {
-                        df.set(d, null);
+                        System.out.println("+++++++++++++++");
+                        Object relation = ef.get(childClass);
+                        if (relation instanceof HibernateProxy) {
+                            relation = Hibernate.unproxy(relation);
+                        }
+                        System.out.println("RELATION=" + relation);
+                        MasterDto relationInstance = null;
+                        if (relation != null) {
+                            relationInstance = (MasterDto) df.getType().getDeclaredConstructor().newInstance();
+                            System.out.println("Relation Instance = " + relationInstance);
+                            for (Field rif : relationInstance.getClass().getDeclaredFields()) {
+                                Field rf = relation.getClass().getDeclaredField(rif.getName());
+                                rf.setAccessible(true);
+                                rif.setAccessible(true);
+                                if (Collection.class.isAssignableFrom(rif.getType())) {
+                                    rif.set(relationInstance, null);
+                                } else if (isComplex(rif)) {
+                                    rif.set(relationInstance, null);
+                                } else if (!isComplex(rif)) {
+                                    Object rfValue = rf.get(relation);
+                                    rif.set(relationInstance, rfValue);
+                                }
+                            }
+                        }
+                        System.out.println("+++++++++++++++");
+                        df.set(d, relationInstance);
                     } else if (!isComplex(df)) {
                         Object efValue = ef.get(childClass);
                         if (efValue != null) {
