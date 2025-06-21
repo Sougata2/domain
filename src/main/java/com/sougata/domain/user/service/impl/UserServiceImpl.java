@@ -10,7 +10,9 @@ import com.sougata.domain.user.service.UserService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,13 +60,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto deleteUser(UserDto dto) {
         Optional<UserEntity> og = repository.findById(dto.getId());
         if (og.isEmpty()) {
             return null;
         }
-        repository.delete(og.get());
-        return (UserDto) RelationalMapper.mapToDto(og.get());
+
+        // detaching relations
+        UserEntity user = og.get();
+        for (RoleEntity role : user.getRoles()) {
+            role.getUsers().remove(user);
+        }
+        user.setRoles(new HashSet<>());
+
+        if (user.getDefaultRole() != null) {
+            user.getDefaultRole().getDefaultRoleUsers().remove(user);
+            user.setDefaultRole(null);
+        }
+
+
+        UserDto result = (UserDto) RelationalMapper.mapToDto(user);
+        repository.delete(user);
+        return result;
     }
 
     @Override
