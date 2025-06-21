@@ -235,7 +235,6 @@ public class Mapper {
         }
     }
 
-
     private static boolean isComplex(Field f) {
         return !Integer.class.isAssignableFrom(f.getType()) && !Long.class.isAssignableFrom(f.getType()) &&
                 !Double.class.isAssignableFrom(f.getType()) && !Boolean.class.isAssignableFrom(f.getType()) &&
