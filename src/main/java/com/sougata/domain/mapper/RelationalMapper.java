@@ -25,7 +25,7 @@ public class RelationalMapper {
             MasterEntity res = null;
 
             Queue<ChildParentPair<MasterDto, MasterEntity>> queue = new LinkedList<>();
-            Set<MasterDto> visited = new HashSet<>();
+            Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
 
             queue.add(new ChildParentPair<>(dto, null));
             visited.add(dto);
@@ -108,7 +108,7 @@ public class RelationalMapper {
         if (entity == null) return null;
         MasterDto res = null;
         try {
-            Set<MasterEntity> visited = new HashSet<>();
+            Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
             Queue<ChildParentPair<MasterEntity, MasterDto>> queue = new LinkedList<>();
 
             queue.add(new ChildParentPair<>(entity, null));
