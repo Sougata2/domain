@@ -235,7 +235,7 @@ public class Mapper {
         }
     }
 
-    private static boolean isComplex(Field f) {
+    private boolean isComplex(Field f) {
         return !Integer.class.isAssignableFrom(f.getType()) && !Long.class.isAssignableFrom(f.getType()) &&
                 !Double.class.isAssignableFrom(f.getType()) && !Boolean.class.isAssignableFrom(f.getType()) &&
                 !Float.class.isAssignableFrom(f.getType()) && !String.class.isAssignableFrom(f.getType()) &&
@@ -243,7 +243,7 @@ public class Mapper {
                 !Date.class.isAssignableFrom(f.getType()) && !Enum.class.isAssignableFrom(f.getType());
     }
 
-    private static Field getDeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+    private Field getDeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
         Class<?> current = clazz;
         while (current != null) {
             try {
