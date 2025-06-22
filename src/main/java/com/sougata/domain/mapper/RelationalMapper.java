@@ -4,8 +4,10 @@ import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -15,10 +17,13 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
+@RequiredArgsConstructor
 public class RelationalMapper {
-    private static final EntityDtoMapping map = new EntityDtoMapping();
+    private final EntityDtoMapping map;
+    private final EntityManager entityManager;
 
-    public static MasterEntity mapToEntity(MasterDto dto) {
+    public MasterEntity mapToEntity(MasterDto dto) {
         if (dto == null) return null;
 
         try {
@@ -104,7 +109,7 @@ public class RelationalMapper {
         }
     }
 
-    public static MasterDto mapToDto(MasterEntity entity) {
+    public MasterDto mapToDto(MasterEntity entity) {
         if (entity == null) return null;
         MasterDto res = null;
         try {
@@ -216,7 +221,7 @@ public class RelationalMapper {
         }
     }
 
-    public static MasterEntity merge(MasterEntity nu, MasterEntity og, EntityManager entityManager) {
+    public MasterEntity merge(MasterEntity nu, MasterEntity og) {
         if (og == null) return null;
         try {
             for (Field ogf : og.getClass().getDeclaredFields()) {
@@ -297,7 +302,7 @@ public class RelationalMapper {
         }
     }
 
-    private static boolean isComplex(Field f) {
+    private boolean isComplex(Field f) {
         return !Integer.class.isAssignableFrom(f.getType()) && !Long.class.isAssignableFrom(f.getType()) &&
                 !Double.class.isAssignableFrom(f.getType()) && !Boolean.class.isAssignableFrom(f.getType()) &&
                 !Float.class.isAssignableFrom(f.getType()) && !String.class.isAssignableFrom(f.getType()) &&
@@ -305,7 +310,7 @@ public class RelationalMapper {
                 !Date.class.isAssignableFrom(f.getType()) && !Enum.class.isAssignableFrom(f.getType());
     }
 
-    private static Field getDeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+    private Field getDeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
         Class<?> current = clazz;
         while (current != null) {
             try {

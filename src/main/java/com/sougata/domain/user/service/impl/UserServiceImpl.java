@@ -7,7 +7,6 @@ import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import com.sougata.domain.user.service.UserService;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,20 +18,20 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final EntityManager entityManager;
+    private final RelationalMapper mapper;
     private final UserRepository repository;
 
     @Override
     public List<UserDto> findAllUsersWithRolesAndDefaultRole() {
         List<UserEntity> entities = repository.findAllUsersWithRolesAndDefaultRole();
-        return entities.stream().map(e -> (UserDto) RelationalMapper.mapToDto(e)).toList();
+        return entities.stream().map(e -> (UserDto) mapper.mapToDto(e)).toList();
     }
 
     @Override
     public UserDto createUser(UserDto dto) {
-        UserEntity entity = (UserEntity) RelationalMapper.mapToEntity(dto);
+        UserEntity entity = (UserEntity) mapper.mapToEntity(dto);
         UserEntity created = repository.save(entity);
-        return (UserDto) RelationalMapper.mapToDto(created);
+        return (UserDto) mapper.mapToDto(created);
     }
 
     @Override
@@ -41,22 +40,22 @@ public class UserServiceImpl implements UserService {
         if (og.isEmpty()) {
             return null;
         }
-        UserEntity nu = (UserEntity) RelationalMapper.mapToEntity(dto);
+        UserEntity nu = (UserEntity) mapper.mapToEntity(dto);
         System.out.println("*************************");
         System.out.println("og = " + og.get());
         System.out.println("nu = " + nu);
-        UserEntity merged = (UserEntity) RelationalMapper.merge(nu, og.get(), entityManager);
+        UserEntity merged = (UserEntity) mapper.merge(nu, og.get());
         System.out.println("merged = " + merged);
         System.out.println("*************************");
 
         UserEntity updated = repository.save(merged);
-        return (UserDto) RelationalMapper.mapToDto(updated);
+        return (UserDto) mapper.mapToDto(updated);
     }
 
     @Override
     public UserDto findUserById(Long id) {
         UserEntity entity = repository.findById(id).orElse(null);
-        return (UserDto) RelationalMapper.mapToDto(entity);
+        return (UserDto) mapper.mapToDto(entity);
     }
 
     @Override
@@ -80,7 +79,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        UserDto result = (UserDto) RelationalMapper.mapToDto(user);
+        UserDto result = (UserDto) mapper.mapToDto(user);
         repository.delete(user);
         return result;
     }
@@ -90,6 +89,6 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> og = repository.findById(userId);
         if (og.isEmpty()) return null;
         RoleEntity defaultRole = repository.findDefaultRoleForUser(userId);
-        return (RoleDto) RelationalMapper.mapToDto(defaultRole);
+        return (RoleDto) mapper.mapToDto(defaultRole);
     }
 }

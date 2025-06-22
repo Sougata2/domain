@@ -5,7 +5,6 @@ import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.role.repository.RoleRepository;
 import com.sougata.domain.role.service.RoleService;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +15,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
-    private final EntityManager entityManager;
+    private final RelationalMapper mapper;
     private final RoleRepository repository;
 
     @Override
     public List<RoleDto> getAllRoles() {
         List<RoleEntity> entities = repository.findAllRoles();
-        return entities.stream().map(e -> (RoleDto) RelationalMapper.mapToDto(e)).toList();
+        return entities.stream().map(e -> (RoleDto) mapper.mapToDto(e)).toList();
     }
 
     @Override
@@ -30,18 +29,18 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto updateRole(RoleDto roleDto) {
         Optional<RoleEntity> og = repository.findById(roleDto.getId());
         if (og.isEmpty()) return null;
-        RoleEntity nu = (RoleEntity) RelationalMapper.mapToEntity(roleDto);
-        RoleEntity merged = (RoleEntity) RelationalMapper.merge(nu, og.get(), entityManager);
+        RoleEntity nu = (RoleEntity) mapper.mapToEntity(roleDto);
+        RoleEntity merged = (RoleEntity) mapper.merge(nu, og.get());
         RoleEntity updated = repository.save(merged);
-        return (RoleDto) RelationalMapper.mapToDto(updated);
+        return (RoleDto) mapper.mapToDto(updated);
     }
 
     @Override
     @Transactional
     public RoleDto createRole(RoleDto dto) {
-        RoleEntity nu = (RoleEntity) RelationalMapper.mapToEntity(dto);
+        RoleEntity nu = (RoleEntity) mapper.mapToEntity(dto);
         RoleEntity saved = repository.save(nu);
-        return (RoleDto) RelationalMapper.mapToDto(saved);
+        return (RoleDto) mapper.mapToDto(saved);
     }
 
     @Override
@@ -50,12 +49,12 @@ public class RoleServiceImpl implements RoleService {
         Optional<RoleEntity> og = repository.findById(dto.getId());
         if (og.isEmpty()) return null;
         repository.delete(og.get());
-        return (RoleDto) RelationalMapper.mapToDto(og.get());
+        return (RoleDto) mapper.mapToDto(og.get());
     }
 
     @Override
     public RoleDto getRoleById(Long roleId) {
         Optional<RoleEntity> og = repository.findById(roleId);
-        return og.map(entity -> (RoleDto) RelationalMapper.mapToDto(entity)).orElse(null);
+        return og.map(entity -> (RoleDto) mapper.mapToDto(entity)).orElse(null);
     }
 }
