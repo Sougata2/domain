@@ -5,6 +5,7 @@ import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.menu.repository.MenuRepository;
 import com.sougata.domain.menu.service.MenuService;
+import com.sougata.domain.role.entity.RoleEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,23 @@ public class MenuServiceImpl implements MenuService {
     public MenuDto deleteMenu(MenuDto menuDto) {
         Optional<MenuEntity> og = repository.findById(menuDto.getId());
         if (og.isEmpty()) return null;
+        //detach relations
+        if (!og.get().getRoles().isEmpty()) {
+            for (RoleEntity role : og.get().getRoles()) {
+                role.getMenus().remove(og.get());
+            }
+            og.get().setRoles(new HashSet<>());
+        }
+
+        if (og.get().getMenu() != null) {
+            for (MenuEntity submenu : og.get().getMenu().getSubMenus()) {
+                if (submenu.getMenu().getId().equals(og.get().getId())) {
+                    submenu.setMenu(null);
+                }
+            }
+            og.get().setMenu(null);
+        }
+
         repository.delete(og.get());
         return (MenuDto) mapper.mapToDto(og.get());
     }
