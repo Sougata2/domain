@@ -1,15 +1,19 @@
 package com.sougata.domain.role.service.impl;
 
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.role.repository.RoleRepository;
 import com.sougata.domain.role.service.RoleService;
+import com.sougata.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -48,6 +52,30 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto deleteRole(RoleDto dto) {
         Optional<RoleEntity> og = repository.findById(dto.getId());
         if (og.isEmpty()) return null;
+
+        // detach relations
+        if (!og.get().getMenus().isEmpty()) {
+            for (MenuEntity menu : og.get().getMenus()) {
+                menu.getRoles().remove(og.get());
+            }
+            og.get().setMenus(new HashSet<>());
+        }
+
+        if (!og.get().getUsers().isEmpty()) {
+            for (UserEntity user : og.get().getUsers()) {
+                user.getRoles().remove(og.get());
+            }
+            og.get().setUsers(new HashSet<>());
+        }
+
+        if (!og.get().getDefaultRoleUsers().isEmpty()) {
+            for (UserEntity user : og.get().getDefaultRoleUsers()) {
+                if (Objects.equals(user.getDefaultRole().getId(), og.get().getId())) {
+                    user.setDefaultRole(null);
+                }
+            }
+        }
+
         repository.delete(og.get());
         return (RoleDto) mapper.mapToDto(og.get());
     }
