@@ -9,6 +9,7 @@ import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    @Transactional
     public ServiceDto createService(ServiceDto dto) {
         try {
             ServiceEntity entity = (ServiceEntity) mapper.mapToEntity(dto);
@@ -53,6 +55,7 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    @Transactional
     public ServiceDto updateService(ServiceDto dto) {
         try {
             Optional<ServiceEntity> og = repository.findById(dto.getId());
@@ -73,6 +76,7 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    @Transactional
     public ServiceDto deleteService(ServiceDto dto) {
         try {
             Optional<ServiceEntity> entity = repository.findById(dto.getId());
