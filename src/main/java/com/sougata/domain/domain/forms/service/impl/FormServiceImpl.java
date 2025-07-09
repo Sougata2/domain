@@ -1,9 +1,9 @@
-package com.sougata.domain.forms.service.impl;
+package com.sougata.domain.domain.forms.service.impl;
 
-import com.sougata.domain.forms.dto.FormDto;
-import com.sougata.domain.forms.entity.FormEntity;
-import com.sougata.domain.forms.repository.FormRepository;
-import com.sougata.domain.forms.service.FormService;
+import com.sougata.domain.domain.forms.dto.FormDto;
+import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.forms.repository.FormRepository;
+import com.sougata.domain.domain.forms.service.FormService;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.EntityNotFoundException;

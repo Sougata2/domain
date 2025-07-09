@@ -1,6 +1,6 @@
-package com.sougata.domain.forms.repository;
+package com.sougata.domain.domain.forms.repository;
 
-import com.sougata.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.forms.entity.FormEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

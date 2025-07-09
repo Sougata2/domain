@@ -1,7 +1,7 @@
-package com.sougata.domain.forms.service;
+package com.sougata.domain.domain.forms.service;
 
 
-import com.sougata.domain.forms.dto.FormDto;
+import com.sougata.domain.domain.forms.dto.FormDto;
 
 import java.util.List;
 

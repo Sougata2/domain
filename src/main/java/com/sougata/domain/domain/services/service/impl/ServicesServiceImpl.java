@@ -1,10 +1,10 @@
-package com.sougata.domain.services.service.impl;
+package com.sougata.domain.domain.services.service.impl;
 
+import com.sougata.domain.domain.services.dto.ServiceDto;
+import com.sougata.domain.domain.services.entity.ServiceEntity;
+import com.sougata.domain.domain.services.repository.ServiceRepository;
+import com.sougata.domain.domain.services.service.ServicesService;
 import com.sougata.domain.mapper.RelationalMapper;
-import com.sougata.domain.services.dto.ServiceDto;
-import com.sougata.domain.services.entity.ServiceEntity;
-import com.sougata.domain.services.repository.ServiceRepository;
-import com.sougata.domain.services.service.ServicesService;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

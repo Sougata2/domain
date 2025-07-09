@@ -1,7 +1,7 @@
 package com.sougata.domain.subService.service.impl;
 
+import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.mapper.RelationalMapper;
-import com.sougata.domain.services.entity.ServiceEntity;
 import com.sougata.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.subService.repository.SubServiceRepository;
@@ -97,7 +97,7 @@ public class SubServiceServiceImpl implements SubServiceService {
             if (og.get().getForm() != null) {
                 og.get().setForm(null);
             }
-            
+
             repository.delete(og.get());
             return dto;
         } catch (EntityNotFoundException e) {
