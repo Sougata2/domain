@@ -1,5 +1,6 @@
 package com.sougata.domain.user.entity;
 
+import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -47,6 +48,9 @@ public class UserEntity implements MasterEntity {
     @JoinColumn(name = "default_role_id")
     private RoleEntity defaultRole;
 
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "applicant")
+    private Set<ApplicationEntity> applications;
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -59,6 +63,7 @@ public class UserEntity implements MasterEntity {
                 .map(role -> role != null ? role.getName() : "null")
                 .toList() : "null") +
                 ", defaultRole=" + (defaultRole != null ? defaultRole.getName() : "null") +
+                ", applications=" + (applications != null ? applications.stream().map(a -> a != null ? a.getId() : null).toList() : "null") +
                 '}';
     }
 

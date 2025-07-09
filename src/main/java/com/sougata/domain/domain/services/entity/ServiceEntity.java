@@ -1,5 +1,6 @@
-package com.sougata.domain.services.entity;
+package com.sougata.domain.domain.services.entity;
 
+import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.*;
@@ -29,9 +30,30 @@ public class ServiceEntity implements MasterEntity {
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "service_sub_service_map", joinColumns = @JoinColumn(name = "service_id"), inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
-    Set<SubServiceEntity> subServices;
+    private Set<SubServiceEntity> subServices;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+    private Set<ApplicationEntity> applications;
 
     @CreationTimestamp
-    @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    @Override
+    public String toString() {
+        return "ServiceEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", subServices=" + (subServices != null
+                ? subServices.stream()
+                .map(sub -> sub != null ? sub.getName() : "null")
+                .toList()
+                : "null") +
+                ", applications=" + (applications != null
+                ? applications.stream()
+                .map(app -> app != null ? app.getId() : "null")
+                .toList()
+                : "null") +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

@@ -1,7 +1,8 @@
 package com.sougata.domain.subService.entity;
 
-import com.sougata.domain.forms.entity.FormEntity;
-import com.sougata.domain.services.entity.ServiceEntity;
+import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,30 @@ public class SubServiceEntity implements MasterEntity {
     @JoinColumn(name = "form_id")
     private FormEntity form;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subService")
+    private Set<ApplicationEntity> applications;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    @Override
+    public String toString() {
+        return "SubServiceEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", services=" + (services != null
+                ? services.stream()
+                .map(svc -> svc != null ? svc.getName() : "null")
+                .toList()
+                : "null") +
+                ", form=" + (form != null ? form.getName() : "null") +
+                ", applications=" + (applications != null
+                ? applications.stream()
+                .map(app -> app != null ? app.getId() : "null")
+                .toList()
+                : "null") +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

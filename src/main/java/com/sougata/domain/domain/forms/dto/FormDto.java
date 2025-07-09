@@ -1,5 +1,7 @@
-package com.sougata.domain.services.dto;
+package com.sougata.domain.domain.forms.dto;
 
+import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.subService.dto.SubServiceDto;
 import lombok.AllArgsConstructor;
@@ -12,15 +14,16 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * DTO for {@link com.sougata.domain.services.entity.ServiceEntity}
+ * DTO for {@link FormEntity}
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ServiceDto implements Serializable, MasterDto {
+@NoArgsConstructor
+public class FormDto implements Serializable, MasterDto {
     private Long id;
     private String name;
     private Set<SubServiceDto> subServices;
+    Set<MandatoryDocumentsEntity> mandatoryDocumentEntities;
     private LocalDateTime createdAt;
 }
