@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.activity.entity;
 
+import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -33,6 +34,10 @@ public class ActivityEntity implements MasterEntity {
             inverseJoinColumns = @JoinColumn(name = "specification_id")
     )
     private Set<SpecificationEntity> specifications;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "device_activity_map", joinColumns = @JoinColumn(name = "activity_id"), inverseJoinColumns = @JoinColumn(name = "device_id"))
+    private Set<DeviceEntity> devices;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
