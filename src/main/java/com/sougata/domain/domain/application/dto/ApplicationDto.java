@@ -27,7 +27,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ApplicationDto implements Serializable, MasterDto {
     private Long id;
-    private String applicationId;
+    private String referenceNumber;
     private UserDto applicant;
     private ServiceDto service;
     private SubServiceDto subService;
@@ -38,4 +38,24 @@ public class ApplicationDto implements Serializable, MasterDto {
     private StatusDto status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+
+    @Override
+    public String toString() {
+        return "ApplicationDto{" +
+                "id=" + id +
+                ", referenceNumber='" + referenceNumber + '\'' +
+                ", applicant=" + (applicant != null ? applicant.getFirstName() + " " + applicant.getLastName() : "null") +
+                ", service=" + (service != null ? service.getName() : "null") +
+                ", subService=" + (subService != null ? subService.getName() : "null") +
+                ", lab=" + (lab != null ? lab.getName() : "null") +
+                ", devices=" + (devices != null ? devices.stream().map(d -> d != null ? d.getName() : "null").toList() : "null") +
+                ", documents=" + (documents != null ? documents.stream().map(d -> d != null ? d.getName() : "null").toList() : "null") +
+                ", quotation=" + (quotation != null ? quotation.toString() : "null") +
+                ", status=" + (status != null ? status.getName() : "null") +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
 }

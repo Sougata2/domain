@@ -42,12 +42,12 @@ public class ApplicationEntity implements MasterEntity {
      * @Column(nullable = false, updatable = false)
      * </p>
      */
-    @Column
-    private String applicationId;
+    @Column(unique = true)
+    private String referenceNumber;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "applicant_id")
-    private UserEntity applicant;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "service_id", nullable = false)
@@ -84,7 +84,8 @@ public class ApplicationEntity implements MasterEntity {
     public String toString() {
         return "ApplicationEntity{" +
                 "Id='" + id + '\'' +
-                ", applicant=" + (applicant != null ? applicant.getFirstName() + " " + applicant.getLastName() : "null") +
+                ", referenceNumber='" + referenceNumber + '\'' +
+                ", user=" + (user != null ? user.getFirstName() + " " + user.getLastName() : "null") +
                 ", service=" + (service != null ? service.getName() : "null") +
                 ", subService=" + (subService != null ? subService.getName() : "null") +
                 ", lab=" + (lab != null ? lab.getName() : "null") +
