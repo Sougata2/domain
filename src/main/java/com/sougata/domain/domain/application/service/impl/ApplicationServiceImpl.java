@@ -8,9 +8,13 @@ import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.document.entity.DocumentEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.services.repository.ServiceRepository;
+import com.sougata.domain.domain.status.entity.StatusEntity;
+import com.sougata.domain.domain.status.repository.StatusRepository;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.subService.repository.SubServiceRepository;
+import com.sougata.domain.user.entity.UserEntity;
+import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final RelationalMapper mapper;
     private final ServiceRepository serviceRepository;
     private final SubServiceRepository subServiceRepository;
+    private final UserRepository userRepository;
+    private final StatusRepository statusRepository;
 
     @Override
     public List<ApplicationDto> findAll() {
@@ -77,6 +83,20 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new EntityNotFoundException("SubService Entity with id %d not found".formatted(entity.getSubService().getId()));
         }
         entity.setSubService(subServiceEntity.get());
+
+        // set the reference of user
+        Optional<UserEntity> userEntity = userRepository.findById(entity.getUser().getId());
+        if (userEntity.isEmpty()) {
+            throw new EntityNotFoundException("User with id %d not found".formatted(entity.getUser().getId()));
+        }
+        entity.setUser(userEntity.get());
+
+        // set the reference of status
+        Optional<StatusEntity> statusEntity = statusRepository.findById(entity.getStatus().getId());
+        if (statusEntity.isEmpty()) {
+            throw new EntityNotFoundException("Status Entity with id %d not found".formatted(entity.getStatus().getId()));
+        }
+        entity.setStatus(statusEntity.get());
 
         ApplicationEntity saved = repository.save(entity);
         return (ApplicationDto) mapper.mapToDto(saved);
