@@ -63,40 +63,40 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     @Transactional
     public ApplicationDto create(ApplicationDto dto) throws Exception {
-        // generating reference number
-        String referenceNumber = generateReferenceNumber(dto);
-        dto.setReferenceNumber(referenceNumber);
-        // generating reference number
-
-        ApplicationEntity entity = (ApplicationEntity) mapper.mapToEntity(dto);
+        ApplicationEntity entity = new ApplicationEntity();
 
         // set the reference to service
-        Optional<ServiceEntity> serviceEntity = serviceRepository.findById(entity.getService().getId());
+        Optional<ServiceEntity> serviceEntity = serviceRepository.findById(dto.getService().getId());
         if (serviceEntity.isEmpty()) {
-            throw new EntityNotFoundException("Service Entity with id %d not found".formatted(entity.getService().getId()));
+            throw new EntityNotFoundException("Service Entity with id %d not found".formatted(dto.getService().getId()));
         }
         entity.setService(serviceEntity.get());
 
         // set the reference to subService
-        Optional<SubServiceEntity> subServiceEntity = subServiceRepository.findById(entity.getSubService().getId());
+        Optional<SubServiceEntity> subServiceEntity = subServiceRepository.findById(dto.getSubService().getId());
         if (subServiceEntity.isEmpty()) {
-            throw new EntityNotFoundException("SubService Entity with id %d not found".formatted(entity.getSubService().getId()));
+            throw new EntityNotFoundException("SubService Entity with id %d not found".formatted(dto.getSubService().getId()));
         }
         entity.setSubService(subServiceEntity.get());
 
         // set the reference of user
-        Optional<UserEntity> userEntity = userRepository.findById(entity.getUser().getId());
+        Optional<UserEntity> userEntity = userRepository.findById(dto.getUser().getId());
         if (userEntity.isEmpty()) {
-            throw new EntityNotFoundException("User with id %d not found".formatted(entity.getUser().getId()));
+            throw new EntityNotFoundException("User with id %d not found".formatted(dto.getUser().getId()));
         }
         entity.setUser(userEntity.get());
 
         // set the reference of status
-        Optional<StatusEntity> statusEntity = statusRepository.findById(entity.getStatus().getId());
+        Optional<StatusEntity> statusEntity = statusRepository.findById(dto.getStatus().getId());
         if (statusEntity.isEmpty()) {
-            throw new EntityNotFoundException("Status Entity with id %d not found".formatted(entity.getStatus().getId()));
+            throw new EntityNotFoundException("Status Entity with id %d not found".formatted(dto.getStatus().getId()));
         }
         entity.setStatus(statusEntity.get());
+
+        // generating reference number
+        String referenceNumber = generateReferenceNumber(entity);
+        entity.setReferenceNumber(referenceNumber);
+        // generating reference number
 
         ApplicationEntity saved = repository.save(entity);
         return (ApplicationDto) mapper.mapToDto(saved);
@@ -168,14 +168,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         return dto;
     }
 
-    private String generateReferenceNumber(ApplicationDto dto) throws Exception {
-        if (dto.getService() == null) {
+    private String generateReferenceNumber(ApplicationEntity entity) throws Exception {
+        if (entity.getService() == null) {
             throw new Exception("Service not implemented");
         }
-        if (dto.getSubService() == null) {
+        if (entity.getSubService() == null) {
             throw new Exception("SubService not implemented");
         }
-        if (dto.getSubService().getForm() == null) {
+        if (entity.getSubService().getForm() == null) {
             throw new Exception("Form not implemented");
         }
 
@@ -185,6 +185,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             precedingId = repository.findPrecedingId().get() + 1;
         }
 
-        return "%s%02d%02d".formatted(prefix, dto.getSubService().getForm().getId(), precedingId);
+        return "%s%02d%02d".formatted(prefix, entity.getSubService().getForm().getId(), precedingId);
     }
 }
