@@ -27,6 +27,9 @@ public class StatusEntity implements MasterEntity {
     @Column
     private String name;
 
+    @Column
+    private String description;
+
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
     private Set<ApplicationEntity> applications;
 

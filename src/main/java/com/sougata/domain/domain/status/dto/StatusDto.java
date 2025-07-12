@@ -21,6 +21,7 @@ import java.util.Set;
 public class StatusDto implements Serializable, MasterDto {
     private Long id;
     private String name;
+    private String description;
     private Set<ApplicationDto> applications;
     private LocalDateTime createdAt;
 }
