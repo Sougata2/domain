@@ -74,7 +74,7 @@ public class StatusServiceImpl implements StatusService {
             entity.get().setApplications(new HashSet<>());
         }
 
-        repository.save(entity.get());
+        repository.delete(entity.get());
         return dto;
     }
 }
