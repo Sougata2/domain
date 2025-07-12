@@ -1,7 +1,7 @@
 package com.sougata.domain.domain.forms.dto;
 
 import com.sougata.domain.domain.forms.entity.FormEntity;
-import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
+import com.sougata.domain.domain.mandatoryDocument.dto.MandatoryDocumentsDto;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.subService.dto.SubServiceDto;
 import lombok.AllArgsConstructor;
@@ -24,6 +24,6 @@ public class FormDto implements Serializable, MasterDto {
     private Long id;
     private String name;
     private Set<SubServiceDto> subServices;
-    Set<MandatoryDocumentsEntity> mandatoryDocumentEntities;
+    private Set<MandatoryDocumentsDto> mandatoryDocuments;
     private LocalDateTime createdAt;
 }
