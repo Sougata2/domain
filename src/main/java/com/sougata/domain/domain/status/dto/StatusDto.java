@@ -1,6 +1,6 @@
 package com.sougata.domain.domain.status.dto;
 
-import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +21,6 @@ import java.util.Set;
 public class StatusDto implements Serializable, MasterDto {
     private Long id;
     private String name;
-    private Set<ApplicationEntity> applications;
+    private Set<ApplicationDto> applications;
     private LocalDateTime createdAt;
 }
