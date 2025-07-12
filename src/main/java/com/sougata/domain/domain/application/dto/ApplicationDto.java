@@ -28,7 +28,7 @@ import java.util.Set;
 public class ApplicationDto implements Serializable, MasterDto {
     private Long id;
     private String referenceNumber;
-    private UserDto applicant;
+    private UserDto user;
     private ServiceDto service;
     private SubServiceDto subService;
     private LabDto lab;
@@ -45,7 +45,7 @@ public class ApplicationDto implements Serializable, MasterDto {
         return "ApplicationDto{" +
                 "id=" + id +
                 ", referenceNumber='" + referenceNumber + '\'' +
-                ", applicant=" + (applicant != null ? applicant.getFirstName() + " " + applicant.getLastName() : "null") +
+                ", applicant=" + (user != null ? user.getFirstName() + " " + user.getLastName() : "null") +
                 ", service=" + (service != null ? service.getName() : "null") +
                 ", subService=" + (subService != null ? subService.getName() : "null") +
                 ", lab=" + (lab != null ? lab.getName() : "null") +
