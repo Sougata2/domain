@@ -1,6 +1,6 @@
 package com.sougata.domain.domain.services.dto;
 
-import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.subService.dto.SubServiceDto;
@@ -25,5 +25,5 @@ public class ServiceDto implements Serializable, MasterDto {
     private String name;
     private Set<SubServiceDto> subServices;
     private LocalDateTime createdAt;
-    private Set<ApplicationEntity> applications;
+    private Set<ApplicationDto> applications;
 }

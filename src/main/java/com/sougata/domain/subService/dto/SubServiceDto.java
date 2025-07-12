@@ -1,5 +1,6 @@
 package com.sougata.domain.subService.dto;
 
+import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.forms.dto.FormDto;
 import com.sougata.domain.domain.services.dto.ServiceDto;
 import com.sougata.domain.shared.MasterDto;
@@ -25,4 +26,5 @@ public class SubServiceDto implements Serializable, MasterDto {
     private Set<ServiceDto> services;
     private FormDto form;
     private LocalDateTime createdAt;
+    private Set<ApplicationDto> applications;
 }
