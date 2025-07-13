@@ -17,6 +17,10 @@ import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +62,14 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new EntityNotFoundException("Application Entity with reference number %s not found".formatted(referenceNumber));
         }
         return (ApplicationDto) mapper.mapToDto(entity.get());
+    }
+
+    @Override
+    public Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ApplicationEntity> entityPage = repository.findByStatusNameAndUserId(statusName, userId, pageable);
+        List<ApplicationDto> dtoList = entityPage.stream().map(e -> (ApplicationDto) mapper.mapToDto(e)).toList();
+        return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
 
     @Override
