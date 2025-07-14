@@ -17,6 +17,6 @@ public interface ApplicationRepository extends JpaRepository<ApplicationEntity, 
     @Query("select e.id from ApplicationEntity e order by e.id desc limit 1")
     Optional<Long> findPrecedingId();
 
-    @Query("select e from ApplicationEntity e where e.status.name =:statusName and e.user.id =:userId order by e.createdAt desc")
+    @Query("select e from ApplicationEntity e where e.status.name =:statusName and e.user.id =:userId")
     Page<ApplicationEntity> findByStatusNameAndUserId(String statusName, Long userId, Pageable pageable);
 }

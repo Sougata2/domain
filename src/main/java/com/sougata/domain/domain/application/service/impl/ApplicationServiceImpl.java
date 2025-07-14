@@ -19,7 +19,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,8 +64,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, Pageable pageable) {
         Page<ApplicationEntity> entityPage = repository.findByStatusNameAndUserId(statusName, userId, pageable);
         List<ApplicationDto> dtoList = entityPage.stream().map(e -> (ApplicationDto) mapper.mapToDto(e)).toList();
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());

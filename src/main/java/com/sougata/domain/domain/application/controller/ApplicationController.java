@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,14 +52,13 @@ public class ApplicationController {
 
     @GetMapping("/by-status-and-user-id")
     public ResponseEntity<Page<ApplicationDto>> findByStatusAndUserId(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "AG") String status,
-            @RequestParam(value = "user") Long userId
+            @RequestParam(value = "user") Long userId,
+            Pageable pageable
     ) {
-        logger.info("findBy Status: {} And UserId: {}", userId, status);
+        logger.info("findBy Status: {}, UserId: {} And Pageable: {}", userId, status, pageable);
         try {
-            return ResponseEntity.ok(service.findByStatusNameAndUserId(status, userId, page, size));
+            return ResponseEntity.ok(service.findByStatusNameAndUserId(status, userId, pageable));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

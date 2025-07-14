@@ -2,6 +2,7 @@ package com.sougata.domain.domain.application.service;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ApplicationService {
 
     ApplicationDto findByReferenceNumber(String applicationId);
 
-    Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, int page, int size);
+    Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, Pageable pageable);
 
     ApplicationDto create(ApplicationDto dto) throws Exception;
 
