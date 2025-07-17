@@ -42,7 +42,7 @@ public class DeviceEntity implements MasterEntity {
     @JoinTable(
             name = "device_specification_map",
             joinColumns = @JoinColumn(name = "device_id"),
-            inverseJoinColumns = @JoinColumn(name = "activity_id")
+            inverseJoinColumns = @JoinColumn(name = "specification_id")
     )
     private Set<SpecificationEntity> specifications;
 
