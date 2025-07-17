@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.specification.entity;
 
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
+import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,14 @@ public class SpecificationEntity implements MasterEntity {
             inverseJoinColumns = @JoinColumn(name = "activity_id")
     )
     private Set<ActivityEntity> activities;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "device_specification_map",
+            joinColumns = @JoinColumn(name = "specification_id"),
+            inverseJoinColumns = @JoinColumn(name = "device_id")
+    )
+    private Set<DeviceEntity> devices;
 
     @Column
     private Double price;
