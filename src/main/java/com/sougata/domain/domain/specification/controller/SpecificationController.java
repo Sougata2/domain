@@ -17,7 +17,7 @@ public class SpecificationController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final SpecificationService service;
 
-    @GetMapping("/by-acitivity-id/{id}")
+    @GetMapping("/by-activity-id/{id}")
     public ResponseEntity<List<SpecificationDto>> findByActivityId(@PathVariable(name = "id") Long activityId) {
         logger.debug("findByActivityId id: {}", activityId);
         return ResponseEntity.ok(service.findByActivityId(activityId));
