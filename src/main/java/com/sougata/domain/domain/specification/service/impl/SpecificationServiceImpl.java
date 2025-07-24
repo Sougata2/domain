@@ -26,6 +26,12 @@ public class SpecificationServiceImpl implements SpecificationService {
 
 
     @Override
+    public List<SpecificationDto> findAll() {
+        List<SpecificationEntity> entities = repository.findAll();
+        return entities.stream().map(e -> (SpecificationDto) mapper.mapToDto(e)).toList();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<SpecificationDto> findByActivityId(Long id) {
         try {

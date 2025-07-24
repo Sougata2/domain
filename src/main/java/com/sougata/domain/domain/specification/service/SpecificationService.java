@@ -5,6 +5,8 @@ import com.sougata.domain.domain.specification.dto.SpecificationDto;
 import java.util.List;
 
 public interface SpecificationService {
+    List<SpecificationDto> findAll();
+
     List<SpecificationDto> findByActivityId(Long id);
 
     SpecificationDto findById(Long id);
