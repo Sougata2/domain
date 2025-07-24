@@ -5,6 +5,7 @@ import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.activity.repository.ActivityRepository;
 import com.sougata.domain.domain.activity.service.ActivityService;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
+import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -80,6 +81,13 @@ public class ActivityServiceImpl implements ActivityService {
                 device.getActivities().remove(og.get());
             }
             og.get().setDevices(new HashSet<>());
+        }
+
+        if (!og.get().getServices().isEmpty()) {
+            for (ServiceEntity service : og.get().getServices()) {
+                service.getActivities().remove(og.get());
+            }
+            og.get().setServices(new HashSet<>());
         }
 
         repository.delete(og.get());
