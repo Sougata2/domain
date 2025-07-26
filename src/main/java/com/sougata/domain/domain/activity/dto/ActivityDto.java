@@ -1,9 +1,9 @@
 package com.sougata.domain.domain.activity.dto;
 
 import com.sougata.domain.domain.devices.dto.DeviceDto;
-import com.sougata.domain.domain.services.dto.ServiceDto;
 import com.sougata.domain.domain.specification.dto.SpecificationDto;
 import com.sougata.domain.shared.MasterDto;
+import com.sougata.domain.subService.dto.SubServiceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,6 @@ public class ActivityDto implements Serializable, MasterDto {
     private String name;
     private Set<SpecificationDto> specifications;
     private Set<DeviceDto> devices;
-    private Set<ServiceDto> services;
+    private Set<SubServiceDto> subServices;
     private LocalDateTime createdAt;
 }

@@ -1,6 +1,5 @@
 package com.sougata.domain.domain.services.service.impl;
 
-import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.services.dto.ServiceDto;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.services.repository.ServiceRepository;
@@ -91,13 +90,6 @@ public class ServicesServiceImpl implements ServicesService {
                     subService.getServices().remove(entity.get());
                 }
                 entity.get().setSubServices(new HashSet<>());
-            }
-
-            if (!entity.get().getActivities().isEmpty()) {
-                for (ActivityEntity activity : entity.get().getActivities()) {
-                    activity.getServices().remove(entity.get());
-                }
-                entity.get().setActivities(new HashSet<>());
             }
 
 

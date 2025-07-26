@@ -1,5 +1,6 @@
 package com.sougata.domain.subService.entity;
 
+import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.forms.entity.FormEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
@@ -39,6 +40,10 @@ public class SubServiceEntity implements MasterEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subService")
     private Set<ApplicationEntity> applications;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "sub_service_activity_map", joinColumns = @JoinColumn(name = "activity_id"), inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
+    private Set<ActivityEntity> activities;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -59,6 +64,7 @@ public class SubServiceEntity implements MasterEntity {
                 .map(app -> app != null ? app.getId() : "null")
                 .toList()
                 : "null") +
+                ", activities=" + (activities != null ? activities.stream().map(a -> a != null ? a.getName() : "null").toList() : "null") +
                 ", createdAt=" + createdAt +
                 '}';
     }

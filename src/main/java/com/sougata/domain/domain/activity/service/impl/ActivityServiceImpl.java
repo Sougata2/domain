@@ -5,9 +5,9 @@ import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.activity.repository.ActivityRepository;
 import com.sougata.domain.domain.activity.service.ActivityService;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
-import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -83,11 +83,11 @@ public class ActivityServiceImpl implements ActivityService {
             og.get().setDevices(new HashSet<>());
         }
 
-        if (!og.get().getServices().isEmpty()) {
-            for (ServiceEntity service : og.get().getServices()) {
-                service.getActivities().remove(og.get());
+        if (!og.get().getSubServices().isEmpty()) {
+            for (SubServiceEntity subService : og.get().getSubServices()) {
+                subService.getActivities().remove(og.get());
             }
-            og.get().setServices(new HashSet<>());
+            og.get().setSubServices(new HashSet<>());
         }
 
         repository.delete(og.get());

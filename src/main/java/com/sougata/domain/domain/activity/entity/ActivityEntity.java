@@ -1,9 +1,9 @@
 package com.sougata.domain.domain.activity.entity;
 
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
-import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.shared.MasterEntity;
+import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,8 +41,8 @@ public class ActivityEntity implements MasterEntity {
     private Set<DeviceEntity> devices;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "service_activity_map", joinColumns = @JoinColumn(name = "activity_id"), inverseJoinColumns = @JoinColumn(name = "service_id"))
-    private Set<ServiceEntity> services;
+    @JoinTable(name = "sub_service_activity_map", joinColumns = @JoinColumn(name = "sub_service_id"), inverseJoinColumns = @JoinColumn(name = "activity_id"))
+    private Set<SubServiceEntity> subServices;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -58,6 +58,7 @@ public class ActivityEntity implements MasterEntity {
                 .toList()
                 : "null") +
                 ", devices=" + (devices != null ? devices.stream().map(d -> d != null ? d.getName() : "null").toList() : "null") +
+                ", subServices=" + (subServices != null ? subServices.stream().map(s -> s != null ? s.getName() : "null") : "null") +
                 ", createdAt=" + createdAt +
                 '}';
     }
