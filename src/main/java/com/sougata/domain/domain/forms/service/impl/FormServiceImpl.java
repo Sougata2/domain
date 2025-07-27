@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.forms.service.impl;
 
+import com.sougata.domain.domain.formStages.entity.FormStageEntity;
 import com.sougata.domain.domain.forms.dto.FormDto;
 import com.sougata.domain.domain.forms.entity.FormEntity;
 import com.sougata.domain.domain.forms.repository.FormRepository;
@@ -97,6 +98,13 @@ public class FormServiceImpl implements FormService {
                     }
                 }
                 og.get().setSubServices(new HashSet<>());
+            }
+
+            if (!og.get().getStages().isEmpty()) {
+                for (FormStageEntity stage : og.get().getStages()) {
+                    stage.getForms().remove(og.get());
+                }
+                og.get().setStages(new HashSet<>());
             }
 
             repository.delete(og.get());
