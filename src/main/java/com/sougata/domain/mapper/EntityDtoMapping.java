@@ -8,6 +8,8 @@ import com.sougata.domain.domain.devices.dto.DeviceDto;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.document.dto.DocumentDto;
 import com.sougata.domain.domain.document.entity.DocumentEntity;
+import com.sougata.domain.domain.formStages.dto.FormStageDto;
+import com.sougata.domain.domain.formStages.entity.FormStageEntity;
 import com.sougata.domain.domain.forms.dto.FormDto;
 import com.sougata.domain.domain.forms.entity.FormEntity;
 import com.sougata.domain.domain.lab.dto.LabDto;
@@ -62,7 +64,8 @@ public class EntityDtoMapping {
                 Map.entry(QuotationEntity.class, QuotationDto.class),
                 Map.entry(SpecificationEntity.class, SpecificationDto.class),
                 Map.entry(StatusEntity.class, StatusDto.class),
-                Map.entry(FileEntity.class, FileDto.class)
+                Map.entry(FileEntity.class, FileDto.class),
+                Map.entry(FormStageEntity.class, FormStageDto.class)
         );
 
         dtoToEntityMap = Map.ofEntries(
@@ -81,7 +84,8 @@ public class EntityDtoMapping {
                 Map.entry(QuotationDto.class, QuotationEntity.class),
                 Map.entry(SpecificationDto.class, SpecificationEntity.class),
                 Map.entry(StatusDto.class, StatusEntity.class),
-                Map.entry(FileDto.class, FileEntity.class)
+                Map.entry(FileDto.class, FileEntity.class),
+                Map.entry(FormStageDto.class, FormStageEntity.class)
         );
     }
 }
