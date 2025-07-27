@@ -32,7 +32,7 @@ public class FormStageEntity implements MasterEntity {
     private String url;
 
     @Column
-    private Integer order;
+    private Integer stageOrder;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "form_stage_map", joinColumns = @JoinColumn(name = "stage_id"), inverseJoinColumns = @JoinColumn(name = "form_id"))
@@ -50,7 +50,7 @@ public class FormStageEntity implements MasterEntity {
                 "id=" + id +
                 ", name='" + (name != null ? name : "") + '\'' +
                 ", url='" + (url != null ? url : "") + '\'' +
-                ", order=" + (order != null ? order : "") +
+                ", order=" + (stageOrder != null ? stageOrder : "") +
                 ", forms=" + (forms != null ? forms.stream()
                 .map(f -> f.getId() != null ? f.getId().toString() : "null")
                 .toList()

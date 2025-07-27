@@ -12,6 +12,6 @@ public interface FormStageRepository extends JpaRepository<FormStageEntity, Long
     @Query("select e from FormStageEntity e " +
             "join fetch e.forms fe " +
             "where fe.id = :formId " +
-            "order by e.order")
+            "order by e.stageOrder")
     List<FormStageEntity> findByFormId(Long formId);
 }
