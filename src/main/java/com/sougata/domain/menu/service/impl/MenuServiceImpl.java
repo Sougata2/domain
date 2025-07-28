@@ -1,5 +1,6 @@
 package com.sougata.domain.menu.service.impl;
 
+import com.sougata.domain.domain.formStages.entity.FormStageEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.menu.entity.MenuEntity;
@@ -87,6 +88,15 @@ public class MenuServiceImpl implements MenuService {
                 }
             }
             og.get().setMenu(null);
+        }
+
+        if (!og.get().getStages().isEmpty()) {
+            for (FormStageEntity stage : og.get().getStages()) {
+                if (stage.getMenu().getId().equals(og.get().getId())) {
+                    stage.setMenu(null);
+                }
+            }
+            og.get().setStages(new HashSet<>());
         }
 
         repository.delete(og.get());

@@ -1,6 +1,7 @@
 package com.sougata.domain.menu.entity;
 
 
+import com.sougata.domain.domain.formStages.entity.FormStageEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -39,7 +40,9 @@ public class MenuEntity implements MasterEntity {
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "role_menu_map", joinColumns = @JoinColumn(name = "menu_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles;
-
+    
+    @OneToMany(mappedBy = "menu", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    private Set<FormStageEntity> stages;
 
     @Override
     public String toString() {

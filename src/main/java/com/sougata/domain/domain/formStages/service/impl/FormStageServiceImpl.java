@@ -86,6 +86,12 @@ public class FormStageServiceImpl implements FormStageService {
             }
             og.get().setForms(new HashSet<>());
         }
+
+        if (og.get().getMenu() != null) {
+            og.get().getMenu().getStages().remove(og.get());
+            og.get().setMenu(null);
+        }
+
         repository.delete(og.get());
         return dto;
     }

@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.formStages.dto;
 
 import com.sougata.domain.domain.forms.dto.FormDto;
+import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +21,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class FormStageDto implements Serializable, MasterDto {
     private Long id;
-    private String name;
-    private String url;
     private Integer stageOrder;
     private Set<FormDto> forms;
+    private MenuDto menu;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

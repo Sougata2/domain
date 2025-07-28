@@ -1,6 +1,7 @@
 package com.sougata.domain.menu.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sougata.domain.domain.formStages.dto.FormStageDto;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,8 @@ public class MenuDto implements Serializable, MasterDto {
     private MenuDto menu;
     @JsonIgnore
     private Set<RoleDto> roles;
+    @JsonIgnore
+    private Set<FormStageDto> stages;
 
     @Override
     public String toString() {

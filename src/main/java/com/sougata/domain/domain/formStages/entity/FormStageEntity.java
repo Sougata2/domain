@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.formStages.entity;
 
 import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,17 +27,15 @@ public class FormStageEntity implements MasterEntity {
     private Long id;
 
     @Column
-    private String name;
-
-    @Column
-    private String url;
-
-    @Column
     private Integer stageOrder;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "form_stage_map", joinColumns = @JoinColumn(name = "stage_id"), inverseJoinColumns = @JoinColumn(name = "form_id"))
     private Set<FormEntity> forms;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "menu_id")
+    private MenuEntity menu;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -48,8 +47,6 @@ public class FormStageEntity implements MasterEntity {
     public String toString() {
         return "FormStageEntity{" +
                 "id=" + id +
-                ", name='" + (name != null ? name : "") + '\'' +
-                ", url='" + (url != null ? url : "") + '\'' +
                 ", order=" + (stageOrder != null ? stageOrder : "") +
                 ", forms=" + (forms != null ? forms.stream()
                 .map(f -> f.getId() != null ? f.getId().toString() : "null")
