@@ -22,7 +22,7 @@ public class FormStageDto implements Serializable, MasterDto {
     private Long id;
     private String name;
     private String url;
-    private Integer order;
+    private Integer stageOrder;
     private Set<FormDto> forms;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -33,7 +33,7 @@ public class FormStageDto implements Serializable, MasterDto {
                 "id=" + id +
                 ", name='" + (name != null ? name : "") + '\'' +
                 ", url='" + (url != null ? url : "") + '\'' +
-                ", order=" + (order != null ? order : "") +
+                ", order=" + (stageOrder != null ? stageOrder : "") +
                 ", forms=" + (forms != null ? forms.stream()
                 .map(f -> f.getId() != null ? f.getId().toString() : "null")
                 .toList()
