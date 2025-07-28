@@ -35,8 +35,7 @@ public class FormEntity implements MasterEntity {
     @OneToMany(mappedBy = "form", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<MandatoryDocumentsEntity> mandatoryDocuments;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "form_stage_map", joinColumns = @JoinColumn(name = "form_id"), inverseJoinColumns = @JoinColumn(name = "stage_id"))
+    @OneToMany(mappedBy = "form", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<FormStageEntity> stages;
 
     @CreationTimestamp
@@ -58,6 +57,7 @@ public class FormEntity implements MasterEntity {
                 .map(doc -> doc != null ? doc.getName() : "null")
                 .toList()
                 : "null") +
+                ", stages=" + (stages != null ? stages.stream().map(s -> s != null ? s.getMenu().getName() : "null").toList() : "null") +
                 ", createdAt=" + createdAt +
                 '}';
     }

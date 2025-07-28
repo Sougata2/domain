@@ -7,12 +7,13 @@ import com.sougata.domain.domain.formStages.service.FormStageService;
 import com.sougata.domain.domain.forms.entity.FormEntity;
 import com.sougata.domain.domain.forms.repository.FormRepository;
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.menu.entity.MenuEntity;
+import com.sougata.domain.menu.repository.MenuRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class FormStageServiceImpl implements FormStageService {
     private final RelationalMapper mapper;
     private final FormStageRepository repository;
     private final FormRepository formRepository;
+    private final MenuRepository menuRepository;
 
 
     @Override
@@ -53,9 +55,26 @@ public class FormStageServiceImpl implements FormStageService {
     @Override
     @Transactional
     public FormStageDto create(FormStageDto dto) {
-        FormStageEntity entity = (FormStageEntity) mapper.mapToEntity(dto);
-        FormStageEntity saved = repository.save(entity);
-        return (FormStageDto) mapper.mapToDto(saved);
+        try {
+            Optional<MenuEntity> menu = menuRepository.findById(dto.getMenu().getId());
+            if (menu.isEmpty()) {
+                throw new EntityNotFoundException("Menu with id %d not found".formatted(dto.getMenu().getId()));
+            }
+            Optional<FormEntity> form = formRepository.findById(dto.getForm().getId());
+            if (form.isEmpty()) {
+                throw new EntityNotFoundException("Form with id %d not found".formatted(dto.getForm().getId()));
+            }
+            FormStageEntity entity = new FormStageEntity();
+            entity.setForm(form.get());
+            entity.setMenu(menu.get());
+            entity.setStageOrder(dto.getStageOrder());
+            FormStageEntity saved = repository.save(entity);
+            return (FormStageDto) mapper.mapToDto(saved);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -80,11 +99,9 @@ public class FormStageServiceImpl implements FormStageService {
         }
 
         // detach relations
-        if (!og.get().getForms().isEmpty()) {
-            for (FormEntity form : og.get().getForms()) {
-                form.getStages().remove(og.get());
-            }
-            og.get().setForms(new HashSet<>());
+        if (og.get().getForm() != null) {
+            og.get().getForm().getStages().remove(og.get());
+            og.get().setForm(null);
         }
 
         if (og.get().getMenu() != null) {

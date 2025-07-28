@@ -27,4 +27,7 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Long> {
 
     @Query("select me from MenuEntity me where me.menu is null")
     List<MenuEntity> findAllMenusWithSubMenus();
+
+    @Query("select e from MenuEntity e where e.url != ''")
+    List<MenuEntity> findAllSubMenus();
 }

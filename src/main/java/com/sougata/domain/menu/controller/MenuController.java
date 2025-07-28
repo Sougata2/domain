@@ -31,6 +31,16 @@ public class MenuController {
         }
     }
 
+    @GetMapping("/sub-menus")
+    public ResponseEntity<List<MenuDto>> getSubMenus() {
+        logger.info("getSubMenus");
+        try {
+            return ResponseEntity.ok(service.findAllSubMenus());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MenuDto> getMenuById(@PathVariable(name = "id") Long menuId) {
         logger.info("getMenuById : {}", menuId);

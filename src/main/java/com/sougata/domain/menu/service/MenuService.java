@@ -7,6 +7,8 @@ import java.util.List;
 public interface MenuService {
     List<MenuDto> findAllTopLevelMenus();
 
+    List<MenuDto> findAllSubMenus();
+
     List<MenuDto> findAllMenus();
 
     MenuDto createMenu(MenuDto menuDto);

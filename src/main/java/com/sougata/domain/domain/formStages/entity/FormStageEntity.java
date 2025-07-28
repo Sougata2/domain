@@ -12,7 +12,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -29,9 +28,9 @@ public class FormStageEntity implements MasterEntity {
     @Column
     private Integer stageOrder;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "form_stage_map", joinColumns = @JoinColumn(name = "stage_id"), inverseJoinColumns = @JoinColumn(name = "form_id"))
-    private Set<FormEntity> forms;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "form_id")
+    private FormEntity form;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "menu_id")
@@ -49,10 +48,7 @@ public class FormStageEntity implements MasterEntity {
                 "id=" + id +
                 "menu=" + (menu != null ? menu.getName() : "") +
                 ", order=" + (stageOrder != null ? stageOrder : "") +
-                ", forms=" + (forms != null ? forms.stream()
-                .map(f -> f.getId() != null ? f.getId().toString() : "null")
-                .toList()
-                : "null") +
+                ", form=" + (form != null ? form.getName() : "null") +
                 ", createdAt=" + (createdAt != null ? createdAt.toString() : "null") +
                 ", updatedAt=" + (updatedAt != null ? updatedAt.toString() : "null") +
                 '}';

@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
  * DTO for {@link com.sougata.domain.domain.formStages.entity.FormStageEntity}
@@ -22,7 +21,7 @@ import java.util.Set;
 public class FormStageDto implements Serializable, MasterDto {
     private Long id;
     private Integer stageOrder;
-    private Set<FormDto> forms;
+    private FormDto form;
     private MenuDto menu;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -33,10 +32,7 @@ public class FormStageDto implements Serializable, MasterDto {
                 "id=" + id +
                 ", menu=" + (menu != null ? menu.getName() : "") +
                 ", order=" + (stageOrder != null ? stageOrder : "") +
-                ", forms=" + (forms != null ? forms.stream()
-                .map(f -> f.getId() != null ? f.getId().toString() : "null")
-                .toList()
-                : "[]") +
+                ", form=" + (form != null ? form.getName() : "null") +
                 ", createdAt=" + (createdAt != null ? createdAt.toString() : "null") +
                 ", updatedAt=" + (updatedAt != null ? updatedAt.toString() : "null") +
                 '}';

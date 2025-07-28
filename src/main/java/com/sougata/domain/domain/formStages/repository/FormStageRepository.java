@@ -10,8 +10,7 @@ import java.util.List;
 @Repository
 public interface FormStageRepository extends JpaRepository<FormStageEntity, Long> {
     @Query("select e from FormStageEntity e " +
-            "join fetch e.forms fe " +
-            "where fe.id = :formId " +
+            "where e.form.id = :formId " +
             "order by e.stageOrder")
     List<FormStageEntity> findByFormId(Long formId);
 }

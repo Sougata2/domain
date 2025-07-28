@@ -26,6 +26,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public List<MenuDto> findAllSubMenus() {
+        List<MenuEntity> entities = repository.findAllSubMenus();
+        return entities.stream().map(e -> (MenuDto) mapper.mapToDto(e)).toList();
+    }
+
+    @Override
     public List<MenuDto> findAllMenus() {
         List<MenuEntity> entities = repository.findAll();
         return entities.stream().map(e -> (MenuDto) mapper.mapToDto(e)).toList();
