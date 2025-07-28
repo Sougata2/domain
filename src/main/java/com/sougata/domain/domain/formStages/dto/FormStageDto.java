@@ -31,8 +31,7 @@ public class FormStageDto implements Serializable, MasterDto {
     public String toString() {
         return "FormStageDto{" +
                 "id=" + id +
-                ", name='" + (name != null ? name : "") + '\'' +
-                ", url='" + (url != null ? url : "") + '\'' +
+                ", menu=" + (menu != null ? menu.getName() : "") +
                 ", order=" + (stageOrder != null ? stageOrder : "") +
                 ", forms=" + (forms != null ? forms.stream()
                 .map(f -> f.getId() != null ? f.getId().toString() : "null")

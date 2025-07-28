@@ -47,6 +47,7 @@ public class FormStageEntity implements MasterEntity {
     public String toString() {
         return "FormStageEntity{" +
                 "id=" + id +
+                "menu=" + (menu != null ? menu.getName() : "") +
                 ", order=" + (stageOrder != null ? stageOrder : "") +
                 ", forms=" + (forms != null ? forms.stream()
                 .map(f -> f.getId() != null ? f.getId().toString() : "null")
