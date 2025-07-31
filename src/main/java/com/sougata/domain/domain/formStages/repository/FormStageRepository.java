@@ -13,4 +13,10 @@ public interface FormStageRepository extends JpaRepository<FormStageEntity, Long
             "where e.form.id = :formId " +
             "order by e.stageOrder")
     List<FormStageEntity> findByFormId(Long formId);
+
+    @Query("select f from ApplicationEntity e " +
+            "left join FormStageEntity f " +
+            "on e.subService.form.id = f.form.id " +
+            "where e.referenceNumber = :referenceNumber")
+    List<FormStageEntity> findByReferenceNumber(String referenceNumber);
 }

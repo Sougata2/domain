@@ -5,6 +5,8 @@ import com.sougata.domain.domain.formStages.dto.FormStageDto;
 import java.util.List;
 
 public interface FormStageService {
+    List<FormStageDto> findByReferenceNumber(String referenceNumber);
+
     List<FormStageDto> findByFormId(Long formId);
 
     FormStageDto findById(Long id);

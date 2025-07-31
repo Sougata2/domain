@@ -27,6 +27,12 @@ public class FormStageServiceImpl implements FormStageService {
 
 
     @Override
+    public List<FormStageDto> findByReferenceNumber(String referenceNumber) {
+        List<FormStageEntity> entities = repository.findByReferenceNumber(referenceNumber);
+        return entities.stream().map(e -> (FormStageDto) mapper.mapToDto(e)).toList();
+    }
+
+    @Override
     public List<FormStageDto> findByFormId(Long formId) {
         try {
             Optional<FormEntity> formEntity = formRepository.findById(formId);

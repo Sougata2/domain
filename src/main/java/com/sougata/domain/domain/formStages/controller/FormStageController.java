@@ -23,6 +23,12 @@ public class FormStageController {
         return ResponseEntity.ok(service.findByFormId(formId));
     }
 
+    @GetMapping("/by-reference-number/{number}")
+    public ResponseEntity<List<FormStageDto>> findByReferenceNumber(@PathVariable(name = "number") String referenceNumber) {
+        logger.info("FormStageController:findByReferenceNumber:{}", referenceNumber);
+        return ResponseEntity.ok(service.findByReferenceNumber(referenceNumber));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<FormStageDto> findById(@PathVariable(name = "id") Long stageId) {
         logger.info("FormStageController:findById:{}", stageId);
