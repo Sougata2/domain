@@ -23,6 +23,9 @@ import java.util.Set;
 public class DeviceDto implements Serializable, MasterDto {
     private Long id;
     private String name;
+    private Long height;
+    private Long weight;
+    private Long length;
     private Set<ActivityEntity> activities;
     private Set<SpecificationEntity> specifications;
     private ApplicationEntity application;
