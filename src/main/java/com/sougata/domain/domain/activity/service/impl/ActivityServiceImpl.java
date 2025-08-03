@@ -8,6 +8,7 @@ import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.subService.entity.SubServiceEntity;
+import com.sougata.domain.subService.repository.SubServiceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository repository;
+    private final SubServiceRepository subServiceRepository;
     private final RelationalMapper mapper;
 
 
@@ -28,6 +30,22 @@ public class ActivityServiceImpl implements ActivityService {
     public List<ActivityDto> findAll() {
         List<ActivityEntity> list = repository.findAll();
         return list.stream().map(e -> (ActivityDto) mapper.mapToDto(e)).toList();
+    }
+
+    @Override
+    public List<ActivityDto> findBySubServiceId(Long subServiceId) {
+        try {
+            Optional<SubServiceEntity> subServiceEntity = subServiceRepository.findById(subServiceId);
+            if (subServiceEntity.isEmpty()) {
+                throw new EntityNotFoundException("Sub Service with id %d Not Found".formatted(subServiceId));
+            }
+            List<ActivityEntity> list = repository.findBySubServiceId(subServiceId);
+            return list.stream().map(e -> (ActivityDto) mapper.mapToDto(e)).toList();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

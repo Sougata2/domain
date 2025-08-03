@@ -7,6 +7,8 @@ import java.util.List;
 public interface ActivityService {
     List<ActivityDto> findAll();
 
+    List<ActivityDto> findBySubServiceId(Long subServiceId);
+
     ActivityDto findById(Long id);
 
     ActivityDto create(ActivityDto dto);

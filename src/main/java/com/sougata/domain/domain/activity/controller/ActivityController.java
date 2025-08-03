@@ -23,6 +23,12 @@ public class ActivityController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @GetMapping("/by-sub-service/{id}")
+    public ResponseEntity<List<ActivityDto>> findBySubServiceId(@PathVariable(value = "id") Long subServiceId) {
+        logger.info("activity.findBySubServiceId : {}", subServiceId);
+        return ResponseEntity.ok(service.findBySubServiceId(subServiceId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDto> findById(@PathVariable Long id) {
         logger.info("findById : id = {}", id);
