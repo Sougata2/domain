@@ -1,13 +1,17 @@
 package com.sougata.domain.domain.devices.service.impl;
 
+import com.sougata.domain.domain.activity.dto.ActivityDto;
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
+import com.sougata.domain.domain.activity.repository.ActivityRepository;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.application.repository.ApplicationRepository;
 import com.sougata.domain.domain.devices.dto.DeviceDto;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.devices.repository.DeviceRepository;
 import com.sougata.domain.domain.devices.service.DeviceService;
+import com.sougata.domain.domain.specification.dto.SpecificationDto;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
+import com.sougata.domain.domain.specification.repository.SpecificationRepository;
 import com.sougata.domain.mapper.RelationalMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +29,8 @@ public class DeviceServiceImpl implements DeviceService {
     private final RelationalMapper mapper;
     private final DeviceRepository repository;
     private final ApplicationRepository applicationRepository;
+    private final ActivityRepository activityRepository;
+    private final SpecificationRepository specificationRepository;
 
     @Override
     public List<DeviceDto> findByReferenceNumber(String referenceNumber) {
@@ -54,9 +61,37 @@ public class DeviceServiceImpl implements DeviceService {
     @Transactional
     public DeviceDto create(DeviceDto dto) {
         try {
+            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(dto.getApplication().getReferenceNumber());
+            if (application.isEmpty()) {
+                throw new EntityNotFoundException("Application with reference number : %s not found".formatted(dto.getApplication().getReferenceNumber()));
+            }
+
+            Set<ActivityEntity> activityEntities = new HashSet<>();
+            for (ActivityDto activity : dto.getActivities()) {
+                Optional<ActivityEntity> activityEntity = activityRepository.findById(activity.getId());
+                if (activityEntity.isEmpty()) {
+                    throw new EntityNotFoundException("Activity with id : %s not found".formatted(activity.getId()));
+                }
+                activityEntities.add(activityEntity.get());
+            }
+
+            Set<SpecificationEntity> specificationEntities = new HashSet<>();
+            for (SpecificationDto specification : dto.getSpecifications()) {
+                Optional<SpecificationEntity> specificationEntity = specificationRepository.findById(specification.getId());
+                if (specificationEntity.isEmpty()) {
+                    throw new EntityNotFoundException("Specification with id : %s not found".formatted(specification.getId()));
+                }
+                specificationEntities.add(specificationEntity.get());
+            }
+
             DeviceEntity entity = (DeviceEntity) mapper.mapToEntity(dto);
+            entity.setApplication(application.get());
+            entity.setActivities(activityEntities);
+            entity.setSpecifications(specificationEntities);
             DeviceEntity saved = repository.save(entity);
             return (DeviceDto) mapper.mapToDto(saved);
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
