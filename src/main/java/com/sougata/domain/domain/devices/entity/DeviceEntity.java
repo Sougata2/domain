@@ -48,6 +48,9 @@ public class DeviceEntity implements MasterEntity {
     @Column
     private String lengthUnit;
 
+    @Column
+    private Long quantity;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "device_activity_map",

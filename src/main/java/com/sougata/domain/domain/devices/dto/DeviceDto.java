@@ -28,6 +28,7 @@ public class DeviceDto implements Serializable, MasterDto {
     private Long weight;
     private String weightUnit;
     private Long length;
+    private Long quantity;
     private String lengthUnit;
     private Set<ActivityDto> activities;
     private Set<SpecificationDto> specifications;
