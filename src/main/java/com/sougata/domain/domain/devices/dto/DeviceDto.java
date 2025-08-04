@@ -1,8 +1,8 @@
 package com.sougata.domain.domain.devices.dto;
 
-import com.sougata.domain.domain.activity.entity.ActivityEntity;
-import com.sougata.domain.domain.application.entity.ApplicationEntity;
-import com.sougata.domain.domain.specification.entity.SpecificationEntity;
+import com.sougata.domain.domain.activity.dto.ActivityDto;
+import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.specification.dto.SpecificationDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,11 +24,14 @@ public class DeviceDto implements Serializable, MasterDto {
     private Long id;
     private String name;
     private Long height;
+    private String heightUnit;
     private Long weight;
+    private String weightUnit;
     private Long length;
-    private Set<ActivityEntity> activities;
-    private Set<SpecificationEntity> specifications;
-    private ApplicationEntity application;
+    private String lengthUnit;
+    private Set<ActivityDto> activities;
+    private Set<SpecificationDto> specifications;
+    private ApplicationDto application;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

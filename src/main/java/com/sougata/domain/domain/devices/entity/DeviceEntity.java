@@ -34,10 +34,19 @@ public class DeviceEntity implements MasterEntity {
     private Long height;
 
     @Column
+    private String heightUnit;
+
+    @Column
     private Long weight;
 
     @Column
+    private String weightUnit;
+
+    @Column
     private Long length;
+
+    @Column
+    private String lengthUnit;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
