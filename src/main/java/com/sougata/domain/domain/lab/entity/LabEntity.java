@@ -27,6 +27,15 @@ public class LabEntity implements MasterEntity {
     @Column
     private String name;
 
+    @Column(columnDefinition = "TEXT")
+    private String address;
+
+    @Column
+    private String email;
+
+    @Column
+    private String phone;
+
     @OneToMany(mappedBy = "lab", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<ApplicationEntity> applications;
 
