@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +34,10 @@ public class SpecificationServiceImpl implements SpecificationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SpecificationDto> findByActivityId(Long id) {
+    public List<SpecificationDto> findByActivityIds(Set<Long> ids) {
         try {
-            Optional<ActivityEntity> activity = activityRepository.findById(id);
-            if (activity.isEmpty()) {
-                throw new EntityNotFoundException("Activity with id %d not found".formatted(id));
-            }
-            List<SpecificationEntity> specifications = repository.findByActivityId(activity.get().getId());
+            List<SpecificationEntity> specifications = repository.findByActivityIds(ids);
             return specifications.stream().map(e -> (SpecificationDto) mapper.mapToDto(e)).toList();
-        } catch (EntityNotFoundException e) {
-            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

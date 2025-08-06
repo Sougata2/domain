@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,10 +24,10 @@ public class SpecificationController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/by-activity-id/{id}")
-    public ResponseEntity<List<SpecificationDto>> findByActivityId(@PathVariable(name = "id") Long activityId) {
-        logger.debug("findByActivityId id: {}", activityId);
-        return ResponseEntity.ok(service.findByActivityId(activityId));
+    @GetMapping("/by-activity-ids")
+    public ResponseEntity<List<SpecificationDto>> findByActivityId(@RequestParam(value = "ids") Set<Long> activityIds) {
+        logger.debug("findByActivityId id: {}", activityIds);
+        return ResponseEntity.ok(service.findByActivityIds(activityIds));
     }
 
     @GetMapping("/{id}")
