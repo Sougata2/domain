@@ -50,4 +50,14 @@ public class DomainExceptionHandler {
         response.timestamp(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.build());
     }
+
+    @ExceptionHandler(MimeTypeNotAllowedException.class)
+    public ResponseEntity<ErrorDto> entityTypeNotAllowedException(MimeTypeNotAllowedException e, HttpServletRequest request) {
+        ErrorDto.ErrorDtoBuilder response = new ErrorDto.ErrorDtoBuilder();
+        response.message(e.getMessage());
+        response.path(request.getRequestURI());
+        response.status(HttpStatus.BAD_REQUEST);
+        response.timestamp(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.build());
+    }
 }
