@@ -12,7 +12,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -29,8 +28,9 @@ public class DocumentEntity implements MasterEntity {
     @Column
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "document")
-    private Set<FileEntity> files;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "file_id")
+    private FileEntity file;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "application")
@@ -47,10 +47,8 @@ public class DocumentEntity implements MasterEntity {
         return "DocumentEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", files=" + (files != null
-                ? files.stream()
-                .map(file -> file != null ? file.getName() : "null")
-                .toList()
+                ", files=" + (file != null
+                ? file.getName()
                 : "null") +
                 ", application=" + (application != null ? application.getId() : "null") +
                 ", createdAt=" + createdAt +
