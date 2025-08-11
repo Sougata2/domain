@@ -8,5 +8,5 @@ import java.io.File;
 public interface FileService {
     FileDto upload(MultipartFile file);
 
-    File download(String checksum);
+    File download(Long id);
 }

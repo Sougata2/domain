@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -73,6 +75,7 @@ public class FileServiceImpl implements FileService {
             fileDto.setName(targetFile.getFileName().toString());
             fileDto.setSize(file.getSize());
             fileDto.setExtension(fileExtension);
+            fileDto.setLocation(targetFile.toString());
 
             return create(fileDto);
         } catch (MimeTypeNotAllowedException e) {
@@ -83,8 +86,17 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File download(String checksum) {
-        return null;
+    public File download(Long id) {
+        try {
+            Optional<FileEntity> entity = repository.findById(id);
+            if (entity.isEmpty()) {
+                throw new FileNotFoundException("FileEntity with %d is not found".formatted(id));
+            }
+            Path filePath = Path.of(entity.get().getLocation());
+            return filePath.toFile();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private FileDto create(FileDto dto) {
