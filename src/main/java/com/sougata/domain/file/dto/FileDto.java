@@ -21,6 +21,7 @@ public class FileDto implements Serializable, MasterDto {
     private String name;
     private String extension;
     private Long size;
+    private String location;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

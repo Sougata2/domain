@@ -32,6 +32,9 @@ public class FileEntity implements MasterEntity {
     @Column
     private Long size;
 
+    @Column
+    private String location;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
