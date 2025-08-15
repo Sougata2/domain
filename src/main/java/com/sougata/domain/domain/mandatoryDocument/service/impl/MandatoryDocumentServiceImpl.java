@@ -1,5 +1,7 @@
 package com.sougata.domain.domain.mandatoryDocument.service.impl;
 
+import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.application.repository.ApplicationRepository;
 import com.sougata.domain.domain.forms.entity.FormEntity;
 import com.sougata.domain.domain.forms.repository.FormRepository;
 import com.sougata.domain.domain.mandatoryDocument.dto.MandatoryDocumentsDto;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MandatoryDocumentServiceImpl implements MandatoryDocumentsService {
+    private final ApplicationRepository applicationRepository;
     private final MandatoryDocumentsRepository repository;
     private final FormRepository formRepository;
     private final RelationalMapper mapper;
@@ -27,6 +30,21 @@ public class MandatoryDocumentServiceImpl implements MandatoryDocumentsService {
         try {
             List<MandatoryDocumentsEntity> entities = repository.findAll();
             return entities.stream().map(e -> (MandatoryDocumentsDto) mapper.mapToDto(e)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<MandatoryDocumentsDto> findByReferenceNumber(String referenceNumber) {
+        try {
+            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(referenceNumber);
+            if (application.isEmpty()) {
+                throw new EntityNotFoundException("Application with reference number %s not found".formatted(referenceNumber));
+            }
+            return findByFormId(application.get().getSubService().getForm().getId());
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

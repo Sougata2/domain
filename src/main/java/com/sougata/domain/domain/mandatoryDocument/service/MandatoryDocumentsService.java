@@ -7,6 +7,8 @@ import java.util.List;
 public interface MandatoryDocumentsService {
     List<MandatoryDocumentsDto> findAll();
 
+    List<MandatoryDocumentsDto> findByReferenceNumber(String referenceNumber);
+
     List<MandatoryDocumentsDto> findByFormId(Long formId);
 
     MandatoryDocumentsDto findById(Long id);

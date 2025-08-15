@@ -23,6 +23,12 @@ public class MandatoryDocumentController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @GetMapping("/by-reference-number/{id}")
+    public ResponseEntity<List<MandatoryDocumentsDto>> getByReferenceNumber(@PathVariable(value = "id") String referenceNumber) {
+        logger.info("mandatoryDocument.getByReferenceNumber : {}", referenceNumber);
+        return ResponseEntity.ok(service.findByReferenceNumber(referenceNumber));
+    }
+
     @GetMapping("/by-form-id/{id}")
     public ResponseEntity<List<MandatoryDocumentsDto>> getByFormId(@PathVariable(value = "id") Long formId) {
         logger.info("mandatoryDocument.getByFormId : {}", formId);
