@@ -5,6 +5,8 @@ import com.sougata.domain.domain.mandatoryDocument.dto.MandatoryDocumentsDto;
 import java.util.List;
 
 public interface MandatoryDocumentsService {
+    List<MandatoryDocumentsDto> findAll();
+
     List<MandatoryDocumentsDto> findByFormId(Long formId);
 
     MandatoryDocumentsDto findById(Long id);

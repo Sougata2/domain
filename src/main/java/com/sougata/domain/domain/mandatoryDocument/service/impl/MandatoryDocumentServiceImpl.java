@@ -23,6 +23,16 @@ public class MandatoryDocumentServiceImpl implements MandatoryDocumentsService {
     private final RelationalMapper mapper;
 
     @Override
+    public List<MandatoryDocumentsDto> findAll() {
+        try {
+            List<MandatoryDocumentsEntity> entities = repository.findAll();
+            return entities.stream().map(e -> (MandatoryDocumentsDto) mapper.mapToDto(e)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<MandatoryDocumentsDto> findByFormId(Long formId) {
         try {
             Optional<FormEntity> form = formRepository.findById(formId);
@@ -99,10 +109,6 @@ public class MandatoryDocumentServiceImpl implements MandatoryDocumentsService {
     @Transactional
     public MandatoryDocumentsDto delete(MandatoryDocumentsDto dto) {
         try {
-            Optional<FormEntity> form = formRepository.findById(dto.getForm().getId());
-            if (form.isEmpty()) {
-                throw new EntityNotFoundException("Form Entity with Id %d not found".formatted(dto.getForm().getId()));
-            }
             Optional<MandatoryDocumentsEntity> og = repository.findById(dto.getId());
             if (og.isEmpty()) {
                 throw new EntityNotFoundException("Mandatory Document Entity with Id %d not found".formatted(dto.getId()));

@@ -17,6 +17,12 @@ public class MandatoryDocumentController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MandatoryDocumentsService service;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<MandatoryDocumentsDto>> findAll() {
+        logger.info("mandatoryDocument.findAll()");
+        return ResponseEntity.ok(service.findAll());
+    }
+
     @GetMapping("/by-form-id/{id}")
     public ResponseEntity<List<MandatoryDocumentsDto>> getByFormId(@PathVariable(value = "id") Long formId) {
         logger.info("mandatoryDocument.getByFormId : {}", formId);
