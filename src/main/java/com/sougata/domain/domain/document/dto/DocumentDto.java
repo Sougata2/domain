@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.document.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.mandatoryDocument.dto.MandatoryDocumentsDto;
 import com.sougata.domain.file.dto.FileDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class DocumentDto implements Serializable, MasterDto {
     private String name;
     private FileDto file;
     private ApplicationDto application;
+    private MandatoryDocumentsDto mandatoryDocument;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

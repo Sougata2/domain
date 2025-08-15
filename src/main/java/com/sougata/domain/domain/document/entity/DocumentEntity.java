@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.document.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
 import com.sougata.domain.file.entity.FileEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -33,8 +34,12 @@ public class DocumentEntity implements MasterEntity {
     private FileEntity file;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "application")
+    @JoinColumn(name = "application_id")
     private ApplicationEntity application;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "mandatory_document_id")
+    private MandatoryDocumentsEntity mandatoryDocument;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
