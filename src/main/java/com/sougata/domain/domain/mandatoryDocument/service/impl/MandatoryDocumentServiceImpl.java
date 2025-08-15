@@ -96,7 +96,7 @@ public class MandatoryDocumentServiceImpl implements MandatoryDocumentsService {
             }
             MandatoryDocumentsEntity nu = (MandatoryDocumentsEntity) mapper.mapToEntity(dto);
             MandatoryDocumentsEntity merged = (MandatoryDocumentsEntity) mapper.merge(nu, og.get());
-            MandatoryDocumentsEntity saved = (MandatoryDocumentsEntity) repository.save(merged);
+            MandatoryDocumentsEntity saved = repository.save(merged);
             return (MandatoryDocumentsDto) mapper.mapToDto(saved);
         } catch (EntityNotFoundException e) {
             throw e;
