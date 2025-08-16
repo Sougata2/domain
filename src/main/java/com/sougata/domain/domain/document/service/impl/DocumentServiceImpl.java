@@ -6,6 +6,8 @@ import com.sougata.domain.domain.document.dto.DocumentDto;
 import com.sougata.domain.domain.document.entity.DocumentEntity;
 import com.sougata.domain.domain.document.repository.DocumentRepository;
 import com.sougata.domain.domain.document.service.DocumentService;
+import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
+import com.sougata.domain.domain.mandatoryDocument.repository.MandatoryDocumentsRepository;
 import com.sougata.domain.file.entity.FileEntity;
 import com.sougata.domain.file.repository.FileRepository;
 import com.sougata.domain.mapper.RelationalMapper;
@@ -20,6 +22,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
+    private final MandatoryDocumentsRepository mandatoryDocumentsRepository;
     private final ApplicationRepository applicationRepository;
     private final FileRepository fileRepository;
     private final DocumentRepository repository;
@@ -68,11 +71,22 @@ public class DocumentServiceImpl implements DocumentService {
             if (fileEntity.isEmpty()) {
                 throw new EntityNotFoundException("File with id %d is not found".formatted(dto.getFile().getId()));
             }
+
+
             DocumentEntity entity = (DocumentEntity) mapper.mapToEntity(dto);
 
             // attaching the relations
             entity.setApplication(application.get());
             entity.setFile(fileEntity.get());
+
+            // attaching mandatory document if it is not null
+            if (dto.getMandatoryDocument() != null) {
+                Optional<MandatoryDocumentsEntity> mandatoryDocument = mandatoryDocumentsRepository.findById(dto.getMandatoryDocument().getId());
+                if (mandatoryDocument.isEmpty()) {
+                    throw new EntityNotFoundException("Mandatory document with Id %d not found".formatted(dto.getMandatoryDocument().getId()));
+                }
+                entity.setMandatoryDocument(mandatoryDocument.get());
+            }
 
             DocumentEntity saved = repository.save(entity);
             return (DocumentDto) mapper.mapToDto(saved);
@@ -87,21 +101,9 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public DocumentDto update(DocumentDto dto) {
         try {
-            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(dto.getApplication().getReferenceNumber());
-            if (application.isEmpty()) {
-                throw new EntityNotFoundException("Application Entity with reference number %s is not found".formatted(dto.getApplication().getReferenceNumber()));
-            }
-            Optional<FileEntity> fileEntity = fileRepository.findById(dto.getFile().getId());
-            if (fileEntity.isEmpty()) {
-                throw new EntityNotFoundException("File with id %d is not found".formatted(dto.getFile().getId()));
-            }
-
-            Optional<DocumentEntity> og = repository.findById(dto.getId());
-            if (og.isEmpty()) {
-                throw new EntityNotFoundException("Document Entity with id %d is not found".formatted(dto.getId()));
-            }
+            DocumentEntity og = validateRelations(dto);
             DocumentEntity nu = (DocumentEntity) mapper.mapToEntity(dto);
-            DocumentEntity merged = (DocumentEntity) mapper.merge(nu, og.get());
+            DocumentEntity merged = (DocumentEntity) mapper.merge(nu, og);
             DocumentEntity saved = repository.save(merged);
             return (DocumentDto) mapper.mapToDto(saved);
         } catch (EntityNotFoundException e) {
@@ -111,38 +113,60 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
 
+
     @Override
     @Transactional
     public DocumentDto delete(DocumentDto dto) {
         try {
-            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(dto.getApplication().getReferenceNumber());
-            if (application.isEmpty()) {
-                throw new EntityNotFoundException("Application Entity with reference number %s is not found".formatted(dto.getApplication().getReferenceNumber()));
-            }
-            Optional<FileEntity> fileEntity = fileRepository.findById(dto.getFile().getId());
-            if (fileEntity.isEmpty()) {
-                throw new EntityNotFoundException("File with id %d is not found".formatted(dto.getFile().getId()));
-            }
-            Optional<DocumentEntity> og = repository.findById(dto.getId());
-            if (og.isEmpty()) {
-                throw new EntityNotFoundException("Document Entity with id %d is not found".formatted(dto.getId()));
-            }
+            DocumentEntity og = validateRelations(dto);
 
             // detach relations
-            if (og.get().getApplication() != null) {
-                og.get().getApplication().getDocuments().remove(og.get());
-                og.get().setApplication(null);
-            }
-            if (og.get().getFile() != null) {
-                og.get().setFile(null);
+            if (og.getApplication() != null) {
+                og.getApplication().getDocuments().remove(og);
+                og.setApplication(null);
             }
 
-            repository.delete(og.get());
+            if (og.getFile() != null) {
+                og.setFile(null);
+            }
+
+            if (og.getMandatoryDocument() != null) {
+                og.setMandatoryDocument(null);
+            }
+
+            repository.delete(og);
             return dto;
         } catch (EntityNotFoundException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private DocumentEntity validateRelations(DocumentDto dto) {
+        if (dto.getApplication() != null) {
+            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(dto.getApplication().getReferenceNumber());
+            if (application.isEmpty()) {
+                throw new EntityNotFoundException("Application Entity with reference number %s is not found".formatted(dto.getApplication().getReferenceNumber()));
+            }
+        }
+        Optional<FileEntity> fileEntity = fileRepository.findById(dto.getFile().getId());
+        if (fileEntity.isEmpty()) {
+            throw new EntityNotFoundException("File with id %d is not found".formatted(dto.getFile().getId()));
+        }
+
+        Optional<DocumentEntity> og = repository.findById(dto.getId());
+        if (og.isEmpty()) {
+            throw new EntityNotFoundException("Document Entity with id %d is not found".formatted(dto.getId()));
+        }
+
+        if (dto.getMandatoryDocument() != null) {
+            Optional<MandatoryDocumentsEntity> mandatoryDocument = mandatoryDocumentsRepository.findById(dto.getMandatoryDocument().getId());
+            if (mandatoryDocument.isEmpty()) {
+                throw new EntityNotFoundException("Mandatory document with Id %d not found".formatted(dto.getMandatoryDocument().getId()));
+            }
+        }
+
+        return og.get();
     }
 }

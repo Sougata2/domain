@@ -37,7 +37,7 @@ public class DocumentEntity implements MasterEntity {
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "mandatory_document_id")
     private MandatoryDocumentsEntity mandatoryDocument;
 
