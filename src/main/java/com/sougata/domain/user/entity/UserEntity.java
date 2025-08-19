@@ -48,8 +48,11 @@ public class UserEntity implements MasterEntity {
     @JoinColumn(name = "default_role_id")
     private RoleEntity defaultRole;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "applicant")
     private Set<ApplicationEntity> applications;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "assignee")
+    private Set<ApplicationEntity> assignments;
 
     @Override
     public String toString() {

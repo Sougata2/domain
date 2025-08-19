@@ -53,12 +53,12 @@ public class ApplicationController {
     @GetMapping("/by-status-and-user-id")
     public ResponseEntity<Page<ApplicationDto>> findByStatusAndUserId(
             @RequestParam(defaultValue = "AG") String status,
-            @RequestParam(value = "user") Long userId,
+            @RequestParam(value = "user") Long applicantId,
             Pageable pageable
     ) {
-        logger.info("findBy Status: {}, UserId: {} And Pageable: {}", userId, status, pageable);
+        logger.info("findBy Status: {}, UserId: {} And Pageable: {}", applicantId, status, pageable);
         try {
-            return ResponseEntity.ok(service.findByStatusNameAndUserId(status, userId, pageable));
+            return ResponseEntity.ok(service.findByStatusNameAndApplicantId(status, applicantId, pageable));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

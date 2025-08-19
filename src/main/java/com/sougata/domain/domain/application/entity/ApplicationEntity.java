@@ -46,8 +46,12 @@ public class ApplicationEntity implements MasterEntity {
     private String referenceNumber;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @JoinColumn(name = "assignee_id")
+    private UserEntity assignee;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "applicant_id")
+    private UserEntity applicant;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "service_id", nullable = false)
@@ -85,7 +89,7 @@ public class ApplicationEntity implements MasterEntity {
         return "ApplicationEntity{" +
                 "Id='" + id + '\'' +
                 ", referenceNumber='" + referenceNumber + '\'' +
-                ", user=" + (user != null ? user.getFirstName() + " " + user.getLastName() : "null") +
+                ", applicant=" + (applicant != null ? applicant.getFirstName() + " " + applicant.getLastName() : "null") +
                 ", service=" + (service != null ? service.getName() : "null") +
                 ", subService=" + (subService != null ? subService.getName() : "null") +
                 ", lab=" + (lab != null ? lab.getName() : "null") +

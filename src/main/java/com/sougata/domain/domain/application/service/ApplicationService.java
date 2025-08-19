@@ -13,7 +13,7 @@ public interface ApplicationService {
 
     ApplicationDto findByReferenceNumber(String applicationId);
 
-    Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, Pageable pageable);
+    Page<ApplicationDto> findByStatusNameAndApplicantId(String statusName, Long userId, Pageable pageable);
 
     ApplicationDto create(ApplicationDto dto) throws Exception;
 

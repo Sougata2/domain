@@ -64,8 +64,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Page<ApplicationDto> findByStatusNameAndUserId(String statusName, Long userId, Pageable pageable) {
-        Page<ApplicationEntity> entityPage = repository.findByStatusNameAndUserId(statusName, userId, pageable);
+    public Page<ApplicationDto> findByStatusNameAndApplicantId(String statusName, Long applicantId, Pageable pageable) {
+        Page<ApplicationEntity> entityPage = repository.findByStatusNameAndApplicantId(statusName, applicantId, pageable);
         List<ApplicationDto> dtoList = entityPage.stream().map(e -> (ApplicationDto) mapper.mapToDto(e)).toList();
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
@@ -89,12 +89,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         entity.setSubService(subServiceEntity.get());
 
-        // set the reference of user
+        // set the reference of applicant/assignee
         Optional<UserEntity> userEntity = userRepository.findById(dto.getUser().getId());
         if (userEntity.isEmpty()) {
             throw new EntityNotFoundException("User with id %d not found".formatted(dto.getUser().getId()));
         }
-        entity.setUser(userEntity.get());
+        entity.setApplicant(userEntity.get());
+        entity.setAssignee(userEntity.get());
+
 
         // set the reference of status
         Optional<StatusEntity> statusEntity = statusRepository.findById(dto.getStatus().getId());
@@ -134,8 +136,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         // detach relations
-        if (og.get().getUser() != null) {
-            og.get().setUser(null);
+        if (og.get().getApplicant() != null) {
+            og.get().setApplicant(null);
+        }
+        if (og.get().getAssignee() != null) {
+            og.get().setAssignee(null);
         }
 
         if (og.get().getService() != null) {
