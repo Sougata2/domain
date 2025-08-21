@@ -27,4 +27,5 @@ public class UserDto implements Serializable, MasterDto {
     private Set<RoleDto> roles;
     private RoleDto defaultRole;
     private Set<ApplicationDto> applications;
+    private Set<ApplicationDto> assignments;
 }
