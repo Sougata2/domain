@@ -90,9 +90,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         entity.setSubService(subServiceEntity.get());
 
         // set the reference of applicant/assignee
-        Optional<UserEntity> userEntity = userRepository.findById(dto.getUser().getId());
+        Optional<UserEntity> userEntity = userRepository.findById(dto.getApplicant().getId());
         if (userEntity.isEmpty()) {
-            throw new EntityNotFoundException("User with id %d not found".formatted(dto.getUser().getId()));
+            throw new EntityNotFoundException("User with id %d not found".formatted(dto.getApplicant().getId()));
         }
         entity.setApplicant(userEntity.get());
         entity.setAssignee(userEntity.get());
