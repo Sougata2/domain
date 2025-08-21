@@ -1,5 +1,7 @@
 package com.sougata.domain.user.service.impl;
 
+import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.role.entity.RoleEntity;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -76,6 +79,42 @@ public class UserServiceImpl implements UserService {
         if (user.getDefaultRole() != null) {
             user.getDefaultRole().getDefaultRoleUsers().remove(user);
             user.setDefaultRole(null);
+        }
+
+        if (!user.getApplications().isEmpty()) {
+            for (ApplicationEntity application : user.getApplications()) {
+                if (Objects.equals(application.getApplicant().getId(), user.getId())) {
+                    application.setApplicant(null);
+                }
+            }
+            user.setApplications(new HashSet<>());
+        }
+
+        if (!user.getAssignments().isEmpty()) {
+            for (ApplicationEntity application : user.getAssignments()) {
+                if (application.getAssignee().getId().equals(user.getId())) {
+                    application.setAssignee(null);
+                }
+            }
+            user.setAssignments(new HashSet<>());
+        }
+
+        if (!user.getWorkFlowListForAssignee().isEmpty()) {
+            for (WorkFlowEntity workFlow : user.getWorkFlowListForAssignee()) {
+                if (workFlow.getAssignee().getId().equals(user.getId())) {
+                    workFlow.setAssignee(null);
+                }
+            }
+            user.setWorkFlowListForAssignee(new HashSet<>());
+        }
+
+        if (!user.getWorkFlowListForAssigner().isEmpty()) {
+            for (WorkFlowEntity workFlow : user.getWorkFlowListForAssigner()) {
+                if (workFlow.getAssigner().getId().equals(user.getId())) {
+                    workFlow.setAssigner(null);
+                }
+            }
+            user.setWorkFlowListForAssigner(new HashSet<>());
         }
 
 

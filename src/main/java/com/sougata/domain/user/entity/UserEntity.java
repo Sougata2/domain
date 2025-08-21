@@ -1,6 +1,7 @@
 package com.sougata.domain.user.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -48,11 +49,17 @@ public class UserEntity implements MasterEntity {
     @JoinColumn(name = "default_role_id")
     private RoleEntity defaultRole;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "applicant")
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "applicant")
     private Set<ApplicationEntity> applications;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "assignee")
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "assignee")
     private Set<ApplicationEntity> assignments;
+
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "assigner")
+    private Set<WorkFlowEntity> workFlowListForAssigner;
+
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "assignee")
+    private Set<WorkFlowEntity> workFlowListForAssignee;
 
     @Override
     public String toString() {
