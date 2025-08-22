@@ -1,7 +1,7 @@
 package com.sougata.domain.user.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
-import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
+import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -56,10 +56,10 @@ public class UserEntity implements MasterEntity {
     private Set<ApplicationEntity> assignments;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "assigner")
-    private Set<WorkFlowEntity> workFlowListForAssigner;
+    private Set<WorkFlowHistoryEntity> workFlowHistoryForAssigner;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "assignee")
-    private Set<WorkFlowEntity> workFlowListForAssignee;
+    private Set<WorkFlowHistoryEntity> workFlowHistoryForAssignee;
 
     @Override
     public String toString() {

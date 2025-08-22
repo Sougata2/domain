@@ -1,7 +1,7 @@
 package com.sougata.domain.user.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
-import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
+import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.role.entity.RoleEntity;
@@ -99,22 +99,22 @@ public class UserServiceImpl implements UserService {
             user.setAssignments(new HashSet<>());
         }
 
-        if (!user.getWorkFlowListForAssignee().isEmpty()) {
-            for (WorkFlowEntity workFlow : user.getWorkFlowListForAssignee()) {
+        if (!user.getWorkFlowHistoryForAssignee().isEmpty()) {
+            for (WorkFlowHistoryEntity workFlow : user.getWorkFlowHistoryForAssignee()) {
                 if (workFlow.getAssignee().getId().equals(user.getId())) {
                     workFlow.setAssignee(null);
                 }
             }
-            user.setWorkFlowListForAssignee(new HashSet<>());
+            user.setWorkFlowHistoryForAssignee(new HashSet<>());
         }
 
-        if (!user.getWorkFlowListForAssigner().isEmpty()) {
-            for (WorkFlowEntity workFlow : user.getWorkFlowListForAssigner()) {
+        if (!user.getWorkFlowHistoryForAssigner().isEmpty()) {
+            for (WorkFlowHistoryEntity workFlow : user.getWorkFlowHistoryForAssigner()) {
                 if (workFlow.getAssigner().getId().equals(user.getId())) {
                     workFlow.setAssigner(null);
                 }
             }
-            user.setWorkFlowListForAssigner(new HashSet<>());
+            user.setWorkFlowHistoryForAssigner(new HashSet<>());
         }
 
 

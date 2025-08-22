@@ -10,7 +10,7 @@ import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.services.repository.ServiceRepository;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
-import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
+import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.subService.repository.SubServiceRepository;
@@ -180,11 +180,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             og.get().setStatus(null);
         }
 
-        if (!og.get().getWorkFlows().isEmpty()) {
-            for (WorkFlowEntity workflow : og.get().getWorkFlows()) {
+        if (!og.get().getWorkFlowHistory().isEmpty()) {
+            for (WorkFlowHistoryEntity workflow : og.get().getWorkFlowHistory()) {
                 workflow.setApplication(null);
             }
-            og.get().setWorkFlows(new HashSet<>());
+            og.get().setWorkFlowHistory(new HashSet<>());
         }
 
         repository.delete(og.get());

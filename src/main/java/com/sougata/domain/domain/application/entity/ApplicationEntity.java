@@ -6,7 +6,7 @@ import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.quotation.entity.QuotationEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.status.entity.StatusEntity;
-import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
+import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.user.entity.UserEntity;
@@ -80,7 +80,7 @@ public class ApplicationEntity implements MasterEntity {
     private StatusEntity status;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "application")
-    private Set<WorkFlowEntity> workFlows;
+    private Set<WorkFlowHistoryEntity> workFlowHistory;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

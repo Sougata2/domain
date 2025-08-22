@@ -1,7 +1,7 @@
 package com.sougata.domain.domain.status.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
-import com.sougata.domain.domain.workflow.dto.WorkFlowDto;
+import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +24,6 @@ public class StatusDto implements Serializable, MasterDto {
     private String name;
     private String description;
     private Set<ApplicationDto> applications;
-    private Set<WorkFlowDto> workFlows;
+    private Set<WorkFlowHistoryDto> workFlows;
     private LocalDateTime createdAt;
 }

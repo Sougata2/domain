@@ -1,7 +1,7 @@
 package com.sougata.domain.domain.status.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
-import com.sougata.domain.domain.workflow.entity.WorkFlowEntity;
+import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,7 +35,7 @@ public class StatusEntity implements MasterEntity {
     private Set<ApplicationEntity> applications;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
-    private Set<WorkFlowEntity> workFlows;
+    private Set<WorkFlowHistoryEntity> workFlowHistory;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

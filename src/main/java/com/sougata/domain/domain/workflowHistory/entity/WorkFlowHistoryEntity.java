@@ -1,4 +1,4 @@
-package com.sougata.domain.domain.workflow.entity;
+package com.sougata.domain.domain.workflowHistory.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.status.entity.StatusEntity;
@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "workflows")
-public class WorkFlowEntity implements MasterEntity {
+@Table(name = "workflow_history")
+public class WorkFlowHistoryEntity implements MasterEntity {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)

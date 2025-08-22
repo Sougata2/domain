@@ -6,7 +6,7 @@ import com.sougata.domain.domain.lab.dto.LabDto;
 import com.sougata.domain.domain.quotation.dto.QuotationDto;
 import com.sougata.domain.domain.services.dto.ServiceDto;
 import com.sougata.domain.domain.status.dto.StatusDto;
-import com.sougata.domain.domain.workflow.dto.WorkFlowDto;
+import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.user.dto.UserDto;
@@ -38,7 +38,7 @@ public class ApplicationDto implements Serializable, MasterDto {
     private Set<DocumentDto> documents;
     private QuotationDto quotation;
     private StatusDto status;
-    private Set<WorkFlowDto> workFlows;
+    private Set<WorkFlowHistoryDto> workFlowHistory;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

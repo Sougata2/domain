@@ -1,6 +1,7 @@
 package com.sougata.domain.user.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -28,4 +29,6 @@ public class UserDto implements Serializable, MasterDto {
     private RoleDto defaultRole;
     private Set<ApplicationDto> applications;
     private Set<ApplicationDto> assignments;
+    private Set<WorkFlowHistoryDto> workFlowHistoryForAssigner;
+    private Set<WorkFlowHistoryDto> workFlowHistoryForAssignee;
 }

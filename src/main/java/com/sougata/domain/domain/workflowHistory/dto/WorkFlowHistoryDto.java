@@ -1,7 +1,8 @@
-package com.sougata.domain.domain.workflow.dto;
+package com.sougata.domain.domain.workflowHistory.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.status.dto.StatusDto;
+import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
@@ -13,13 +14,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * DTO for {@link com.sougata.domain.domain.workflow.entity.WorkFlowEntity}
+ * DTO for {@link WorkFlowHistoryEntity}
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkFlowDto implements Serializable, MasterDto {
+public class WorkFlowHistoryDto implements Serializable, MasterDto {
     private Long id;
     private ApplicationDto application;
     private UserDto assigner;
