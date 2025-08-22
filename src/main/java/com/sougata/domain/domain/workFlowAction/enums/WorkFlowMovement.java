@@ -1,4 +1,4 @@
-package com.sougata.domain.domain.workFlow.enums;
+package com.sougata.domain.domain.workFlowAction.enums;
 
 public enum WorkFlowMovement {
     PROGRESSIVE,

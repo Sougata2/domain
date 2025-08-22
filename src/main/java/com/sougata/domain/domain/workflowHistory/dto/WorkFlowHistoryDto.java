@@ -2,7 +2,7 @@ package com.sougata.domain.domain.workflowHistory.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.status.dto.StatusDto;
-import com.sougata.domain.domain.workFlow.enums.WorkFlowMovement;
+import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
