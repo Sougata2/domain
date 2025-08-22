@@ -2,6 +2,8 @@ package com.sougata.domain.domain.workflowHistory.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.status.entity.StatusEntity;
+import com.sougata.domain.domain.workFlow.enums.WorkFlowMovement;
+import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -41,6 +43,24 @@ public class WorkFlowHistoryEntity implements MasterEntity {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "status_id")
     private StatusEntity status;
+
+    /**
+     * <h1>NOTE</h1>
+     * <p>NOT TO BE UPDATED OR PERSISTED</p>
+     *
+     */
+    @Transient
+    @Enumerated(EnumType.STRING)
+    private WorkFlowMovement movement;
+
+    /**
+     * <h1>NOTE</h1>
+     * <p>FOR SEARCHING THE ASSIGNEE BY ROLE WHEN MOVEMENT IS REGRESSIVE/PROGRESSIVE_ONE</p>
+     *
+     */
+    @Transient
+    private RoleEntity targetRole;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;
