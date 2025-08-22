@@ -24,6 +24,6 @@ public class StatusDto implements Serializable, MasterDto {
     private String name;
     private String description;
     private Set<ApplicationDto> applications;
-    private Set<WorkFlowHistoryDto> workFlows;
+    private Set<WorkFlowHistoryDto> workFlowHistory;
     private LocalDateTime createdAt;
 }
