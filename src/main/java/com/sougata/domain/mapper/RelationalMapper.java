@@ -1,5 +1,6 @@
 package com.sougata.domain.mapper;
 
+import com.sougata.domain.domain.workFlow.enums.WorkFlowMovement;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.EntityManager;
@@ -307,7 +308,8 @@ public class RelationalMapper {
                 !Double.class.isAssignableFrom(f.getType()) && !Boolean.class.isAssignableFrom(f.getType()) &&
                 !Float.class.isAssignableFrom(f.getType()) && !String.class.isAssignableFrom(f.getType()) &&
                 !LocalDateTime.class.isAssignableFrom(f.getType()) && !Timestamp.class.isAssignableFrom(f.getType()) &&
-                !Date.class.isAssignableFrom(f.getType()) && !Enum.class.isAssignableFrom(f.getType());
+                !Date.class.isAssignableFrom(f.getType()) && !Enum.class.isAssignableFrom(f.getType()) &&
+                !WorkFlowMovement.class.isAssignableFrom(f.getType());
     }
 
     private Field getDeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
