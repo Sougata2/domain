@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "left join ue.defaultRole re " +
             "where ue.id = :userId")
     RoleEntity findDefaultRoleForUser(Long userId);
+
+    @Query("select e from UserEntity e where e.defaultRole.id = :defaultRoleId")
+    Optional<UserEntity> findByDefaultRoleId(Long defaultRoleId);
 }
