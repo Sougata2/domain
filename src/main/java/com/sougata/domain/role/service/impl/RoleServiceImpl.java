@@ -1,5 +1,6 @@
 package com.sougata.domain.role.service.impl;
 
+import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.role.dto.RoleDto;
@@ -74,6 +75,15 @@ public class RoleServiceImpl implements RoleService {
                     user.setDefaultRole(null);
                 }
             }
+        }
+
+        if (!og.get().getActions().isEmpty()) {
+            for (WorkFlowActionEntity action : og.get().getActions()) {
+                if (action.getTargetRole().getId().equals(og.get().getId())) {
+                    action.setTargetRole(null);
+                }
+            }
+            og.get().setActions(new HashSet<>());
         }
 
         repository.delete(og.get());

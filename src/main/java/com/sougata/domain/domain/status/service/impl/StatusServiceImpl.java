@@ -5,6 +5,7 @@ import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
 import com.sougata.domain.domain.status.service.StatusService;
+import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.mapper.Mapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -80,6 +81,20 @@ public class StatusServiceImpl implements StatusService {
                 workFlow.setStatus(null);
             }
             entity.get().setWorkFlowHistory(new HashSet<>());
+        }
+
+        if (!entity.get().getActions().isEmpty()) {
+            for (WorkFlowActionEntity action : entity.get().getActions()) {
+                action.setStatus(null);
+            }
+            entity.get().setActions(new HashSet<>());
+        }
+
+        if (!entity.get().getTargetStatusActions().isEmpty()) {
+            for (WorkFlowActionEntity action : entity.get().getTargetStatusActions()) {
+                action.setTargetStatus(null);
+            }
+            entity.get().setTargetStatusActions(new HashSet<>());
         }
 
         repository.delete(entity.get());

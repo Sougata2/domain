@@ -1,5 +1,6 @@
 package com.sougata.domain.role.entity;
 
+import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.user.entity.UserEntity;
@@ -35,6 +36,9 @@ public class RoleEntity implements MasterEntity {
 
     @OneToMany(mappedBy = "defaultRole", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Set<UserEntity> defaultRoleUsers;
+
+    @OneToMany(mappedBy = "targetRole", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    private Set<WorkFlowActionEntity> actions;
 
 
     @Override

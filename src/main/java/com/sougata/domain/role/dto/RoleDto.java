@@ -1,6 +1,7 @@
 package com.sougata.domain.role.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.user.dto.UserDto;
@@ -23,6 +24,7 @@ public class RoleDto implements Serializable, MasterDto {
     private Long id;
     private String name;
     private Set<MenuDto> menus;
+    private Set<WorkFlowActionDto> actions;
     @JsonIgnore
     private Set<UserDto> users;
     @JsonIgnore
