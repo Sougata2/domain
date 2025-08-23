@@ -24,6 +24,8 @@ import com.sougata.domain.domain.specification.dto.SpecificationDto;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
+import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
+import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.file.dto.FileDto;
@@ -68,7 +70,8 @@ public class EntityDtoMapping {
                 Map.entry(StatusEntity.class, StatusDto.class),
                 Map.entry(FileEntity.class, FileDto.class),
                 Map.entry(FormStageEntity.class, FormStageDto.class),
-                Map.entry(WorkFlowHistoryEntity.class, WorkFlowHistoryDto.class)
+                Map.entry(WorkFlowHistoryEntity.class, WorkFlowHistoryDto.class),
+                Map.entry(WorkFlowActionEntity.class, WorkFlowActionDto.class)
         );
 
         dtoToEntityMap = Map.ofEntries(
@@ -89,7 +92,8 @@ public class EntityDtoMapping {
                 Map.entry(StatusDto.class, StatusEntity.class),
                 Map.entry(FileDto.class, FileEntity.class),
                 Map.entry(FormStageDto.class, FormStageEntity.class),
-                Map.entry(WorkFlowHistoryDto.class, WorkFlowHistoryEntity.class)
+                Map.entry(WorkFlowHistoryDto.class, WorkFlowHistoryEntity.class),
+                Map.entry(WorkFlowActionDto.class, WorkFlowActionEntity.class)
         );
     }
 }
