@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.workFlowAction.controller;
 
+import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,12 @@ public class WorkFlowActionController {
     public ResponseEntity<WorkFlowActionDto> findById(@PathVariable(value = "id") Long actionId) {
         logger.info("workFlowAction.findById : {}", actionId);
         return ResponseEntity.ok(service.findById(actionId));
+    }
+
+    @GetMapping("/find-target-status/{id}")
+    public ResponseEntity<List<StatusDto>> findTargetStatusByCurrentStatus(@PathVariable(value = "id") Long statusId) {
+        logger.info("workFlowAction.findTargetStatusByCurrentStatus : {}", statusId);
+        return ResponseEntity.ok(service.findTargetStatusByCurrentStatus(statusId));
     }
 
     @PostMapping

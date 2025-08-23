@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.workFlowAction.service.impl;
 
+import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
@@ -49,6 +50,22 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
     }
 
     @Override
+    public List<StatusDto> findTargetStatusByCurrentStatus(Long statusId) {
+        try {
+            Optional<StatusEntity> status = statusRepository.findById(statusId);
+            if (status.isEmpty()) {
+                throw new EntityNotFoundException("Status entity with id %d not found".formatted(statusId));
+            }
+            List<StatusEntity> entities = repository.findTargetStatusByCurrentStatus(status.get().getId());
+            return entities.stream().map(e -> (StatusDto) mapper.mapToDto(e)).toList();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public WorkFlowActionDto findById(Long id) {
         try {
             Optional<WorkFlowActionEntity> entity = repository.findById(id);
@@ -86,7 +103,7 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
                 throw new EntityNotFoundException("Movement %s not found".formatted(dto.getMovement()));
             }
 
-            WorkFlowActionEntity entity = new WorkFlowActionEntity();
+            WorkFlowActionEntity entity = (WorkFlowActionEntity) mapper.mapToEntity(dto);
             entity.setStatus(status.get());
             entity.setTargetRole(targetRole.get());
             entity.setTargetStatus(targetStatus.get());
