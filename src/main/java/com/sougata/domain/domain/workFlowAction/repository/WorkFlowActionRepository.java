@@ -14,8 +14,10 @@ public interface WorkFlowActionRepository extends JpaRepository<WorkFlowActionEn
 
 
     @Query("select e from StatusEntity e " +
-            "left join WorkFlowActionEntity f " +
-            "on f.targetStatus.id = e.id " +
-            "where f.targetStatus.id is null and e.id  != :statusId")
+            "where e.id != :statusId and e.id not in ( " +
+            "select f.targetStatus.id from WorkFlowActionEntity f " +
+            "where f.status.id = :statusId " +
+            ") " +
+            "order by e.id")
     List<StatusEntity> findTargetStatusByCurrentStatus(Long statusId);
 }
