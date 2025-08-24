@@ -6,10 +6,13 @@ import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +37,12 @@ public class WorkFlowActionController {
     public ResponseEntity<List<StatusDto>> findTargetStatusByCurrentStatus(@PathVariable(value = "id") Long statusId) {
         logger.info("workFlowAction.findTargetStatusByCurrentStatus : {}", statusId);
         return ResponseEntity.ok(service.findTargetStatusByCurrentStatus(statusId));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<WorkFlowActionDto>> search(@RequestBody Map<String, String> filter, Pageable pageable) {
+        logger.info("workFlowAction.search : {}, {}", filter, pageable);
+        return ResponseEntity.ok(service.search(filter, pageable));
     }
 
     @PostMapping
