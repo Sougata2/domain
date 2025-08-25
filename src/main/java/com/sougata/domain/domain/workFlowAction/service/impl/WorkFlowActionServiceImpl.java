@@ -215,23 +215,17 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
             }
             // detach relations
             if (og.get().getStatus() != null) {
-                for (WorkFlowActionEntity action : og.get().getStatus().getActions()) {
-                    action.setStatus(null);
-                }
+                og.get().getStatus().getActions().remove(og.get());
                 og.get().setStatus(null);
             }
 
             if (og.get().getTargetRole() != null) {
-                for (WorkFlowActionEntity action : og.get().getTargetRole().getActions()) {
-                    action.setTargetRole(null);
-                }
+                og.get().getTargetRole().getActions().remove(og.get());
                 og.get().setTargetRole(null);
             }
 
             if (og.get().getTargetStatus() != null) {
-                for (WorkFlowActionEntity action : og.get().getTargetStatus().getActions()) {
-                    action.setTargetStatus(null);
-                }
+                og.get().getTargetStatus().getTargetStatusActions().remove(og.get());
                 og.get().setTargetStatus(null);
             }
 
