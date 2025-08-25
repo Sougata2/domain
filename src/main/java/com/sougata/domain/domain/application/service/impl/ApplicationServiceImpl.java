@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.application.service.impl;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.application.dto.ApplicationProcessDto;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.application.repository.ApplicationRepository;
 import com.sougata.domain.domain.application.service.ApplicationService;
@@ -8,10 +9,15 @@ import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.document.entity.DocumentEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.services.repository.ServiceRepository;
+import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
+import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
+import com.sougata.domain.domain.workFlowAction.repository.WorkFlowActionRepository;
+import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.subService.repository.SubServiceRepository;
 import com.sougata.domain.user.entity.UserEntity;
@@ -39,6 +45,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final SubServiceRepository subServiceRepository;
     private final UserRepository userRepository;
     private final StatusRepository statusRepository;
+    private final WorkFlowActionRepository workFlowActionRepository;
 
     @Override
     public List<ApplicationDto> findAll() {
@@ -189,6 +196,33 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         repository.delete(og.get());
         return dto;
+    }
+
+    @Override
+    @Transactional
+    public WorkFlowHistoryDto doNext(ApplicationProcessDto dto) {
+        try {
+            Optional<WorkFlowActionEntity> workFlowAction = workFlowActionRepository.findById(dto.getWorkFlowAction().getId());
+            if (workFlowAction.isEmpty()) {
+                throw new EntityNotFoundException("WorkFlowAction with id %d not found".formatted(dto.getWorkFlowAction().getId()));
+            }
+
+            StatusDto targetStatus = (StatusDto) mapper.mapToDto(workFlowAction.get().getTargetStatus());
+            RoleDto targetRole = (RoleDto) mapper.mapToDto(workFlowAction.get().getTargetRole());
+
+            WorkFlowHistoryDto historyDto = new WorkFlowHistoryDto();
+            historyDto.setApplication(dto.getApplication());
+            historyDto.setAssigner(dto.getAssigner());
+            historyDto.setAssignee(dto.getAssignee());
+            historyDto.setStatus(targetStatus);
+            historyDto.setMovement(dto.getMovement());
+            historyDto.setTargetRole(targetRole);
+            return historyDto;
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String generateReferenceNumber(ApplicationEntity entity) throws Exception {

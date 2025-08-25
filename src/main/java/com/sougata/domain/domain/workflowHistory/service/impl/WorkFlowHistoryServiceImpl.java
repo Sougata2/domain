@@ -82,7 +82,7 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
             entity.setApplication(application.get());
             entity.setAssigner(assigner.get());
             entity.setStatus(status.get());
-            
+
             switch (dto.getMovement()) {
                 case PROGRESSIVE -> {
                     // selected by user
@@ -118,6 +118,9 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
                     entity.setAssignee(assignee.get());
                 }
             }
+
+            application.get().setAssignee(entity.getAssignee());
+            applicationRepository.save(application.get());
 
             WorkFlowHistoryEntity saved = repository.save(entity);
             return (WorkFlowHistoryDto) mapper.mapToDto(saved);

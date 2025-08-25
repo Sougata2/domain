@@ -1,7 +1,10 @@
 package com.sougata.domain.domain.application.controller;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.application.dto.ApplicationProcessDto;
 import com.sougata.domain.domain.application.service.ApplicationService;
+import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
+import com.sougata.domain.domain.workflowHistory.service.WorkFlowHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import java.util.List;
 public class ApplicationController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ApplicationService service;
+    private final WorkFlowHistoryService workFlowHistoryService;
 
     @GetMapping("/all")
     public ResponseEntity<List<ApplicationDto>> findAll() {
@@ -72,6 +76,13 @@ public class ApplicationController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/do-next")
+    public ResponseEntity<WorkFlowHistoryDto> doNext(@RequestBody ApplicationProcessDto dto) {
+        logger.info("application.doNext : {}", dto);
+        WorkFlowHistoryDto processed = service.doNext(dto);
+        return ResponseEntity.ok(workFlowHistoryService.create(processed));
     }
 
     @PutMapping

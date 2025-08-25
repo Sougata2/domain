@@ -1,6 +1,8 @@
 package com.sougata.domain.domain.application.service;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.application.dto.ApplicationProcessDto;
+import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +22,6 @@ public interface ApplicationService {
     ApplicationDto update(ApplicationDto dto);
 
     ApplicationDto delete(ApplicationDto dto);
+
+    WorkFlowHistoryDto doNext(ApplicationProcessDto dto);
 }
