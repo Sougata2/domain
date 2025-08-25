@@ -1,6 +1,7 @@
 package com.sougata.domain.user.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
@@ -60,6 +61,10 @@ public class UserEntity implements MasterEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "assignee")
     private Set<WorkFlowHistoryEntity> workFlowHistoryForAssignee;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.DETACH})
+    @JoinColumn(name = "lab_id")
+    private LabEntity lab;
 
     @Override
     public String toString() {

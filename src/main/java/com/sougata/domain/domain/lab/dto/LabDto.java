@@ -2,6 +2,7 @@ package com.sougata.domain.domain.lab.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.shared.MasterDto;
+import com.sougata.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class LabDto implements Serializable, MasterDto {
     private String address;
     private String email;
     private String phone;
+    private Set<UserDto> users;
     private Set<ApplicationDto> applications;
     private LocalDateTime createdAt;
 }

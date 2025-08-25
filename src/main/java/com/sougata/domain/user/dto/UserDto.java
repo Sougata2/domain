@@ -1,6 +1,7 @@
 package com.sougata.domain.user.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.lab.dto.LabDto;
 import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
@@ -21,6 +22,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserDto implements Serializable, MasterDto {
     private Long id;
+    private LabDto lab;
     private String firstName;
     private String lastName;
     private String email;

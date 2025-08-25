@@ -117,6 +117,11 @@ public class UserServiceImpl implements UserService {
             user.setWorkFlowHistoryForAssigner(new HashSet<>());
         }
 
+        if (user.getLab() != null) {
+            user.getLab().getUsers().remove(user);
+            user.setLab(null);
+        }
+
 
         UserDto result = (UserDto) mapper.mapToDto(user);
         repository.delete(user);

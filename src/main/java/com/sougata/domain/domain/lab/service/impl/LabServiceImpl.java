@@ -6,6 +6,7 @@ import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.lab.repository.LabRepository;
 import com.sougata.domain.domain.lab.service.LabService;
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.user.entity.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -92,6 +93,13 @@ public class LabServiceImpl implements LabService {
                     application.setLab(null);
                 }
                 entity.get().setApplications(new HashSet<>());
+            }
+
+            if (!entity.get().getUsers().isEmpty()) {
+                for (UserEntity user : entity.get().getUsers()) {
+                    user.setLab(null);
+                }
+                entity.get().setUsers(new HashSet<>());
             }
 
             repository.delete(entity.get());
