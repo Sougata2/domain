@@ -24,4 +24,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("select e from UserEntity e where e.defaultRole.id = :defaultRoleId")
     Optional<UserEntity> findByDefaultRoleId(Long defaultRoleId);
+
+    @Query("select e from UserEntity e where e.defaultRole.id = :defaultRoleId and e.lab.id = :labId")
+    List<UserEntity> findByDefaultRoleIdAndLabId(Long defaultRoleId, Long labId);
 }

@@ -1,6 +1,7 @@
 package com.sougata.domain.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.NonUniqueResultException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,16 @@ public class DomainExceptionHandler {
 
     @ExceptionHandler(MimeTypeNotAllowedException.class)
     public ResponseEntity<ErrorDto> entityTypeNotAllowedException(MimeTypeNotAllowedException e, HttpServletRequest request) {
+        ErrorDto.ErrorDtoBuilder response = new ErrorDto.ErrorDtoBuilder();
+        response.message(e.getMessage());
+        response.path(request.getRequestURI());
+        response.status(HttpStatus.BAD_REQUEST);
+        response.timestamp(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.build());
+    }
+
+    @ExceptionHandler(NonUniqueResultException.class)
+    public ResponseEntity<ErrorDto> nonUniqueResultException(NonUniqueResultException e, HttpServletRequest request) {
         ErrorDto.ErrorDtoBuilder response = new ErrorDto.ErrorDtoBuilder();
         response.message(e.getMessage());
         response.path(request.getRequestURI());

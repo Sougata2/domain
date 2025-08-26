@@ -12,6 +12,7 @@ import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,11 +112,13 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
                 }
                 case PROGRESSIVE_ONE -> {
                     // for the role which is assigned to a single user EG CSC HEAD, DDO HEAD.
-                    Optional<UserEntity> assignee = userRepository.findByDefaultRoleId(dto.getTargetRole().getId());
-                    if (assignee.isEmpty()) {
-                        throw new EntityNotFoundException("UserEntity with default role: %s does not exist".formatted(dto.getTargetRole().getId()));
+                    List<UserEntity> assignees = userRepository.findByDefaultRoleIdAndLabId(dto.getTargetRole().getId(), application.get().getLab().getId());
+                    if (assignees.isEmpty()) {
+                        throw new EntityNotFoundException("UserEntity[assignee] with default role: %d and labId %d does not exist".formatted(dto.getTargetRole().getId(), application.get().getLab().getId()));
+                    } else if (assignees.size() > 1) {
+                        throw new NonUniqueResultException("Too Many Assignees with default role %d and lab %d".formatted(dto.getTargetRole().getId(), application.get().getLab().getId()));
                     }
-                    entity.setAssignee(assignee.get());
+                    entity.setAssignee(assignees.getFirst());
                 }
             }
 
@@ -125,7 +128,7 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
 
             WorkFlowHistoryEntity saved = repository.save(entity);
             return (WorkFlowHistoryDto) mapper.mapToDto(saved);
-        } catch (EntityNotFoundException e) {
+        } catch (NonUniqueResultException | EntityNotFoundException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
