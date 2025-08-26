@@ -215,7 +215,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             historyDto.setAssigner(dto.getAssigner());
             historyDto.setAssignee(dto.getAssignee());
             historyDto.setStatus(targetStatus);
-            historyDto.setMovement(dto.getMovement());
+            historyDto.setMovement(workFlowAction.get().getMovement());
             historyDto.setTargetRole(targetRole);
             return historyDto;
         } catch (EntityNotFoundException e) {
