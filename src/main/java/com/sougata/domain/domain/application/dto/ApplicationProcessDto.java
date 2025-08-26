@@ -1,7 +1,6 @@
 package com.sougata.domain.domain.application.dto;
 
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
-import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.user.dto.UserDto;
 import lombok.*;
 
@@ -15,5 +14,4 @@ public class ApplicationProcessDto {
     private WorkFlowActionDto workFlowAction;
     private UserDto assignee;
     private UserDto assigner;
-    private WorkFlowMovement movement;
 }
