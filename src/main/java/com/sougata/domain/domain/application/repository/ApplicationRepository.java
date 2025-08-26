@@ -4,13 +4,14 @@ import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ApplicationRepository extends JpaRepository<ApplicationEntity, Long> {
+public interface ApplicationRepository extends JpaRepository<ApplicationEntity, Long>, JpaSpecificationExecutor<ApplicationEntity> {
     @Query("select e from ApplicationEntity e where e.referenceNumber = :appId")
     Optional<ApplicationEntity> findByReferenceNumber(String appId);
 

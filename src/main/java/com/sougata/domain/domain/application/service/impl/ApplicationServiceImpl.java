@@ -23,18 +23,19 @@ import com.sougata.domain.subService.repository.SubServiceRepository;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +77,40 @@ public class ApplicationServiceImpl implements ApplicationService {
         Page<ApplicationEntity> entityPage = repository.findByStatusNameAndApplicantId(statusName, applicantId, pageable);
         List<ApplicationDto> dtoList = entityPage.stream().map(e -> (ApplicationDto) mapper.mapToDto(e)).toList();
         return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
+    }
+
+    @Override
+    public Page<ApplicationDto> search(Map<String, String> filter, Pageable pageable) {
+        try {
+            Specification<ApplicationEntity> specification = (root, query, cb) -> {
+                List<Predicate> predicates = new ArrayList<>();
+
+                for (Map.Entry<String, String> entry : filter.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+
+                    if (value == null || value.isEmpty()) continue;
+
+                    Path<String> path;
+                    if (key.contains(".")) {
+                        String[] parts = key.split("\\.");
+                        path = root.join(parts[0]).get(parts[1]);
+                    } else {
+                        path = root.get(key);
+                    }
+                    predicates.add(cb.like(cb.lower(path.as(String.class)), "%" + value.toLowerCase() + "%"));
+                }
+                return cb.and(predicates.toArray(new Predicate[0]));
+            };
+
+            Page<ApplicationEntity> page = repository.findAll(specification, pageable);
+            List<ApplicationDto> dtos = page.getContent().stream().map(e -> (ApplicationDto) mapper.mapToDto(e)).toList();
+            return new PageImpl<>(dtos, pageable, page.getTotalElements());
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -83,6 +84,12 @@ public class ApplicationController {
         logger.info("application.doNext : {}", dto);
         WorkFlowHistoryDto processed = service.doNext(dto);
         return ResponseEntity.ok(workFlowHistoryService.create(processed));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<ApplicationDto>> search(@RequestBody Map<String, String> filter, Pageable pageable) {
+        logger.info("application.search: {}, {}", filter, pageable);
+        return ResponseEntity.ok(service.search(filter, pageable));
     }
 
     @PutMapping
