@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface WorkFlowActionRepository extends JpaRepository<WorkFlowActionEntity, Long>, JpaSpecificationExecutor<WorkFlowActionEntity> {
-    @Query("select e from WorkFlowActionEntity e where e.status.id = :id")
+    @Query("select e from WorkFlowActionEntity e where e.status.id = :statusId")
     List<WorkFlowActionEntity> findByStatusId(Long statusId);
 
 
