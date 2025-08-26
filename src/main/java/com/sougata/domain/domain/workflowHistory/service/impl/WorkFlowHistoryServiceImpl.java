@@ -120,6 +120,7 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
             }
 
             application.get().setAssignee(entity.getAssignee());
+            application.get().setStatus(status.get());
             applicationRepository.save(application.get());
 
             WorkFlowHistoryEntity saved = repository.save(entity);
