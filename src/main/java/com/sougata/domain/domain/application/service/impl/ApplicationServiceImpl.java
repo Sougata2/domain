@@ -98,7 +98,14 @@ public class ApplicationServiceImpl implements ApplicationService {
                     } else {
                         path = root.get(key);
                     }
-                    predicates.add(cb.like(cb.lower(path.as(String.class)), "%" + value.toLowerCase() + "%"));
+                    
+                    if (Number.class.isAssignableFrom(path.getJavaType())) {
+                        // for numeric fields like assignee.id
+                        predicates.add(cb.equal(path, Long.valueOf(value)));
+                    } else {
+                        // for string fields
+                        predicates.add(cb.like(cb.lower(path.as(String.class)), "%" + value.toLowerCase() + "%"));
+                    }
                 }
                 return cb.and(predicates.toArray(new Predicate[0]));
             };
