@@ -23,7 +23,7 @@ public class WorkFlowActionController {
 
     @GetMapping("/by-status/{id}")
     public ResponseEntity<List<WorkFlowActionDto>> findByStatusId(@PathVariable(value = "id") Long statusId) {
-        logger.info("workFlowAction.finByStatusId : {}", statusId);
+        logger.info("workFlowAction.findByStatusId : {}", statusId);
         return ResponseEntity.ok(service.findByStatusId(statusId));
     }
 
