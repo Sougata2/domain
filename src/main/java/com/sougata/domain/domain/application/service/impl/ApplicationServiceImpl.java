@@ -98,7 +98,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     } else {
                         path = root.get(key);
                     }
-                    
+
                     if (Number.class.isAssignableFrom(path.getJavaType())) {
                         // for numeric fields like assignee.id
                         predicates.add(cb.equal(path, Long.valueOf(value)));
@@ -259,6 +259,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             historyDto.setStatus(targetStatus);
             historyDto.setMovement(workFlowAction.get().getMovement());
             historyDto.setTargetRole(targetRole);
+            historyDto.setComments(dto.getComments());
             return historyDto;
         } catch (EntityNotFoundException e) {
             throw e;

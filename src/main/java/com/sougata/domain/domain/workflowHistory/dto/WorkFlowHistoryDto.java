@@ -32,4 +32,5 @@ public class WorkFlowHistoryDto implements Serializable, MasterDto {
     private LocalDateTime updatedAt;
     private WorkFlowMovement movement;
     private RoleDto targetRole;
+    private String comments;
 }

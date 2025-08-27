@@ -61,6 +61,9 @@ public class WorkFlowHistoryEntity implements MasterEntity {
     @Transient
     private RoleEntity targetRole;
 
+    @Column(columnDefinition = "TEXT")
+    private String comments;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;

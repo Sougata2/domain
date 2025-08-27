@@ -14,4 +14,5 @@ public class ApplicationProcessDto {
     private WorkFlowActionDto workFlowAction;
     private UserDto assignee;
     private UserDto assigner;
+    private String comments;
 }
