@@ -1,8 +1,12 @@
 package com.sougata.domain.domain.workFlowAction.controller;
 
+import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.application.service.ApplicationService;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
+import com.sougata.domain.user.dto.UserDto;
+import com.sougata.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +24,31 @@ import java.util.Map;
 public class WorkFlowActionController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final WorkFlowActionService service;
+    private final ApplicationService applicationService;
+    private final UserService userService;
 
     @GetMapping("/by-status/{id}")
     public ResponseEntity<List<WorkFlowActionDto>> findByStatusId(@PathVariable(value = "id") Long statusId) {
         logger.info("workFlowAction.findByStatusId : {}", statusId);
         return ResponseEntity.ok(service.findByStatusId(statusId));
+    }
+
+    @GetMapping("/by-reference-number/{number}")
+    public ResponseEntity<List<WorkFlowActionDto>> findByReferenceNumber(@PathVariable(value = "number") String referenceNumber) {
+        logger.info("workFlowAction.findByReferenceNumber : {}", referenceNumber);
+        ApplicationDto application = applicationService.findByReferenceNumber(referenceNumber);
+        return ResponseEntity.ok(service.findByStatusId(application.getStatus().getId()));
+    }
+
+    @GetMapping("/assignee-list-for-action/{actionId}/{referenceNumber}")
+    public ResponseEntity<List<UserDto>> findAssigneeForAction(
+            @PathVariable(value = "actionId") Long workFlowActionId,
+            @PathVariable(value = "referenceNumber") String referenceNumber
+    ) {
+        logger.info("workFlowAction.findAssigneeForAction : {}", workFlowActionId);
+        WorkFlowActionDto action = service.findById(workFlowActionId);
+        ApplicationDto application = applicationService.findByReferenceNumber(referenceNumber);
+        return ResponseEntity.ok(userService.findByDefaultRoleIdAndLabId(action.getTargetRole().getId(), application.getLab().getId()));
     }
 
     @GetMapping("/{id}")

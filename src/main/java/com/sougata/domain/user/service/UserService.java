@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserService {
     List<UserDto> findAllUsersWithRolesAndDefaultRole();
 
+    List<UserDto> findByDefaultRoleIdAndLabId(Long defaultRoleId, Long labId);
+
     UserDto createUser(UserDto dto);
 
     UserDto updateUser(UserDto dto);

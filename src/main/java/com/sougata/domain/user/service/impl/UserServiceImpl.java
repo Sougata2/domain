@@ -1,14 +1,18 @@
 package com.sougata.domain.user.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.lab.entity.LabEntity;
+import com.sougata.domain.domain.lab.repository.LabRepository;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.role.entity.RoleEntity;
+import com.sougata.domain.role.repository.RoleRepository;
 import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import com.sougata.domain.user.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +27,35 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final RelationalMapper mapper;
     private final UserRepository repository;
+    private final LabRepository labRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<UserDto> findAllUsersWithRolesAndDefaultRole() {
         List<UserEntity> entities = repository.findAllUsersWithRolesAndDefaultRole();
         return entities.stream().map(e -> (UserDto) mapper.mapToDto(e)).toList();
+    }
+
+    @Override
+    public List<UserDto> findByDefaultRoleIdAndLabId(Long defaultRoleId, Long labId) {
+        try {
+            Optional<RoleEntity> role = roleRepository.findById(defaultRoleId);
+            if (role.isEmpty()) {
+                throw new EntityNotFoundException("Role Entity with Id %d not found".formatted(defaultRoleId));
+            }
+            Optional<LabEntity> lab = labRepository.findById(labId);
+            if (lab.isEmpty()) {
+                throw new EntityNotFoundException("Lab Entity with Id %d not found".formatted(labId));
+            }
+
+            List<UserEntity> entities = repository.findByDefaultRoleIdAndLabId(role.get().getId(), lab.get().getId());
+
+            return entities.stream().map(e -> (UserDto) mapper.mapToDto(e)).toList();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
