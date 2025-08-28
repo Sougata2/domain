@@ -9,6 +9,7 @@ import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.domain.workflowHistory.repository.WorkFlowHistoryRepository;
 import com.sougata.domain.domain.workflowHistory.service.WorkFlowHistoryService;
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -53,6 +54,30 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
                 throw new EntityNotFoundException("WorkFlowHistory with id %s is not found".formatted(id));
             }
             return (WorkFlowHistoryDto) mapper.mapToDto(entity.get());
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<UserDto> getRegressiveUser(String referenceNumber, Long targetRoleId) {
+        try {
+            List<WorkFlowHistoryEntity> history = repository.findByReferenceNumber(referenceNumber);
+            for (WorkFlowHistoryEntity historyEntity : history.reversed()) {
+                if (
+                        historyEntity.getAssigner().getDefaultRole().getId()
+                                .equals(targetRoleId)
+                ) {
+                    Optional<UserEntity> formerAssigner = userRepository.findById(historyEntity.getAssigner().getId());
+                    if (formerAssigner.isEmpty()) {
+                        throw new EntityNotFoundException("Assigner(User) [history table] with id %s is not found".formatted(historyEntity.getAssigner().getId()));
+                    }
+                    return List.of((UserDto) mapper.mapToDto(formerAssigner.get()));
+                }
+            }
+            throw new RuntimeException("No such former assigner with the target role id %d".formatted(targetRoleId));
         } catch (EntityNotFoundException e) {
             throw e;
         } catch (Exception e) {

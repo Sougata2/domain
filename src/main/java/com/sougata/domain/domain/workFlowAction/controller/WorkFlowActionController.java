@@ -5,6 +5,7 @@ import com.sougata.domain.domain.application.service.ApplicationService;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
+import com.sougata.domain.domain.workflowHistory.service.WorkFlowHistoryService;
 import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,9 @@ import java.util.Map;
 @RequestMapping("/workflow-action")
 public class WorkFlowActionController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final WorkFlowActionService service;
+    private final WorkFlowHistoryService workFlowHistoryService;
     private final ApplicationService applicationService;
+    private final WorkFlowActionService service;
     private final UserService userService;
 
     @GetMapping("/by-status/{id}")
@@ -43,10 +45,15 @@ public class WorkFlowActionController {
     @GetMapping("/assignee-list-for-action/{actionId}/{referenceNumber}")
     public ResponseEntity<List<UserDto>> findAssigneeForAction(
             @PathVariable(value = "actionId") Long workFlowActionId,
-            @PathVariable(value = "referenceNumber") String referenceNumber
+            @PathVariable(value = "referenceNumber") String referenceNumber,
+            @RequestParam(required = false, value = "regressive") Boolean regressive
     ) {
-        logger.info("workFlowAction.findAssigneeForAction : {}", workFlowActionId);
         WorkFlowActionDto action = service.findById(workFlowActionId);
+        if (regressive) {
+            logger.info("workFlowAction.findAssigneeForAction [regressive] workFlowActionId : {}, referenceNumber: {}", workFlowActionId, referenceNumber);
+            return ResponseEntity.ok(workFlowHistoryService.getRegressiveUser(referenceNumber, action.getTargetRole().getId()));
+        }
+        logger.info("workFlowAction.findAssigneeForAction : {}", workFlowActionId);
         ApplicationDto application = applicationService.findByReferenceNumber(referenceNumber);
         return ResponseEntity.ok(userService.findByDefaultRoleIdAndLabId(action.getTargetRole().getId(), application.getLab().getId()));
     }
