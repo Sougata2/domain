@@ -69,6 +69,12 @@ public class ApplicationController {
         }
     }
 
+    @GetMapping("/applicant-submitted-application/{applicantId}")
+    public ResponseEntity<Page<ApplicationDto>> findSubmittedApplicationsByApplicantId(@PathVariable Long applicantId, Pageable pageable) {
+        logger.info("application.applicant-submitted-application {} : {}", applicantId, pageable);
+        return ResponseEntity.ok(service.findSubmittedApplicationsByApplicantId(applicantId, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<ApplicationDto> create(@RequestBody ApplicationDto dto) {
         logger.info("create: dto = {}", dto);

@@ -20,6 +20,8 @@ public interface ApplicationService {
 
     Page<ApplicationDto> search(Map<String, String> filter, Pageable pageable);
 
+    Page<ApplicationDto> findSubmittedApplicationsByApplicantId(Long applicantId, Pageable pageable);
+
     ApplicationDto create(ApplicationDto dto) throws Exception;
 
     ApplicationDto update(ApplicationDto dto);

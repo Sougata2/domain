@@ -121,6 +121,23 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public Page<ApplicationDto> findSubmittedApplicationsByApplicantId(Long applicantId, Pageable pageable) {
+        try {
+            Optional<UserEntity> user = userRepository.findById(applicantId);
+            if (user.isEmpty()) {
+                throw new EntityNotFoundException("Applicant with id %d not found".formatted(applicantId));
+            }
+            Page<ApplicationEntity> page = repository.findSubmittedApplicationByApplicantId(applicantId, pageable);
+            List<ApplicationDto> dtos = page.stream().map(e -> (ApplicationDto) mapper.mapToDto(e)).toList();
+            return new PageImpl<>(dtos, pageable, page.getTotalElements());
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     @Transactional
     public ApplicationDto create(ApplicationDto dto) throws Exception {
         ApplicationEntity entity = new ApplicationEntity();
