@@ -4,6 +4,7 @@ import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.forms.entity.FormEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
+import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,10 @@ public class SubServiceEntity implements MasterEntity {
     @JoinTable(name = "sub_service_activity_map", joinColumns = @JoinColumn(name = "activity_id"), inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
     private Set<ActivityEntity> activities;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "workflow_group_id")
+    private WorkFlowGroupEntity workFlowGroup;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -65,6 +70,7 @@ public class SubServiceEntity implements MasterEntity {
                 .toList()
                 : "null") +
                 ", activities=" + (activities != null ? activities.stream().map(a -> a != null ? a.getName() : "null").toList() : "null") +
+                ", workFlowGroup=" + (workFlowGroup != null ? workFlowGroup.getName() : "null") +
                 ", createdAt=" + createdAt +
                 '}';
     }

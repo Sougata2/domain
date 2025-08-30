@@ -98,6 +98,10 @@ public class SubServiceServiceImpl implements SubServiceService {
                 og.get().setForm(null);
             }
 
+            if (og.get().getWorkFlowGroup() != null) {
+                og.get().setWorkFlowGroup(null);
+            }
+
             repository.delete(og.get());
             return dto;
         } catch (EntityNotFoundException e) {

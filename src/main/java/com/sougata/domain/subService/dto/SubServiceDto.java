@@ -4,6 +4,7 @@ import com.sougata.domain.domain.activity.dto.ActivityDto;
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.forms.dto.FormDto;
 import com.sougata.domain.domain.services.dto.ServiceDto;
+import com.sougata.domain.domain.workFlowGroup.dto.WorkFlowGroupDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,4 +30,5 @@ public class SubServiceDto implements Serializable, MasterDto {
     private LocalDateTime createdAt;
     private Set<ActivityDto> activities;
     private Set<ApplicationDto> applications;
+    private WorkFlowGroupDto workFlowGroup;
 }

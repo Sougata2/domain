@@ -2,6 +2,7 @@ package com.sougata.domain.domain.workFlowAction.entity;
 
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
+import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -40,6 +42,14 @@ public class WorkFlowActionEntity implements MasterEntity {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "target_status_id")
     private StatusEntity targetStatus;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "workflow_group_action_map",
+            joinColumns = @JoinColumn(name = "action_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<WorkFlowGroupEntity> groups;
 
     @Enumerated(EnumType.STRING)
     private WorkFlowMovement movement;

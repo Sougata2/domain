@@ -8,6 +8,7 @@ import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workFlowAction.repository.WorkFlowActionRepository;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
+import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.role.repository.RoleRepository;
@@ -227,6 +228,13 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
             if (og.get().getTargetStatus() != null) {
                 og.get().getTargetStatus().getTargetStatusActions().remove(og.get());
                 og.get().setTargetStatus(null);
+            }
+
+            if (!og.get().getGroups().isEmpty()) {
+                for (WorkFlowGroupEntity group : og.get().getGroups()) {
+                    group.getActions().remove(og.get());
+                }
+                og.get().setGroups(new HashSet<>());
             }
 
             repository.delete(og.get());

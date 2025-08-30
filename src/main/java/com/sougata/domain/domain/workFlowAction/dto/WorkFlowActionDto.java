@@ -2,6 +2,7 @@ package com.sougata.domain.domain.workFlowAction.dto;
 
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
+import com.sougata.domain.domain.workFlowGroup.dto.WorkFlowGroupDto;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * DTO for {@link com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity}
@@ -25,6 +27,7 @@ public class WorkFlowActionDto implements Serializable, MasterDto {
     private StatusDto status;
     private RoleDto targetRole;
     private StatusDto targetStatus;
+    private Set<WorkFlowGroupDto> groups;
     private WorkFlowMovement movement;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
