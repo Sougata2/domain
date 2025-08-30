@@ -2,8 +2,8 @@ package com.sougata.domain.domain.services.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.shared.MasterDto;
-import com.sougata.domain.subService.dto.SubServiceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

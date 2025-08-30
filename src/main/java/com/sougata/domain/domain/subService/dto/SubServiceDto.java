@@ -1,9 +1,10 @@
-package com.sougata.domain.subService.dto;
+package com.sougata.domain.domain.subService.dto;
 
 import com.sougata.domain.domain.activity.dto.ActivityDto;
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.forms.dto.FormDto;
 import com.sougata.domain.domain.services.dto.ServiceDto;
+import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.domain.workFlowGroup.dto.WorkFlowGroupDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * DTO for {@link com.sougata.domain.subService.entity.SubServiceEntity}
+ * DTO for {@link SubServiceEntity}
  */
 @Getter
 @Setter

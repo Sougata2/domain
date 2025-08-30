@@ -1,7 +1,7 @@
-package com.sougata.domain.subService.controller;
+package com.sougata.domain.domain.subService.controller;
 
-import com.sougata.domain.subService.dto.SubServiceDto;
-import com.sougata.domain.subService.service.SubServiceService;
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
+import com.sougata.domain.domain.subService.service.SubServiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

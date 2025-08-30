@@ -1,8 +1,8 @@
 package com.sougata.domain.domain.workFlowGroup.dto;
 
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.shared.MasterDto;
-import com.sougata.domain.subService.dto.SubServiceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.sougata.domain.subService.entity;
+package com.sougata.domain.domain.subService.entity;
 
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;

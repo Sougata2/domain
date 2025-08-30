@@ -1,6 +1,6 @@
-package com.sougata.domain.subService.service;
+package com.sougata.domain.domain.subService.service;
 
-import com.sougata.domain.subService.dto.SubServiceDto;
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
 
 import java.util.List;
 

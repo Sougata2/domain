@@ -2,8 +2,8 @@ package com.sougata.domain.domain.forms.entity;
 
 import com.sougata.domain.domain.formStages.entity.FormStageEntity;
 import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
+import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.shared.MasterEntity;
-import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

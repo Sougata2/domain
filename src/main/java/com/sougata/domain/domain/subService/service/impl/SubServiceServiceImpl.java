@@ -1,11 +1,11 @@
-package com.sougata.domain.subService.service.impl;
+package com.sougata.domain.domain.subService.service.impl;
 
 import com.sougata.domain.domain.services.entity.ServiceEntity;
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
+import com.sougata.domain.domain.subService.entity.SubServiceEntity;
+import com.sougata.domain.domain.subService.repository.SubServiceRepository;
+import com.sougata.domain.domain.subService.service.SubServiceService;
 import com.sougata.domain.mapper.RelationalMapper;
-import com.sougata.domain.subService.dto.SubServiceDto;
-import com.sougata.domain.subService.entity.SubServiceEntity;
-import com.sougata.domain.subService.repository.SubServiceRepository;
-import com.sougata.domain.subService.service.SubServiceService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

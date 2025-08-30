@@ -2,8 +2,8 @@ package com.sougata.domain.domain.activity.entity;
 
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
+import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.shared.MasterEntity;
-import com.sougata.domain.subService.entity.SubServiceEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.sougata.domain.subService.repository;
+package com.sougata.domain.domain.subService.repository;
 
-import com.sougata.domain.subService.entity.SubServiceEntity;
+import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

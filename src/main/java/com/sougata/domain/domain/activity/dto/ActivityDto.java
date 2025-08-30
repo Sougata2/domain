@@ -2,8 +2,8 @@ package com.sougata.domain.domain.activity.dto;
 
 import com.sougata.domain.domain.devices.dto.DeviceDto;
 import com.sougata.domain.domain.specification.dto.SpecificationDto;
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.shared.MasterDto;
-import com.sougata.domain.subService.dto.SubServiceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
