@@ -62,6 +62,16 @@ public class WorkFlowGroupServiceImpl implements WorkFlowGroupService {
     }
 
     @Override
+    public List<WorkFlowGroupDto> findAll() {
+        try {
+            List<WorkFlowGroupEntity> entities = repository.findAll();
+            return entities.stream().map(e -> (WorkFlowGroupDto) mapper.mapToDto(e)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public WorkFlowGroupDto findById(Long id) {
         try {
             Optional<WorkFlowGroupEntity> entity = repository.findById(id);

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,6 +19,12 @@ import java.util.Map;
 public class WorkFlowGroupController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final WorkFlowGroupService service;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<WorkFlowGroupDto>> findAll() {
+        logger.info("workFlowGroup.findAll");
+        return ResponseEntity.ok(service.findAll());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<WorkFlowGroupDto> findById(@PathVariable(value = "id") Long groupId) {
