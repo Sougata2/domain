@@ -97,7 +97,7 @@ public class WorkFlowGroupServiceImpl implements WorkFlowGroupService {
                 throw new EntityNotFoundException("WorkFlowGroup with Id %d, not found".formatted(dto.getId()));
             }
             WorkFlowGroupEntity nu = (WorkFlowGroupEntity) mapper.mapToEntity(dto);
-            WorkFlowGroupEntity merged = (WorkFlowGroupEntity) mapper.merge(og.get(), nu);
+            WorkFlowGroupEntity merged = (WorkFlowGroupEntity) mapper.merge(nu, og.get());
             WorkFlowGroupEntity saved = repository.save(merged);
             return (WorkFlowGroupDto) mapper.mapToDto(saved);
         } catch (EntityNotFoundException e) {
