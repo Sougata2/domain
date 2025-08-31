@@ -32,8 +32,8 @@ public class WorkFlowGroupDto implements Serializable, MasterDto {
         return "WorkFlowGroupDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", subServices=" + (subServices.isEmpty() ? "null" : subServices.stream().map(s -> s.getName() == null ? "null" : s.getName())) +
-                ", actions=" + (actions.isEmpty() ? "null" : actions.stream().map(s -> s.getName() == null ? "null" : s.getName())) +
+                ", subServices=" + (subServices == null ? "null" : subServices.stream().map(s -> s.getName() == null ? "null" : s.getName())) +
+                ", actions=" + (actions == null ? "null" : actions.stream().map(s -> s.getName() == null ? "null" : s.getName())) +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
