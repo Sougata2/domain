@@ -11,7 +11,6 @@ import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workFlowAction.repository.WorkFlowActionRepository;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
 import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
-import com.sougata.domain.domain.workFlowGroup.repository.WorkFlowGroupRepository;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.role.repository.RoleRepository;
@@ -31,7 +30,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class WorkFlowActionServiceImpl implements WorkFlowActionService {
-    private final WorkFlowGroupRepository workFlowGroupRepository;
     private final ApplicationRepository applicationRepository;
     private final WorkFlowActionRepository repository;
     private final StatusRepository statusRepository;
