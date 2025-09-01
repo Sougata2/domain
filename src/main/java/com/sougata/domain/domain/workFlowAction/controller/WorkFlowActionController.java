@@ -29,6 +29,10 @@ public class WorkFlowActionController {
     private final WorkFlowActionService service;
     private final UserService userService;
 
+    /**
+     * NOT BEING USED ANYWHERE. DELETE LATER, IF YOU CAN.
+     *
+     */
     @GetMapping("/by-status/{id}")
     public ResponseEntity<List<WorkFlowActionDto>> findByStatusId(@PathVariable(value = "id") Long statusId) {
         logger.info("workFlowAction.findByStatusId : {}", statusId);
@@ -38,8 +42,7 @@ public class WorkFlowActionController {
     @GetMapping("/by-reference-number/{number}")
     public ResponseEntity<List<WorkFlowActionDto>> findByReferenceNumber(@PathVariable(value = "number") String referenceNumber) {
         logger.info("workFlowAction.findByReferenceNumber : {}", referenceNumber);
-        ApplicationDto application = applicationService.findByReferenceNumber(referenceNumber);
-        return ResponseEntity.ok(service.findByStatusId(application.getStatus().getId()));
+        return ResponseEntity.ok(service.findByReferenceNumber(referenceNumber));
     }
 
     @GetMapping("/assignee-list-for-action/{actionId}/{referenceNumber}")

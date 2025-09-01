@@ -12,6 +12,11 @@ public interface WorkFlowActionRepository extends JpaRepository<WorkFlowActionEn
     @Query("select e from WorkFlowActionEntity e where e.status.id = :statusId")
     List<WorkFlowActionEntity> findByStatusId(Long statusId);
 
+    @Query("select e from WorkFlowActionEntity e " +
+            "right join fetch e.groups f " +
+            "where f.id = :groupId and e.status.id = :statusId")
+    List<WorkFlowActionEntity> findByStatusIdAndGroupId(Long statusId, Long groupId);
+
 
     @Query("select e from StatusEntity e " +
             "where e.id != :statusId and e.id not in ( " +

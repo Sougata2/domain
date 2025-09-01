@@ -1,5 +1,7 @@
 package com.sougata.domain.domain.workFlowAction.service.impl;
 
+import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.application.repository.ApplicationRepository;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
@@ -9,6 +11,7 @@ import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workFlowAction.repository.WorkFlowActionRepository;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
 import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
+import com.sougata.domain.domain.workFlowGroup.repository.WorkFlowGroupRepository;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.role.repository.RoleRepository;
@@ -28,6 +31,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class WorkFlowActionServiceImpl implements WorkFlowActionService {
+    private final WorkFlowGroupRepository workFlowGroupRepository;
+    private final ApplicationRepository applicationRepository;
     private final WorkFlowActionRepository repository;
     private final StatusRepository statusRepository;
     private final RoleRepository roleRepository;
@@ -42,6 +47,23 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
             }
             List<WorkFlowActionEntity> entities = repository.findByStatusId(status.get().getId());
             return entities.stream().map(e -> (WorkFlowActionDto) mapper.mapToDto(e)).toList();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<WorkFlowActionDto> findByReferenceNumber(String referenceNumber) {
+        try {
+            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(referenceNumber);
+            if (application.isEmpty()) {
+                throw new EntityNotFoundException("application with reference number %s not found".formatted(referenceNumber));
+            }
+
+            List<WorkFlowActionEntity> actions = repository.findByStatusIdAndGroupId(application.get().getStatus().getId(), application.get().getSubService().getWorkFlowGroup().getId());
+            return actions.stream().map(e -> (WorkFlowActionDto) mapper.mapToDto(e)).toList();
         } catch (EntityNotFoundException e) {
             throw e;
         } catch (Exception e) {

@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "workflow-group")
+@Table(name = "workflow_group")
 public class WorkFlowGroupEntity implements MasterEntity {
     @Id
     @Column
