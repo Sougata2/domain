@@ -11,6 +11,8 @@ import java.util.Map;
 public interface WorkFlowActionService {
     List<WorkFlowActionDto> findByStatusId(Long statusId);
 
+    List<WorkFlowActionDto> findAll();
+
     Page<WorkFlowActionDto> search(Map<String, String> filter, Pageable pageable);
 
     List<StatusDto> findTargetStatusByCurrentStatus(Long statusId);

@@ -58,6 +58,12 @@ public class WorkFlowActionController {
         return ResponseEntity.ok(userService.findByDefaultRoleIdAndLabId(action.getTargetRole().getId(), application.getLab().getId()));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<WorkFlowActionDto>> findAll() {
+        logger.info("workFlowAction.findAll");
+        return ResponseEntity.ok(service.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<WorkFlowActionDto> findById(@PathVariable(value = "id") Long actionId) {
         logger.info("workFlowAction.findById : {}", actionId);

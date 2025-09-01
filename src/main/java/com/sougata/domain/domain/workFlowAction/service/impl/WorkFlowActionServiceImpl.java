@@ -50,6 +50,16 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
     }
 
     @Override
+    public List<WorkFlowActionDto> findAll() {
+        try {
+            List<WorkFlowActionEntity> entities = repository.findAll();
+            return entities.stream().map(e -> (WorkFlowActionDto) mapper.mapToDto(e)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Page<WorkFlowActionDto> search(Map<String, String> filter, Pageable pageable) {
         try {
             Specification<WorkFlowActionEntity> specification = (root, query, cb) -> {
