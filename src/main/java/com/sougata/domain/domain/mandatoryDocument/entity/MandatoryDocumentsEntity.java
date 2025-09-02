@@ -1,6 +1,6 @@
 package com.sougata.domain.domain.mandatoryDocument.entity;
 
-import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,9 +27,9 @@ public class MandatoryDocumentsEntity implements MasterEntity {
     @Column
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "form_id")
-    private FormEntity form;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sub_service_id")
+    private SubServiceEntity subService;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -42,7 +42,7 @@ public class MandatoryDocumentsEntity implements MasterEntity {
         return "MandatoryDocuments{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", form=" + (form != null ? form.getName() : "null") +
+                ", sub service=" + (subService != null ? subService.getName() : "null") +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

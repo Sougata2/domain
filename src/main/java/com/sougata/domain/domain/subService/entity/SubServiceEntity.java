@@ -3,6 +3,7 @@ package com.sougata.domain.domain.subService.entity;
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
 import com.sougata.domain.shared.MasterEntity;
@@ -48,6 +49,9 @@ public class SubServiceEntity implements MasterEntity {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "workflow_group_id")
     private WorkFlowGroupEntity workFlowGroup;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "subService")
+    private Set<MandatoryDocumentsEntity> mandatoryDocuments;
 
     @CreationTimestamp
     @Column(updatable = false)

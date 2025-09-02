@@ -9,7 +9,7 @@ public interface MandatoryDocumentsService {
 
     List<MandatoryDocumentsDto> findByReferenceNumber(String referenceNumber);
 
-    List<MandatoryDocumentsDto> findByFormId(Long formId);
+    List<MandatoryDocumentsDto> findBySubServiceId(Long subServiceId);
 
     MandatoryDocumentsDto findById(Long id);
 

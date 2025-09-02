@@ -1,6 +1,6 @@
 package com.sougata.domain.domain.mandatoryDocument.dto;
 
-import com.sougata.domain.domain.forms.dto.FormDto;
+import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class MandatoryDocumentsDto implements Serializable, MasterDto {
     private Long id;
     private String name;
-    private FormDto form;
+    private SubServiceDto subService;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -29,10 +29,10 @@ public class MandatoryDocumentController {
         return ResponseEntity.ok(service.findByReferenceNumber(referenceNumber));
     }
 
-    @GetMapping("/by-form-id/{id}")
-    public ResponseEntity<List<MandatoryDocumentsDto>> getByFormId(@PathVariable(value = "id") Long formId) {
-        logger.info("mandatoryDocument.getByFormId : {}", formId);
-        return ResponseEntity.ok(service.findByFormId(formId));
+    @GetMapping("/by-sub-service-id/{id}")
+    public ResponseEntity<List<MandatoryDocumentsDto>> getBySubServiceId(@PathVariable(value = "id") Long subServiceId) {
+        logger.info("mandatoryDocument.getBySubServiceId : {}", subServiceId);
+        return ResponseEntity.ok(service.findBySubServiceId(subServiceId));
     }
 
     @GetMapping("/{id}")

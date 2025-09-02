@@ -1,7 +1,6 @@
 package com.sougata.domain.domain.forms.entity;
 
 import com.sougata.domain.domain.formStages.entity.FormStageEntity;
-import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
 import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -32,9 +31,6 @@ public class FormEntity implements MasterEntity {
     @OneToMany(mappedBy = "form", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<SubServiceEntity> subServices;
 
-    @OneToMany(mappedBy = "form", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    private Set<MandatoryDocumentsEntity> mandatoryDocuments;
-
     @OneToMany(mappedBy = "form", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<FormStageEntity> stages;
 
@@ -50,11 +46,6 @@ public class FormEntity implements MasterEntity {
                 ", subServices=" + (subServices != null
                 ? subServices.stream()
                 .map(sub -> sub != null ? sub.getName() : "null")
-                .toList()
-                : "null") +
-                ", mandatoryDocuments=" + (mandatoryDocuments != null
-                ? mandatoryDocuments.stream()
-                .map(doc -> doc != null ? doc.getName() : "null")
                 .toList()
                 : "null") +
                 ", stages=" + (stages != null ? stages.stream().map(s -> s != null ? s.getMenu().getName() : "null").toList() : "null") +

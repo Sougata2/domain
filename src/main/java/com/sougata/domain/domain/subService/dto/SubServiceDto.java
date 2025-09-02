@@ -3,6 +3,7 @@ package com.sougata.domain.domain.subService.dto;
 import com.sougata.domain.domain.activity.dto.ActivityDto;
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.forms.dto.FormDto;
+import com.sougata.domain.domain.mandatoryDocument.dto.MandatoryDocumentsDto;
 import com.sougata.domain.domain.services.dto.ServiceDto;
 import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.domain.workFlowGroup.dto.WorkFlowGroupDto;
@@ -31,5 +32,6 @@ public class SubServiceDto implements Serializable, MasterDto {
     private LocalDateTime createdAt;
     private Set<ActivityDto> activities;
     private Set<ApplicationDto> applications;
+    private Set<MandatoryDocumentsDto> mandatoryDocuments;
     private WorkFlowGroupDto workFlowGroup;
 }

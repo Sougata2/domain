@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface MandatoryDocumentsRepository extends JpaRepository<MandatoryDocumentsEntity, Long> {
-    @Query("select e from MandatoryDocumentsEntity e where e.form.id = :formId")
-    List<MandatoryDocumentsEntity> findByFormId(Long formId);
+    @Query("select e from MandatoryDocumentsEntity e where e.subService.id = :subServiceId")
+    List<MandatoryDocumentsEntity> findBySubServiceId(Long subServiceId);
 }
