@@ -67,7 +67,7 @@ public class DeviceEntity implements MasterEntity {
     )
     private Set<SpecificationEntity> specifications;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
 

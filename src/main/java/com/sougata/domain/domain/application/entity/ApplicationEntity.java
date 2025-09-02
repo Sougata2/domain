@@ -50,7 +50,7 @@ public class ApplicationEntity implements MasterEntity {
     @JoinColumn(name = "assignee_id")
     private UserEntity assignee;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "applicant_id")
     private UserEntity applicant;
 

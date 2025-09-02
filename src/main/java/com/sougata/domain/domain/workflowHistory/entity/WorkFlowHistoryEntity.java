@@ -28,7 +28,7 @@ public class WorkFlowHistoryEntity implements MasterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
 

@@ -33,7 +33,7 @@ public class DocumentEntity implements MasterEntity {
     @JoinColumn(name = "file_id")
     private FileEntity file;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
 
