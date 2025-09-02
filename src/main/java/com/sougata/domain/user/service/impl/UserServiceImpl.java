@@ -59,6 +59,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto removeRole(Long userId, Long roleId) {
+        try {
+            Optional<UserEntity> user = repository.findById(userId);
+            if (user.isEmpty()) {
+                throw new EntityNotFoundException("User with Id %d not found".formatted(userId));
+            }
+            Optional<RoleEntity> role = roleRepository.findById(roleId);
+            if (role.isEmpty()) {
+                throw new EntityNotFoundException("Role Entity with Id %d not found".formatted(roleId));
+            }
+
+            user.get().getRoles().remove(role.get());
+            UserEntity saved = repository.save(user.get());
+            return (UserDto) mapper.mapToDto(saved);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public UserDto createUser(UserDto dto) {
         UserEntity entity = (UserEntity) mapper.mapToEntity(dto);
         UserEntity created = repository.save(entity);

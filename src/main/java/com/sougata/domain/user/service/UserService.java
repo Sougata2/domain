@@ -10,6 +10,8 @@ public interface UserService {
 
     List<UserDto> findByDefaultRoleIdAndLabId(Long defaultRoleId, Long labId);
 
+    UserDto removeRole(Long userId, Long roleId);
+
     UserDto createUser(UserDto dto);
 
     UserDto updateUser(UserDto dto);
@@ -17,6 +19,7 @@ public interface UserService {
     UserDto findUserById(Long id);
 
     UserDto deleteUser(UserDto dto);
+
 
     RoleDto getDefaultRoleForUser(Long userId);
 }

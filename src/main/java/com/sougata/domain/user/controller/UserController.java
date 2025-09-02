@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -64,6 +65,12 @@ public class UserController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/remove-role")
+    public ResponseEntity<UserDto> removeRole(@RequestBody Map<String, Long> map) {
+        logger.info("removeRole : {}", map);
+        return ResponseEntity.ok(service.removeRole(map.get("userId"), map.get("roleId")));
     }
 
     @PutMapping
