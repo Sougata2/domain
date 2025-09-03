@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -133,9 +132,8 @@ public class UserServiceImpl implements UserService {
 
         if (!user.getApplications().isEmpty()) {
             for (ApplicationEntity application : user.getApplications()) {
-                if (Objects.equals(application.getApplicant().getId(), user.getId())) {
-                    application.setApplicant(null);
-                }
+                application.setApplicant(null);
+                application.setAssignee(null);
             }
             user.setApplications(new HashSet<>());
         }
