@@ -1,5 +1,6 @@
 package com.sougata.domain.mapper;
 
+import com.sougata.domain.domain.workFlowAction.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.shared.MasterEntity;
@@ -309,7 +310,8 @@ public class RelationalMapper {
                 !Float.class.isAssignableFrom(f.getType()) && !String.class.isAssignableFrom(f.getType()) &&
                 !LocalDateTime.class.isAssignableFrom(f.getType()) && !Timestamp.class.isAssignableFrom(f.getType()) &&
                 !Date.class.isAssignableFrom(f.getType()) && !Enum.class.isAssignableFrom(f.getType()) &&
-                !WorkFlowMovement.class.isAssignableFrom(f.getType());
+                !WorkFlowMovement.class.isAssignableFrom(f.getType()) &&
+                !WorkFlowActionType.class.isAssignableFrom(f.getType());
     }
 
     private Field getDeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {

@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.workFlowAction.dto;
 
 import com.sougata.domain.domain.status.dto.StatusDto;
+import com.sougata.domain.domain.workFlowAction.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workFlowGroup.dto.WorkFlowGroupDto;
 import com.sougata.domain.role.dto.RoleDto;
@@ -29,6 +30,7 @@ public class WorkFlowActionDto implements Serializable, MasterDto {
     private StatusDto targetStatus;
     private Set<WorkFlowGroupDto> groups;
     private WorkFlowMovement movement;
+    private WorkFlowActionType type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
