@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.status.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.status.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.shared.MasterDto;
@@ -24,6 +25,7 @@ public class StatusDto implements Serializable, MasterDto {
     private Long id;
     private String name;
     private String description;
+    private WorkFlowActionType actionType;
     private Set<ApplicationDto> applications;
     private Set<WorkFlowHistoryDto> workFlowHistory;
     private Set<WorkFlowActionDto> actions;

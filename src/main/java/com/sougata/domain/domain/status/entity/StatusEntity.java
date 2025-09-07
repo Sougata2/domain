@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.status.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.status.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.shared.MasterEntity;
@@ -31,6 +32,9 @@ public class StatusEntity implements MasterEntity {
 
     @Column
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private WorkFlowActionType actionType;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
     private Set<ApplicationEntity> applications;

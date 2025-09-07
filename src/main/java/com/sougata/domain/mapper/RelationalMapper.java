@@ -1,6 +1,6 @@
 package com.sougata.domain.mapper;
 
-import com.sougata.domain.domain.workFlowAction.enums.WorkFlowActionType;
+import com.sougata.domain.domain.status.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.shared.MasterEntity;

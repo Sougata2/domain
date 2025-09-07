@@ -1,7 +1,6 @@
 package com.sougata.domain.domain.workFlowAction.entity;
 
 import com.sougata.domain.domain.status.entity.StatusEntity;
-import com.sougata.domain.domain.workFlowAction.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
 import com.sougata.domain.role.entity.RoleEntity;
@@ -54,9 +53,6 @@ public class WorkFlowActionEntity implements MasterEntity {
 
     @Enumerated(EnumType.STRING)
     private WorkFlowMovement movement;
-
-    @Enumerated(EnumType.STRING)
-    private WorkFlowActionType type;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

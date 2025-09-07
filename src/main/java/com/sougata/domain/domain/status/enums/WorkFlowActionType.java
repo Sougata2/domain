@@ -1,4 +1,4 @@
-package com.sougata.domain.domain.workFlowAction.enums;
+package com.sougata.domain.domain.status.enums;
 
 public enum WorkFlowActionType {
     ACTION,
