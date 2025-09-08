@@ -3,6 +3,7 @@ package com.sougata.domain.domain.workflowHistory.entity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
+import com.sougata.domain.file.entity.FileEntity;
 import com.sougata.domain.role.entity.RoleEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.user.entity.UserEntity;
@@ -43,6 +44,10 @@ public class WorkFlowHistoryEntity implements MasterEntity {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "status_id")
     private StatusEntity status;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "file_id")
+    public FileEntity file;
 
     /**
      * <h1>NOTE</h1>

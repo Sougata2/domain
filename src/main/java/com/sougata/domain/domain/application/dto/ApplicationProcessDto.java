@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.application.dto;
 
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
+import com.sougata.domain.file.dto.FileDto;
 import com.sougata.domain.user.dto.UserDto;
 import lombok.*;
 
@@ -15,4 +16,5 @@ public class ApplicationProcessDto {
     private UserDto assignee;
     private UserDto assigner;
     private String comments;
+    private FileDto file;
 }

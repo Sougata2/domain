@@ -4,6 +4,7 @@ import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
+import com.sougata.domain.file.dto.FileDto;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.user.dto.UserDto;
@@ -28,6 +29,7 @@ public class WorkFlowHistoryDto implements Serializable, MasterDto {
     private UserDto assigner;
     private UserDto assignee;
     private StatusDto status;
+    private FileDto file;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private WorkFlowMovement movement;

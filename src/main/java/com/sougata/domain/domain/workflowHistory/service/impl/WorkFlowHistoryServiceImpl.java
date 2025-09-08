@@ -8,6 +8,8 @@ import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.domain.workflowHistory.repository.WorkFlowHistoryRepository;
 import com.sougata.domain.domain.workflowHistory.service.WorkFlowHistoryService;
+import com.sougata.domain.file.entity.FileEntity;
+import com.sougata.domain.file.repository.FileRepository;
 import com.sougata.domain.mapper.RelationalMapper;
 import com.sougata.domain.user.dto.UserDto;
 import com.sougata.domain.user.entity.UserEntity;
@@ -28,6 +30,7 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
     private final WorkFlowHistoryRepository repository;
     private final StatusRepository statusRepository;
     private final UserRepository userRepository;
+    private final FileRepository fileRepository;
     private final RelationalMapper mapper;
 
     @Override
@@ -108,6 +111,14 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
             entity.setApplication(application.get());
             entity.setAssigner(assigner.get());
             entity.setStatus(status.get());
+
+            if (dto.getFile() != null) {
+                Optional<FileEntity> file = fileRepository.findById(dto.getFile().getId());
+                if (file.isEmpty()) {
+                    throw new EntityNotFoundException("File Entity with id %d is not found".formatted(dto.getFile().getId()));
+                }
+                entity.setFile(file.get());
+            }
 
             switch (dto.getMovement()) {
                 case PROGRESSIVE -> {
