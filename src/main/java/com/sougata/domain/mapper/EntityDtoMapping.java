@@ -12,6 +12,10 @@ import com.sougata.domain.domain.formStages.dto.FormStageDto;
 import com.sougata.domain.domain.formStages.entity.FormStageEntity;
 import com.sougata.domain.domain.forms.dto.FormDto;
 import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.job.dto.JobDto;
+import com.sougata.domain.domain.job.entity.JobEntity;
+import com.sougata.domain.domain.jobWorkFlowHistory.dto.JobWorkFlowHistoryDto;
+import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
 import com.sougata.domain.domain.lab.dto.LabDto;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.mandatoryDocument.dto.MandatoryDocumentsDto;
@@ -74,7 +78,9 @@ public class EntityDtoMapping {
                 Map.entry(FormStageEntity.class, FormStageDto.class),
                 Map.entry(WorkFlowHistoryEntity.class, WorkFlowHistoryDto.class),
                 Map.entry(WorkFlowActionEntity.class, WorkFlowActionDto.class),
-                Map.entry(WorkFlowGroupEntity.class, WorkFlowGroupDto.class)
+                Map.entry(WorkFlowGroupEntity.class, WorkFlowGroupDto.class),
+                Map.entry(JobEntity.class, JobDto.class),
+                Map.entry(JobWorkFlowHistoryEntity.class, JobWorkFlowHistoryDto.class)
         );
 
         dtoToEntityMap = Map.ofEntries(
@@ -97,7 +103,9 @@ public class EntityDtoMapping {
                 Map.entry(FormStageDto.class, FormStageEntity.class),
                 Map.entry(WorkFlowHistoryDto.class, WorkFlowHistoryEntity.class),
                 Map.entry(WorkFlowActionDto.class, WorkFlowActionEntity.class),
-                Map.entry(WorkFlowGroupDto.class, WorkFlowGroupEntity.class)
+                Map.entry(WorkFlowGroupDto.class, WorkFlowGroupEntity.class),
+                Map.entry(JobDto.class, JobEntity.class),
+                Map.entry(JobWorkFlowHistoryDto.class, JobWorkFlowHistoryEntity.class)
         );
     }
 }
