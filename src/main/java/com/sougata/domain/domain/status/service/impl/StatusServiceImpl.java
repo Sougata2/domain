@@ -2,6 +2,7 @@ package com.sougata.domain.domain.status.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.job.entity.JobEntity;
+import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
@@ -103,6 +104,13 @@ public class StatusServiceImpl implements StatusService {
                 job.setStatus(null);
             }
             entity.get().setJobs(new HashSet<>());
+        }
+
+        if (!entity.get().getJobWorkFlowHistory().isEmpty()) {
+            for (JobWorkFlowHistoryEntity jobWorkFlowHistory : entity.get().getJobWorkFlowHistory()) {
+                jobWorkFlowHistory.setStatus(null);
+            }
+            entity.get().setJobWorkFlowHistory(new HashSet<>());
         }
 
         repository.delete(entity.get());

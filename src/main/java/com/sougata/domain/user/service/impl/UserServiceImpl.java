@@ -2,6 +2,7 @@ package com.sougata.domain.user.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.job.entity.JobEntity;
+import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.lab.repository.LabRepository;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
@@ -177,6 +178,19 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+        if (!user.getJobWorkFlowHistoryForAssignee().isEmpty()) {
+            for (JobWorkFlowHistoryEntity jobWorkFlowHistory : user.getJobWorkFlowHistoryForAssignee()) {
+                jobWorkFlowHistory.setAssignee(null);
+            }
+            user.setJobWorkFlowHistoryForAssignee(new HashSet<>());
+        }
+
+        if (!user.getJobWorkFlowHistoryForAssigner().isEmpty()) {
+            for (JobWorkFlowHistoryEntity jobWorkFlowHistory : user.getJobWorkFlowHistoryForAssigner()) {
+                jobWorkFlowHistory.setAssigner(null);
+            }
+            user.setJobWorkFlowHistoryForAssigner(new HashSet<>());
+        }
 
         UserDto result = (UserDto) mapper.mapToDto(user);
         repository.delete(user);
