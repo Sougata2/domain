@@ -2,6 +2,7 @@ package com.sougata.domain.user.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.job.entity.JobEntity;
+import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.role.entity.RoleEntity;
@@ -69,6 +70,13 @@ public class UserEntity implements MasterEntity {
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "assignee")
     private Set<JobEntity> jobs;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "assigner")
+    private Set<JobWorkFlowHistoryEntity> jobWorkFlowHistoryForAssigner;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "assignee")
+    private Set<JobWorkFlowHistoryEntity> jobWorkFlowHistoryForAssignee;
+
 
     @Override
     public String toString() {
