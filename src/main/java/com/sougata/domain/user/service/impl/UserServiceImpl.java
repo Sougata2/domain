@@ -1,6 +1,7 @@
 package com.sougata.domain.user.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.lab.repository.LabRepository;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
@@ -168,6 +169,12 @@ public class UserServiceImpl implements UserService {
         if (user.getLab() != null) {
             user.getLab().getUsers().remove(user);
             user.setLab(null);
+        }
+
+        if (!user.getJobs().isEmpty()) {
+            for (JobEntity job : user.getJobs()) {
+                job.setAssignee(null);
+            }
         }
 
 

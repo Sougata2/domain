@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.lab.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.lab.dto.LabDto;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.lab.repository.LabRepository;
@@ -100,6 +101,13 @@ public class LabServiceImpl implements LabService {
                     user.setLab(null);
                 }
                 entity.get().setUsers(new HashSet<>());
+            }
+
+            if (!entity.get().getJobs().isEmpty()) {
+                for (JobEntity job : entity.get().getJobs()) {
+                    job.setLab(null);
+                }
+                entity.get().setJobs(new HashSet<>());
             }
 
             repository.delete(entity.get());

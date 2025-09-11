@@ -138,6 +138,11 @@ public class DeviceServiceImpl implements DeviceService {
             entity.get().setApplication(null);
         }
 
+        if (entity.get().getJob() != null) {
+            entity.get().getJob().setDevice(null);
+            entity.get().setJob(null);
+        }
+
         repository.delete(entity.get());
         return dto;
     }

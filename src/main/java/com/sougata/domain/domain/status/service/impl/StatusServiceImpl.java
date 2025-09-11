@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.status.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
@@ -95,6 +96,13 @@ public class StatusServiceImpl implements StatusService {
                 action.setTargetStatus(null);
             }
             entity.get().setTargetStatusActions(new HashSet<>());
+        }
+
+        if (!entity.get().getJobs().isEmpty()) {
+            for (JobEntity job : entity.get().getJobs()) {
+                job.setStatus(null);
+            }
+            entity.get().setJobs(new HashSet<>());
         }
 
         repository.delete(entity.get());
