@@ -2,6 +2,7 @@ package com.sougata.domain.domain.devices.entity;
 
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.specification.entity.SpecificationEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -70,6 +71,9 @@ public class DeviceEntity implements MasterEntity {
     @ManyToOne
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "device")
+    private JobEntity job;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

@@ -1,6 +1,7 @@
 package com.sougata.domain.user.dto;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
+import com.sougata.domain.domain.job.dto.JobDto;
 import com.sougata.domain.domain.lab.dto.LabDto;
 import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.role.dto.RoleDto;
@@ -27,6 +28,7 @@ public class UserDto implements Serializable, MasterDto {
     private String lastName;
     private String email;
     private String password;
+    private Set<JobDto> jobs;
     private Set<RoleDto> roles;
     private RoleDto defaultRole;
     private Set<ApplicationDto> applications;

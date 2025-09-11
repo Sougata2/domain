@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.lab.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -42,6 +43,9 @@ public class LabEntity implements MasterEntity {
 
     @OneToMany(mappedBy = "lab", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<UserEntity> users;
+
+    @OneToMany(mappedBy = "lab", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    private Set<JobEntity> jobs;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

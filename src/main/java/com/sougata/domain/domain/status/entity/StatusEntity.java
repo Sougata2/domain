@@ -1,6 +1,7 @@
 package com.sougata.domain.domain.status.entity;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.status.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
@@ -47,6 +48,9 @@ public class StatusEntity implements MasterEntity {
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "targetStatus")
     private Set<WorkFlowActionEntity> targetStatusActions;
+
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
+    private Set<JobEntity> jobs;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
