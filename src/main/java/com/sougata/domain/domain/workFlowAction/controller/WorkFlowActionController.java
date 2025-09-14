@@ -2,8 +2,12 @@ package com.sougata.domain.domain.workFlowAction.controller;
 
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.application.service.ApplicationService;
+import com.sougata.domain.domain.job.dto.JobDto;
+import com.sougata.domain.domain.job.service.JobService;
+import com.sougata.domain.domain.jobWorkFlowHistory.service.JobWorkFlowHistoryService;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
+import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.domain.workFlowAction.service.WorkFlowActionService;
 import com.sougata.domain.domain.workflowHistory.service.WorkFlowHistoryService;
 import com.sougata.domain.user.dto.UserDto;
@@ -24,10 +28,12 @@ import java.util.Map;
 @RequestMapping("/workflow-action")
 public class WorkFlowActionController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final JobWorkFlowHistoryService jobWorkFlowHistoryService;
     private final WorkFlowHistoryService workFlowHistoryService;
     private final ApplicationService applicationService;
     private final WorkFlowActionService service;
     private final UserService userService;
+    private final JobService jobService;
 
     /**
      * NOT BEING USED ANYWHERE. DELETE LATER, IF YOU CAN.
@@ -59,6 +65,30 @@ public class WorkFlowActionController {
         logger.info("workFlowAction.findAssigneeForAction : {}", workFlowActionId);
         ApplicationDto application = applicationService.findByReferenceNumber(referenceNumber);
         return ResponseEntity.ok(userService.findByDefaultRoleIdAndLabId(action.getTargetRole().getId(), application.getLab().getId()));
+    }
+
+    @GetMapping("/assignee-list-for-action")
+    public ResponseEntity<List<UserDto>> findAssigneeForAction(
+            @RequestParam(value = "action") Long workFlowActionId,
+            @RequestParam(value = "referenceNumber", required = false) String referenceNumber,
+            @RequestParam(value = "job") Long jobId
+    ) {
+        WorkFlowActionDto action = service.findById(workFlowActionId);
+        if (action.getMovement().equals(WorkFlowMovement.REGRESSIVE)) {
+            logger.info("workFlowAction.findAssigneeForAction [REGRESSIVE]: action = {}, referenceNumber = {}, job = {}", workFlowActionId, referenceNumber, jobId);
+            if (referenceNumber != null) {
+                return ResponseEntity.ok(workFlowHistoryService.getRegressiveUser(referenceNumber, action.getTargetRole().getId()));
+            } else {
+                return ResponseEntity.ok(jobWorkFlowHistoryService.getRegressiveUser(jobId, action.getTargetRole().getId()));
+            }
+        }
+        logger.info("workFlowAction.findAssigneeForAction : action = {}, referenceNumber = {}, job = {}", workFlowActionId, referenceNumber, jobId);
+        if (referenceNumber != null) {
+            ApplicationDto application = applicationService.findByReferenceNumber(referenceNumber);
+            return ResponseEntity.ok(userService.findByDefaultRoleIdAndLabId(action.getTargetRole().getId(), application.getLab().getId()));
+        }
+        JobDto job = jobService.findById(jobId);
+        return ResponseEntity.ok(userService.findByDefaultRoleIdAndLabId(action.getTargetRole().getId(), job.getLab().getId()));
     }
 
     @GetMapping("/all")
