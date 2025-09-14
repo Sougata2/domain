@@ -5,15 +5,21 @@ import com.sougata.domain.domain.application.repository.ApplicationRepository;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.devices.repository.DeviceRepository;
 import com.sougata.domain.domain.job.dto.JobDto;
+import com.sougata.domain.domain.job.dto.JobProcessDto;
 import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.job.repository.JobRepository;
 import com.sougata.domain.domain.job.service.JobService;
+import com.sougata.domain.domain.jobWorkFlowHistory.dto.JobWorkFlowHistoryDto;
 import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.lab.repository.LabRepository;
+import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
+import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
+import com.sougata.domain.domain.workFlowAction.repository.WorkFlowActionRepository;
 import com.sougata.domain.mapper.RelationalMapper;
+import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,6 +41,7 @@ public class JobServiceImpl implements JobService {
     private final DeviceRepository deviceRepository;
     private final StatusRepository statusRepository;
     private final ApplicationRepository applicationRepository;
+    private final WorkFlowActionRepository workFlowActionRepository;
 
     @Override
     public JobDto findByDeviceId(Long deviceId) {
@@ -182,6 +189,33 @@ public class JobServiceImpl implements JobService {
             return dto;
         } catch (EntityNotFoundException e) {
             throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public JobWorkFlowHistoryDto doNext(JobProcessDto dto) {
+        try {
+            Optional<WorkFlowActionEntity> workFlowAction = workFlowActionRepository.findById(dto.getWorkFlowAction().getId());
+            if (workFlowAction.isEmpty()) {
+                throw new EntityNotFoundException("JobWorkFlowAction Entity with ID : %d is not found".formatted(dto.getWorkFlowAction().getId()));
+            }
+
+            StatusDto targetStatus = (StatusDto) mapper.mapToDto(workFlowAction.get().getTargetStatus());
+            RoleDto targetRole = (RoleDto) mapper.mapToDto(workFlowAction.get().getTargetRole());
+
+            JobWorkFlowHistoryDto history = new JobWorkFlowHistoryDto();
+            history.setJob(dto.getJob());
+            history.setAssigner(dto.getAssigner());
+            history.setAssignee(dto.getAssignee());
+            history.setStatus(targetStatus);
+            history.setMovement(workFlowAction.get().getMovement());
+            history.setTargetRole(targetRole);
+            history.setComments(dto.getComments());
+            history.setFile(dto.getFile());
+            return history;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

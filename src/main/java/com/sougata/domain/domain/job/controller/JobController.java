@@ -1,7 +1,10 @@
 package com.sougata.domain.domain.job.controller;
 
 import com.sougata.domain.domain.job.dto.JobDto;
+import com.sougata.domain.domain.job.dto.JobProcessDto;
 import com.sougata.domain.domain.job.service.JobService;
+import com.sougata.domain.domain.jobWorkFlowHistory.dto.JobWorkFlowHistoryDto;
+import com.sougata.domain.domain.jobWorkFlowHistory.service.JobWorkFlowHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,7 @@ import java.util.List;
 @RequestMapping("/job")
 public class JobController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final JobWorkFlowHistoryService historyService;
     private final JobService service;
 
     @GetMapping("/by-device-id/{id}")
@@ -39,6 +43,13 @@ public class JobController {
     public ResponseEntity<JobDto> create(@RequestBody JobDto jobDto) {
         logger.info("job.create : {}", jobDto);
         return ResponseEntity.ok(service.create(jobDto));
+    }
+
+    @PostMapping("/do-next")
+    public ResponseEntity<JobWorkFlowHistoryDto> doNext(@RequestBody JobProcessDto dto) {
+        logger.info("job.doNext : {}", dto);
+        JobWorkFlowHistoryDto processed = service.doNext(dto);
+        return ResponseEntity.ok(historyService.create(processed));
     }
 
     @PutMapping

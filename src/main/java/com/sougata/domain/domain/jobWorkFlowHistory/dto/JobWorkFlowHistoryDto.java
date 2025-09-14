@@ -4,7 +4,7 @@ import com.sougata.domain.domain.job.dto.JobDto;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.workFlowAction.enums.WorkFlowMovement;
 import com.sougata.domain.file.dto.FileDto;
-import com.sougata.domain.role.entity.RoleEntity;
+import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class JobWorkFlowHistoryDto implements Serializable, MasterDto {
     private StatusDto status;
     private FileDto file;
     private String comments;
-    private RoleEntity targetRole;
+    private RoleDto targetRole;
     private WorkFlowMovement movement;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
