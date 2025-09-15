@@ -8,10 +8,13 @@ import com.sougata.domain.domain.jobWorkFlowHistory.service.JobWorkFlowHistorySe
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +40,12 @@ public class JobController {
     public ResponseEntity<JobDto> findById(@PathVariable(value = "id") Long jobId) {
         logger.info("job.findById : {}", jobId);
         return ResponseEntity.ok(service.findById(jobId));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<JobDto>> search(@RequestBody Map<String, String> filters, Pageable pageable) {
+        logger.info("job.search : {}", filters);
+        return ResponseEntity.ok(service.search(filters, pageable));
     }
 
     @PostMapping

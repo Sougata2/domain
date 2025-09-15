@@ -23,13 +23,17 @@ import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.user.entity.UserEntity;
 import com.sougata.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -73,6 +77,44 @@ public class JobServiceImpl implements JobService {
             return jobs.stream().map(e -> (JobDto) mapper.mapToDto(e)).toList();
         } catch (EntityNotFoundException e) {
             throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<JobDto> search(Map<String, String> filters, Pageable pageable) {
+        try {
+            Specification<JobEntity> specification = (root, query, cb) -> {
+                List<Predicate> predicates = new ArrayList<>();
+
+                for (Map.Entry<String, String> entry : filters.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+
+                    if (value == null || value.isEmpty()) continue;
+
+                    Path<String> path;
+                    if (key.contains(".")) {
+                        String[] parts = key.split("\\.");
+                        path = root.get(parts[0]).get(parts[1]);
+                    } else {
+                        path = root.get(key);
+                    }
+
+                    if (Number.class.isAssignableFrom(path.getJavaType())) {
+                        predicates.add(cb.equal(path, Long.valueOf(value)));
+                    } else {
+                        predicates.add(cb.like(cb.lower(path.as(String.class)), "%" + value.toLowerCase() + "%"));
+                    }
+                }
+                return cb.and(predicates.toArray(new Predicate[0]));
+            };
+
+            Page<JobEntity> page = repository.findAll(specification, pageable);
+            List<JobDto> dtos = page.getContent().stream().map(e -> (JobDto) mapper.mapToDto(e)).toList();
+            return new PageImpl<>(dtos, pageable, page.getTotalElements());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
