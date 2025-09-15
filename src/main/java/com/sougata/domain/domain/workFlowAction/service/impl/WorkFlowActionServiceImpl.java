@@ -2,6 +2,8 @@ package com.sougata.domain.domain.workFlowAction.service.impl;
 
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.application.repository.ApplicationRepository;
+import com.sougata.domain.domain.job.entity.JobEntity;
+import com.sougata.domain.domain.job.repository.JobRepository;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.status.repository.StatusRepository;
@@ -31,6 +33,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class WorkFlowActionServiceImpl implements WorkFlowActionService {
     private final ApplicationRepository applicationRepository;
+    private final JobRepository jobRepository;
     private final WorkFlowActionRepository repository;
     private final StatusRepository statusRepository;
     private final RoleRepository roleRepository;
@@ -45,6 +48,23 @@ public class WorkFlowActionServiceImpl implements WorkFlowActionService {
             }
             List<WorkFlowActionEntity> entities = repository.findByStatusId(status.get().getId());
             return entities.stream().map(e -> (WorkFlowActionDto) mapper.mapToDto(e)).toList();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<WorkFlowActionDto> findByJobId(Long jobId) {
+        try {
+            Optional<JobEntity> job = jobRepository.findById(jobId);
+            if (job.isEmpty()) {
+                throw new EntityNotFoundException("job entity with id %d not found".formatted(jobId));
+            }
+            List<WorkFlowActionEntity> actions = repository.findByStatusIdAndGroupId(job.get().getStatus().getId(), job.get().getDevice().getApplication().getSubService().getWorkFlowGroup().getId());
+            return actions.stream().map(e -> (WorkFlowActionDto) mapper.mapToDto(e)).toList();
         } catch (EntityNotFoundException e) {
             throw e;
         } catch (Exception e) {

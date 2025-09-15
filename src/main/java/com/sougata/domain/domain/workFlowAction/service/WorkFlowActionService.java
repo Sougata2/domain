@@ -13,6 +13,8 @@ public interface WorkFlowActionService {
 
     List<WorkFlowActionDto> findByReferenceNumber(String referenceNumber);
 
+    List<WorkFlowActionDto> findByJobId(Long jobId);
+
     List<WorkFlowActionDto> findAll();
 
     Page<WorkFlowActionDto> search(Map<String, String> filter, Pageable pageable);

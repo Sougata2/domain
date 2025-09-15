@@ -51,6 +51,12 @@ public class WorkFlowActionController {
         return ResponseEntity.ok(service.findByReferenceNumber(referenceNumber));
     }
 
+    @GetMapping("/by-job-id/{id}")
+    public ResponseEntity<List<WorkFlowActionDto>> findByJobId(@PathVariable(value = "id") Long jobId) {
+        logger.info("workFlowAction.findByJobId : {}", jobId);
+        return ResponseEntity.ok(service.findByJobId(jobId));
+    }
+
     @GetMapping("/assignee-list-for-action/{actionId}/{referenceNumber}")
     public ResponseEntity<List<UserDto>> findAssigneeForAction(
             @PathVariable(value = "actionId") Long workFlowActionId,
