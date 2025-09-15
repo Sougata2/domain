@@ -11,6 +11,7 @@ import com.sougata.domain.domain.job.repository.JobRepository;
 import com.sougata.domain.domain.job.service.JobService;
 import com.sougata.domain.domain.jobWorkFlowHistory.dto.JobWorkFlowHistoryDto;
 import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
+import com.sougata.domain.domain.jobWorkFlowHistory.repository.JobWorkFlowHistoryRepository;
 import com.sougata.domain.domain.lab.entity.LabEntity;
 import com.sougata.domain.domain.lab.repository.LabRepository;
 import com.sougata.domain.domain.status.dto.StatusDto;
@@ -46,6 +47,7 @@ public class JobServiceImpl implements JobService {
     private final StatusRepository statusRepository;
     private final ApplicationRepository applicationRepository;
     private final WorkFlowActionRepository workFlowActionRepository;
+    private final JobWorkFlowHistoryRepository jobWorkFlowHistoryRepository;
 
     @Override
     public JobDto findByDeviceId(Long deviceId) {
@@ -143,9 +145,9 @@ public class JobServiceImpl implements JobService {
             if (device.isEmpty()) {
                 throw new EntityNotFoundException("Device entity with ID : %d is not found".formatted(dto.getDevice().getId()));
             }
-            Optional<StatusEntity> status = statusRepository.findById(dto.getStatus().getId());
+            Optional<StatusEntity> status = statusRepository.findByStatusName(dto.getStatus().getName());
             if (status.isEmpty()) {
-                throw new EntityNotFoundException("Status entity with ID :  %d is not found".formatted(dto.getStatus().getId()));
+                throw new EntityNotFoundException("Status entity with NAME :  %s is not found".formatted(dto.getStatus().getName()));
             }
             Optional<UserEntity> assignee = userRepository.findById(dto.getAssignee().getId());
             if (assignee.isEmpty()) {
@@ -163,6 +165,15 @@ public class JobServiceImpl implements JobService {
             job.setStatus(status.get());
 
             JobEntity saved = repository.save(job);
+
+            JobWorkFlowHistoryEntity jobWorkFlowHistory = new JobWorkFlowHistoryEntity();
+            jobWorkFlowHistory.setJob(saved);
+            jobWorkFlowHistory.setAssigner(saved.getAssignee());
+            jobWorkFlowHistory.setAssignee(saved.getAssignee());
+            jobWorkFlowHistory.setStatus(saved.getStatus());
+
+            jobWorkFlowHistoryRepository.save(jobWorkFlowHistory);
+
             return (JobDto) mapper.mapToDto(saved);
         } catch (EntityNotFoundException e) {
             throw e;
