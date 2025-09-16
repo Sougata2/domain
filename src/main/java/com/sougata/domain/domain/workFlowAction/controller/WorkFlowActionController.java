@@ -77,7 +77,7 @@ public class WorkFlowActionController {
     public ResponseEntity<List<UserDto>> findAssigneeForAction(
             @RequestParam(value = "action") Long workFlowActionId,
             @RequestParam(value = "referenceNumber", required = false) String referenceNumber,
-            @RequestParam(value = "job") Long jobId
+            @RequestParam(value = "job", required = false) Long jobId
     ) {
         WorkFlowActionDto action = service.findById(workFlowActionId);
         if (action.getMovement().equals(WorkFlowMovement.REGRESSIVE)) {
