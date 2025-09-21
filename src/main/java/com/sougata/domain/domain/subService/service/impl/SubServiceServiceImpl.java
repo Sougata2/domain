@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.subService.service.impl;
 
+import com.sougata.domain.domain.labTestTemplate.entity.LabTestTemplateEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.domain.subService.entity.SubServiceEntity;
@@ -100,6 +101,13 @@ public class SubServiceServiceImpl implements SubServiceService {
 
             if (og.get().getWorkFlowGroup() != null) {
                 og.get().setWorkFlowGroup(null);
+            }
+
+            if (!og.get().getTestTemplates().isEmpty()) {
+                for (LabTestTemplateEntity template : og.get().getTestTemplates()) {
+                    template.getSubServices().remove(og.get());
+                }
+                og.get().setTestTemplates(new HashSet<>());
             }
 
             repository.delete(og.get());

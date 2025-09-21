@@ -3,6 +3,7 @@ package com.sougata.domain.domain.subService.entity;
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.forms.entity.FormEntity;
+import com.sougata.domain.domain.labTestTemplate.entity.LabTestTemplateEntity;
 import com.sougata.domain.domain.mandatoryDocument.entity.MandatoryDocumentsEntity;
 import com.sougata.domain.domain.services.entity.ServiceEntity;
 import com.sougata.domain.domain.workFlowGroup.entity.WorkFlowGroupEntity;
@@ -52,6 +53,9 @@ public class SubServiceEntity implements MasterEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "subService")
     private Set<MandatoryDocumentsEntity> mandatoryDocuments;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "subServices")
+    private Set<LabTestTemplateEntity> testTemplates;
 
     @CreationTimestamp
     @Column(updatable = false)
