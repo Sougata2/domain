@@ -2,13 +2,14 @@ package com.sougata.domain.domain.labTestTemplate.repository;
 
 import com.sougata.domain.domain.labTestTemplate.entity.LabTestTemplateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface LabTestTemplateRepository extends JpaRepository<LabTestTemplateEntity, Long> {
+public interface LabTestTemplateRepository extends JpaRepository<LabTestTemplateEntity, Long>, JpaSpecificationExecutor<LabTestTemplateEntity> {
     @Query("select e from LabTestTemplateEntity e " +
             "join fetch e.subServices f " +
             "where f.id = ( " +

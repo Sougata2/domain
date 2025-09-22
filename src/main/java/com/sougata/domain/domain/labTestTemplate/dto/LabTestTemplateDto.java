@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 /**
  * DTO for {@link com.sougata.domain.domain.labTestTemplate.entity.LabTestTemplateEntity}
@@ -23,7 +23,7 @@ public class LabTestTemplateDto implements Serializable, MasterDto {
     private String name;
     private String header;
     private String mergeData;
-    private List<SubServiceDto> subServices;
+    private Set<SubServiceDto> subServices;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

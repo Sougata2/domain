@@ -10,13 +10,17 @@ import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.domain.subService.repository.SubServiceRepository;
 import com.sougata.domain.mapper.RelationalMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +67,43 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
         try {
             List<LabTestTemplateEntity> entities = repository.findAll();
             return entities.stream().map(e -> (LabTestTemplateDto) mapper.mapToDto(e)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<LabTestTemplateDto> search(Map<String, Object> filters, Pageable pageable) {
+        try {
+            Specification<LabTestTemplateEntity> specification = (root, query, cb) -> {
+                List<Predicate> predicates = new ArrayList<>();
+
+                for (Map.Entry<String, Object> entry : filters.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue().toString();
+                    if (value == null || value.isEmpty()) continue;
+
+                    Path<String> path;
+                    if (key.contains(".")) {
+                        String[] parts = key.split("\\.");
+                        path = root.get(parts[0]).get(parts[1]);
+                    } else {
+                        path = root.get(key);
+                    }
+
+                    if (Number.class.isAssignableFrom(path.getJavaType())) {
+                        predicates.add(cb.equal(path, Long.valueOf(value)));
+                    } else {
+                        predicates.add(cb.like(cb.lower(path.as(String.class)), "%" + value.toLowerCase() + "%"));
+                    }
+                }
+                return cb.and(predicates.toArray(new Predicate[0]));
+            };
+
+            Page<LabTestTemplateEntity> page = repository.findAll(specification, pageable);
+            List<LabTestTemplateDto> dtos = page.stream().map(e -> (LabTestTemplateDto) mapper.mapToDto(e)).toList();
+            return new PageImpl<>(dtos, pageable, page.getTotalElements());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

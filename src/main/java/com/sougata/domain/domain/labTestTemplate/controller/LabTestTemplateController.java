@@ -5,10 +5,13 @@ import com.sougata.domain.domain.labTestTemplate.service.LabTestTemplateService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +30,12 @@ public class LabTestTemplateController {
     public ResponseEntity<List<LabTestTemplateDto>> findAll() {
         logger.info("labTestTemplateController.findAll");
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<LabTestTemplateDto>> search(@RequestBody Map<String, Object> filters, Pageable pageable) {
+        logger.info("labTestTemplateController.search : {} & {}", filters, pageable);
+        return ResponseEntity.ok(service.search(filters, pageable));
     }
 
     @GetMapping("/{id}")
