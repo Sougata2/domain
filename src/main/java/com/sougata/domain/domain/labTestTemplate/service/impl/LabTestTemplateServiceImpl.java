@@ -119,6 +119,7 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
                 throw new EntityNotFoundException("Lab Test Template Entity with ID : %d is not found".formatted(id));
             }
 
+            // convert simple header to formatted header
             String headerJson = entity.get().getHeader();
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -138,25 +139,27 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
                 }
             }
 
-            System.out.println("COLS = " + columns);
-            System.out.println("ROWS = " + rows);
-
-            Map<String, Map<String, Map<String, String>>> cellData;
-
             if (headerMap instanceof Map<?, ?> root) {
+                Map<String, Object> tempRow = new HashMap<>();
                 for (int i = 0; i < rows + 1; i++) {   // rows
                     Map<?, ?> row = (Map<?, ?>) root.get(String.valueOf(i));
                     if (row != null) {
+                        Map<String, Map<String, String>> tempCol = new HashMap<>();
                         for (int j = 0; j < columns + 1; j++) {  // cols
                             Map<?, ?> col = (Map<?, ?>) row.get(String.valueOf(j));
+                            Map<String, String> cell;
                             if (col != null) {
-                                System.out.println("Row " + i + " Col " + j + " = " + col.get("v"));
+                                cell = Map.ofEntries(Map.entry("v", col.get("v").toString()), Map.entry("s", "header"));
+                            } else {
+                                cell = Map.ofEntries(Map.entry("v", ""), Map.entry("s", "header"));
                             }
+                            tempCol.put(String.valueOf(j), cell);
                         }
+                        tempRow.put(String.valueOf(i), tempCol);
                     }
                 }
+                entity.get().setHeader(objectMapper.writeValueAsString(tempRow));
             }
-
 
             return (LabTestTemplateDto) mapper.mapToDto(entity.get());
         } catch (EntityNotFoundException e) {
