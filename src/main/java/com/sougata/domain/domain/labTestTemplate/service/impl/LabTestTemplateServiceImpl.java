@@ -30,7 +30,6 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
     private final LabTestTemplateRepository repository;
     private final JobRepository jobRepository;
     private final RelationalMapper mapper;
-    private final ObjectMapper objectMapper;
 
     @Override
     public List<LabTestTemplateDto> findByJobId(Long jobId) {
