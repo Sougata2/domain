@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.labTestTemplate.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.job.repository.JobRepository;
 import com.sougata.domain.domain.labTestTemplate.dto.LabTestTemplateDto;
@@ -29,6 +30,7 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
     private final LabTestTemplateRepository repository;
     private final JobRepository jobRepository;
     private final RelationalMapper mapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public List<LabTestTemplateDto> findByJobId(Long jobId) {
@@ -116,6 +118,46 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
             if (entity.isEmpty()) {
                 throw new EntityNotFoundException("Lab Test Template Entity with ID : %d is not found".formatted(id));
             }
+
+            String headerJson = entity.get().getHeader();
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            int columns = Integer.MIN_VALUE;
+            int rows = 0;
+            Object headerMap = objectMapper.readValue(headerJson, Object.class);
+            if (headerMap instanceof Map<?, ?> row) {
+                rows = row.size();
+                for (Map.Entry<?, ?> entry : row.entrySet()) {
+                    if (entry.getValue() instanceof Map<?, ?> col) {
+                        int max = col.keySet().stream()
+                                .mapToInt(k -> Integer.parseInt(k.toString()))
+                                .max()
+                                .orElse(Integer.MIN_VALUE);
+                        columns = Math.max(columns, max);
+                    }
+                }
+            }
+
+            System.out.println("COLS = " + columns);
+            System.out.println("ROWS = " + rows);
+
+            Map<String, Map<String, Map<String, String>>> cellData;
+
+            if (headerMap instanceof Map<?, ?> root) {
+                for (int i = 0; i < rows + 1; i++) {   // rows
+                    Map<?, ?> row = (Map<?, ?>) root.get(String.valueOf(i));
+                    if (row != null) {
+                        for (int j = 0; j < columns + 1; j++) {  // cols
+                            Map<?, ?> col = (Map<?, ?>) row.get(String.valueOf(j));
+                            if (col != null) {
+                                System.out.println("Row " + i + " Col " + j + " = " + col.get("v"));
+                            }
+                        }
+                    }
+                }
+            }
+
+
             return (LabTestTemplateDto) mapper.mapToDto(entity.get());
         } catch (EntityNotFoundException e) {
             throw e;
