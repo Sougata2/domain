@@ -23,6 +23,9 @@ public class LabTestTemplateDto implements Serializable, MasterDto {
     private String name;
     private String header;
     private String mergeData;
+    private Integer columnCount;
+    private String headerRange;
+    private String defaultSelection;
     private Set<SubServiceDto> subServices;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

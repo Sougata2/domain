@@ -160,6 +160,13 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
                 entity.get().setHeader(objectMapper.writeValueAsString(tempRow));
             }
 
+            // calculate excel meta data (headerRange, column count, defaultSelection)
+            entity.get().setColumnCount(columns + 1);
+            String firstCellCords = "A1";
+            String lastCellCords = (char) (columns + 'A') + String.valueOf(rows);
+            entity.get().setHeaderRange(firstCellCords + ":" + lastCellCords);
+            entity.get().setDefaultSelection("A" + (rows + 1) + ":" + "A" + (rows + 1));
+            
             return (LabTestTemplateDto) mapper.mapToDto(entity.get());
         } catch (EntityNotFoundException e) {
             throw e;
