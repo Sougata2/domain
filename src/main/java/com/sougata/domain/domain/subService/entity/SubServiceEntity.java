@@ -54,7 +54,8 @@ public class SubServiceEntity implements MasterEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "subService")
     private Set<MandatoryDocumentsEntity> mandatoryDocuments;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "subServices")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "test_template_sub_service_map", joinColumns = @JoinColumn(name = "sub_service_id"), inverseJoinColumns = @JoinColumn(name = "test_template_id"))
     private Set<LabTestTemplateEntity> testTemplates;
 
     @CreationTimestamp

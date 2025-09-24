@@ -35,7 +35,7 @@ public class LabTestTemplateEntity implements MasterEntity {
     private String mergeData;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "test_template_sub_service_map", joinColumns = @JoinColumn(name = "test_template_id"), inverseJoinColumns = @JoinColumn(name = "sub_serivce_id"))
+    @JoinTable(name = "test_template_sub_service_map", joinColumns = @JoinColumn(name = "test_template_id"), inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
     private Set<SubServiceEntity> subServices;
 
     @Transient
