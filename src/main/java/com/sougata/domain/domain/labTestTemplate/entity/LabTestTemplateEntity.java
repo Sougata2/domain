@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.labTestTemplate.entity;
 
+import com.sougata.domain.domain.labTestRecord.entity.LabTestRecordEntity;
 import com.sougata.domain.domain.subService.entity.SubServiceEntity;
 import com.sougata.domain.shared.MasterEntity;
 import jakarta.persistence.*;
@@ -37,6 +38,9 @@ public class LabTestTemplateEntity implements MasterEntity {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "test_template_sub_service_map", joinColumns = @JoinColumn(name = "test_template_id"), inverseJoinColumns = @JoinColumn(name = "sub_service_id"))
     private Set<SubServiceEntity> subServices;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "template")
+    private Set<LabTestRecordEntity> testRecords;
 
     @Transient
     private Integer columnCount;

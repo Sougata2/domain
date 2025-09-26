@@ -166,7 +166,7 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
             String lastCellCords = (char) (columns + 'A') + String.valueOf(rows);
             entity.get().setHeaderRange(firstCellCords + ":" + lastCellCords);
             entity.get().setDefaultSelection("A" + (rows + 1) + ":" + "A" + (rows + 1));
-            
+
             return (LabTestTemplateDto) mapper.mapToDto(entity.get());
         } catch (EntityNotFoundException e) {
             throw e;
@@ -219,6 +219,10 @@ public class LabTestTemplateServiceImpl implements LabTestTemplateService {
                     subService.getTestTemplates().remove(entity.get());
                 }
                 entity.get().setSubServices(new HashSet<>());
+            }
+
+            if (!entity.get().getTestRecords().isEmpty()) {
+                entity.get().getTestRecords().clear();
             }
 
             repository.delete(entity.get());

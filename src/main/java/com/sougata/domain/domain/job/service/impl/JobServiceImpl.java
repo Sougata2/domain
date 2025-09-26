@@ -238,6 +238,10 @@ public class JobServiceImpl implements JobService {
                 entity.get().setWorkFlowHistory(new HashSet<>());
             }
 
+            if (!entity.get().getTestRecords().isEmpty()) {
+                entity.get().getTestRecords().clear();
+            }
+
             repository.delete(entity.get());
             return dto;
         } catch (EntityNotFoundException e) {

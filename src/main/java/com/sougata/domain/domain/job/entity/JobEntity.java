@@ -3,6 +3,7 @@ package com.sougata.domain.domain.job.entity;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
 import com.sougata.domain.domain.lab.entity.LabEntity;
+import com.sougata.domain.domain.labTestRecord.entity.LabTestRecordEntity;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.shared.MasterEntity;
 import com.sougata.domain.user.entity.UserEntity;
@@ -47,6 +48,9 @@ public class JobEntity implements MasterEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "job")
     private Set<JobWorkFlowHistoryEntity> workFlowHistory;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "job")
+    private Set<LabTestRecordEntity> testRecords;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
