@@ -33,7 +33,7 @@ public class LabTestRecordEntity implements MasterEntity {
     @JoinColumn(name = "job_id")
     private JobEntity job;
 
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "TEXT")
     private String cellData;
 
     @CreationTimestamp
