@@ -74,7 +74,12 @@ public class LabTestRecordServiceImpl implements LabTestRecordService {
             if (job.isEmpty()) {
                 throw new EntityNotFoundException("Job Entity with ID : %d is not found".formatted(dto.getJob().getId()));
             }
-            return null;
+
+            LabTestRecordEntity entity = (LabTestRecordEntity) mapper.mapToEntity(dto);
+            entity.setTemplate(template.get());
+            entity.setJob(job.get());
+            LabTestRecordEntity saved = repository.save(entity);
+            return (LabTestRecordDto) mapper.mapToDto(saved);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
