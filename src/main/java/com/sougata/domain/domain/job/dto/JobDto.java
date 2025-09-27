@@ -3,6 +3,7 @@ package com.sougata.domain.domain.job.dto;
 import com.sougata.domain.domain.devices.dto.DeviceDto;
 import com.sougata.domain.domain.jobWorkFlowHistory.dto.JobWorkFlowHistoryDto;
 import com.sougata.domain.domain.lab.dto.LabDto;
+import com.sougata.domain.domain.labTestRecord.dto.LabTestRecordDto;
 import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.shared.MasterDto;
 import com.sougata.domain.user.dto.UserDto;
@@ -29,6 +30,7 @@ public class JobDto implements Serializable, MasterDto {
     private UserDto assignee;
     private LabDto lab;
     private Set<JobWorkFlowHistoryDto> workFlowHistory;
+    private Set<LabTestRecordDto> testRecords;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

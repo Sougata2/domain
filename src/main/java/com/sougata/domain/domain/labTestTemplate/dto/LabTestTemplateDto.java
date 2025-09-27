@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.labTestTemplate.dto;
 
+import com.sougata.domain.domain.labTestRecord.dto.LabTestRecordDto;
 import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class LabTestTemplateDto implements Serializable, MasterDto {
     private String headerRange;
     private String defaultSelection;
     private Set<SubServiceDto> subServices;
+    private Set<LabTestRecordDto> testRecords;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
