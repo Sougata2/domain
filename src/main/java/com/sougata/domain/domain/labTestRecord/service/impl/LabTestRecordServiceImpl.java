@@ -80,18 +80,60 @@ public class LabTestRecordServiceImpl implements LabTestRecordService {
             entity.setJob(job.get());
             LabTestRecordEntity saved = repository.save(entity);
             return (LabTestRecordDto) mapper.mapToDto(saved);
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
+    @Transactional
     public LabTestRecordDto update(LabTestRecordDto dto) {
-        return null;
+        try {
+            Optional<LabTestRecordEntity> og = repository.findById(dto.getId());
+            if (og.isEmpty()) {
+                throw new EntityNotFoundException("Lab  Test Record with ID : %d is not found".formatted(dto.getId()));
+            }
+
+            Optional<LabTestTemplateEntity> template = templateRepository.findById(dto.getTemplate().getId());
+            if (template.isEmpty()) {
+                throw new EntityNotFoundException("Lab Test Template Entity with ID : %d is not found".formatted(dto.getTemplate().getId()));
+            }
+
+            Optional<JobEntity> job = jobRepository.findById(dto.getJob().getId());
+            if (job.isEmpty()) {
+                throw new EntityNotFoundException("Job Entity with ID : %d is not found".formatted(dto.getJob().getId()));
+            }
+
+            LabTestRecordEntity nu = (LabTestRecordEntity) mapper.mapToEntity(dto);
+            LabTestRecordEntity merged = (LabTestRecordEntity) mapper.merge(nu, og.get());
+
+            LabTestRecordEntity saved = repository.save(merged);
+            return (LabTestRecordDto) mapper.mapToDto(saved);
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
+    @Transactional
     public LabTestRecordDto delete(LabTestRecordDto dto) {
-        return null;
+        try {
+            Optional<LabTestRecordEntity> og = repository.findById(dto.getId());
+            if (og.isEmpty()) {
+                throw new EntityNotFoundException("Lab  Test Record with ID : %d is not found".formatted(dto.getId()));
+            }
+
+            // detach and clear relations
+            repository.delete(og.get());
+            return dto;
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
