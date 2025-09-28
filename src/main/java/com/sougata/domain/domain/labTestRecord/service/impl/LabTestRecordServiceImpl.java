@@ -43,6 +43,8 @@ public class LabTestRecordServiceImpl implements LabTestRecordService {
             }
 
             return (LabTestRecordDto) mapper.mapToDto(entity.get());
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -56,6 +58,8 @@ public class LabTestRecordServiceImpl implements LabTestRecordService {
                 throw new EntityNotFoundException("Lab Test Template Entity with ID : %d is not found".formatted(id));
             }
             return (LabTestRecordDto) mapper.mapToDto(entity.get());
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
