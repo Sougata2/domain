@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/lab-test-record")
@@ -22,6 +24,12 @@ public class LabTestRecordController {
     ) {
         logger.info("LabTestRecordController.findByTemplateAndJobId : templateId = {}, jobId = {}", templateId, jobId);
         return ResponseEntity.ok(service.findByTemplateIdAndJobId(templateId, jobId));
+    }
+
+    @GetMapping("/get-record-count/{id}")
+    public ResponseEntity<Map<Long, Object>> getTestRecordsCount(@PathVariable(value = "id") Long jobId) {
+        logger.info("LabTestRecordController.getTestRecordsCount : jobId = {}", jobId);
+        return ResponseEntity.ok(service.findTestRecordsCount(jobId));
     }
 
     @GetMapping("/{id}")

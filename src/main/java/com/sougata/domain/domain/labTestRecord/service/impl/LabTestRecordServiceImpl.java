@@ -11,9 +11,11 @@ import com.sougata.domain.domain.labTestTemplate.repository.LabTestTemplateRepos
 import com.sougata.domain.mapper.RelationalMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,7 @@ public class LabTestRecordServiceImpl implements LabTestRecordService {
     private final LabTestTemplateRepository templateRepository;
     private final LabTestRecordRepository repository;
     private final JobRepository jobRepository;
+    private final JdbcTemplate jdbcTemplate;
     private final RelationalMapper mapper;
 
     @Override
@@ -139,5 +142,14 @@ public class LabTestRecordServiceImpl implements LabTestRecordService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Map<Long, Object> findTestRecordsCount(Long jobId) {
+        Optional<JobEntity> job = jobRepository.findById(jobId);
+        if (job.isEmpty()) {
+            throw new EntityNotFoundException("Job Entity with ID : %d is not found".formatted(jobId));
+        }
+        return repository.findTestRecordsCount(jobId, jdbcTemplate);
     }
 }

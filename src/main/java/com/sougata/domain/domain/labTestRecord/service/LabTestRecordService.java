@@ -2,6 +2,8 @@ package com.sougata.domain.domain.labTestRecord.service;
 
 import com.sougata.domain.domain.labTestRecord.dto.LabTestRecordDto;
 
+import java.util.Map;
+
 public interface LabTestRecordService {
     LabTestRecordDto findByTemplateIdAndJobId(Long templateId, Long jobId);
 
@@ -12,4 +14,6 @@ public interface LabTestRecordService {
     LabTestRecordDto update(LabTestRecordDto dto);
 
     LabTestRecordDto delete(LabTestRecordDto dto);
+
+    Map<Long, Object> findTestRecordsCount(Long jobId);
 }
