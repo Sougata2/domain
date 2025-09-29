@@ -38,9 +38,7 @@ public interface LabTestRecordRepository extends JpaRepository<LabTestRecordEnti
             response.put("templateId", rs.getLong("template_id"));
             response.put("templateName", rs.getString("name"));
             return response;
-        }).forEach(r -> {
-            res.put((Long) r.get("templateId"), r.get("keyCount"));
-        });
+        }).forEach(r -> res.put((Long) r.get("templateId"), r.get("keyCount")));
         return res;
     }
 }
