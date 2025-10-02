@@ -130,7 +130,7 @@ public class JobWorkFlowHistoryServiceImpl implements JobWorkFlowHistoryService 
                     for (JobWorkFlowHistoryEntity historyEntity : history.reversed()) {
                         if (
                                 historyEntity.getAssigner().getDefaultRole().getId()
-                                        .equals(dto.getAssigner().getDefaultRole().getId())
+                                        .equals(dto.getTargetRole().getId())
                         ) {
                             Optional<UserEntity> formerAssigner = userRepository.findById(historyEntity.getAssigner().getId());
                             if (formerAssigner.isEmpty()) {
