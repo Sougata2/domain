@@ -35,6 +35,9 @@ public class StatusEntity implements MasterEntity {
     @Column
     private String description;
 
+    @Column
+    private String postDescription;
+
     @Enumerated(EnumType.STRING)
     private WorkFlowActionType actionType;
 
