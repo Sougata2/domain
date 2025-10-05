@@ -33,9 +33,6 @@ public class StatusEntity implements MasterEntity {
     private String name;
 
     @Column
-    private String description;
-
-    @Column
     private String postDescription;
 
     @Enumerated(EnumType.STRING)
