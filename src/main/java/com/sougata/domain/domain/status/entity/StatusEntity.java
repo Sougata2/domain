@@ -38,6 +38,12 @@ public class StatusEntity implements MasterEntity {
     @Enumerated(EnumType.STRING)
     private WorkFlowActionType actionType;
 
+    @Column
+    private String applicationType;
+
+    @Column
+    private Boolean isFinal;
+
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
     private Set<ApplicationEntity> applications;
 

@@ -26,7 +26,9 @@ import java.util.Set;
 public class StatusDto implements Serializable, MasterDto {
     private Long id;
     private String name;
+    private Boolean isFinal;
     private String postDescription;
+    private String applicationType;
     private WorkFlowActionType actionType;
     private Set<JobDto> jobs;
     private Set<ApplicationDto> applications;
