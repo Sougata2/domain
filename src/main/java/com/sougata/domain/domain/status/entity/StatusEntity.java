@@ -3,7 +3,6 @@ package com.sougata.domain.domain.status.entity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
-import com.sougata.domain.domain.status.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.shared.MasterEntity;
@@ -35,8 +34,8 @@ public class StatusEntity implements MasterEntity {
     @Column
     private String postDescription;
 
-    @Enumerated(EnumType.STRING)
-    private WorkFlowActionType actionType;
+    @Column
+    private String actionType;
 
     @Column
     private String applicationType;

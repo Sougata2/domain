@@ -3,7 +3,6 @@ package com.sougata.domain.domain.status.dto;
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.job.dto.JobDto;
 import com.sougata.domain.domain.jobWorkFlowHistory.dto.JobWorkFlowHistoryDto;
-import com.sougata.domain.domain.status.enums.WorkFlowActionType;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.domain.workflowHistory.dto.WorkFlowHistoryDto;
 import com.sougata.domain.shared.MasterDto;
@@ -29,7 +28,7 @@ public class StatusDto implements Serializable, MasterDto {
     private Boolean isFinal;
     private String postDescription;
     private String applicationType;
-    private WorkFlowActionType actionType;
+    private String actionType;
     private Set<JobDto> jobs;
     private Set<ApplicationDto> applications;
     private Set<WorkFlowHistoryDto> workFlowHistory;
