@@ -4,6 +4,8 @@ import com.sougata.domain.domain.activity.dto.ActivityDto;
 import com.sougata.domain.domain.activity.entity.ActivityEntity;
 import com.sougata.domain.domain.application.dto.ApplicationDto;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
+import com.sougata.domain.domain.certifications.dto.CertificationDto;
+import com.sougata.domain.domain.certifications.entity.CertificationEntity;
 import com.sougata.domain.domain.devices.dto.DeviceDto;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.document.dto.DocumentDto;
@@ -86,7 +88,8 @@ public class EntityDtoMapping {
                 Map.entry(JobEntity.class, JobDto.class),
                 Map.entry(JobWorkFlowHistoryEntity.class, JobWorkFlowHistoryDto.class),
                 Map.entry(LabTestTemplateEntity.class, LabTestTemplateDto.class),
-                Map.entry(LabTestRecordEntity.class, LabTestRecordDto.class)
+                Map.entry(LabTestRecordEntity.class, LabTestRecordDto.class),
+                Map.entry(CertificationEntity.class, CertificationDto.class)
         );
 
         dtoToEntityMap = Map.ofEntries(
@@ -113,7 +116,8 @@ public class EntityDtoMapping {
                 Map.entry(JobDto.class, JobEntity.class),
                 Map.entry(JobWorkFlowHistoryDto.class, JobWorkFlowHistoryEntity.class),
                 Map.entry(LabTestTemplateDto.class, LabTestTemplateEntity.class),
-                Map.entry(LabTestRecordDto.class, LabTestRecordEntity.class)
+                Map.entry(LabTestRecordDto.class, LabTestRecordEntity.class),
+                Map.entry(CertificationDto.class, CertificationEntity.class)
         );
     }
 }

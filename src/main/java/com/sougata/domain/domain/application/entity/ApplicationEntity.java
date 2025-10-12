@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.application.entity;
 
+import com.sougata.domain.domain.certifications.entity.CertificationEntity;
 import com.sougata.domain.domain.devices.entity.DeviceEntity;
 import com.sougata.domain.domain.document.entity.DocumentEntity;
 import com.sougata.domain.domain.lab.entity.LabEntity;
@@ -81,6 +82,9 @@ public class ApplicationEntity implements MasterEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "application")
     private Set<WorkFlowHistoryEntity> workFlowHistory;
+
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "application")
+    private Set<CertificationEntity> certificates;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.application.dto;
 
+import com.sougata.domain.domain.certifications.dto.CertificationDto;
 import com.sougata.domain.domain.devices.dto.DeviceDto;
 import com.sougata.domain.domain.document.dto.DocumentDto;
 import com.sougata.domain.domain.lab.dto.LabDto;
@@ -39,6 +40,7 @@ public class ApplicationDto implements Serializable, MasterDto {
     private QuotationDto quotation;
     private StatusDto status;
     private Set<WorkFlowHistoryDto> workFlowHistory;
+    private Set<CertificationDto> certificates;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
