@@ -107,7 +107,7 @@ public class WorkFlowHistoryServiceImpl implements WorkFlowHistoryService {
                 throw new EntityNotFoundException("Assigner(User) with id %s is not found".formatted(dto.getAssigner().getId()));
             }
 
-            WorkFlowHistoryEntity entity = new WorkFlowHistoryEntity();
+            WorkFlowHistoryEntity entity = (WorkFlowHistoryEntity) mapper.mapToEntity(dto);
             entity.setApplication(application.get());
             entity.setAssigner(assigner.get());
             entity.setStatus(status.get());
