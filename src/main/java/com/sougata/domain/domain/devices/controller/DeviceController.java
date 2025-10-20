@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +22,12 @@ public class DeviceController {
     public ResponseEntity<List<DeviceDto>> findByReferenceNumber(@PathVariable(name = "id") String referenceNumber) {
         logger.info("findByReferenceNumber referenceNumber : {}", referenceNumber);
         return ResponseEntity.ok(service.findByReferenceNumber(referenceNumber));
+    }
+
+    @GetMapping("/device-with-jobs/{id}")
+    public ResponseEntity<List<Map<String, Object>>> findDeviceWithJobByApplicationReferenceNumber(@PathVariable(name = "id") String referenceNumber) {
+        logger.info("findDeviceWithJobByApplicationReferenceNumber : {}", referenceNumber);
+        return ResponseEntity.ok(service.findDeviceWithJobByApplicationReferenceNumber(referenceNumber));
     }
 
     @GetMapping("/{id}")

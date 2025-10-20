@@ -15,13 +15,11 @@ import com.sougata.domain.domain.specification.repository.SpecificationRepositor
 import com.sougata.domain.mapper.RelationalMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +29,7 @@ public class DeviceServiceImpl implements DeviceService {
     private final ApplicationRepository applicationRepository;
     private final ActivityRepository activityRepository;
     private final SpecificationRepository specificationRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public List<DeviceDto> findByReferenceNumber(String referenceNumber) {
@@ -41,6 +40,21 @@ public class DeviceServiceImpl implements DeviceService {
             }
             List<DeviceEntity> devices = repository.findByReferenceNumber(referenceNumber);
             return devices.stream().map(e -> (DeviceDto) mapper.mapToDto(e)).toList();
+        } catch (EntityNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> findDeviceWithJobByApplicationReferenceNumber(String referenceNumber) {
+        try {
+            Optional<ApplicationEntity> application = applicationRepository.findByReferenceNumber(referenceNumber);
+            if (application.isEmpty()) {
+                throw new EntityNotFoundException("Application with reference number : %s not found".formatted(referenceNumber));
+            }
+            return repository.findDeviceWithJobByApplicationReferenceNumber(referenceNumber, jdbcTemplate);
         } catch (EntityNotFoundException e) {
             throw e;
         } catch (Exception e) {
