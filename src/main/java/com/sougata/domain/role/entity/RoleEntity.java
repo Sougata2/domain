@@ -1,5 +1,6 @@
 package com.sougata.domain.role.entity;
 
+import com.sougata.domain.domain.viewComponent.entity.ViewComponentEntity;
 import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.menu.entity.MenuEntity;
 import com.sougata.domain.shared.MasterEntity;
@@ -40,6 +41,9 @@ public class RoleEntity implements MasterEntity {
     @OneToMany(mappedBy = "targetRole", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Set<WorkFlowActionEntity> actions;
 
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST})
+    @JoinTable(name = "view_component_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "component_id"))
+    private Set<ViewComponentEntity> components;
 
     @Override
     public String toString() {

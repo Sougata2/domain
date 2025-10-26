@@ -1,6 +1,7 @@
 package com.sougata.domain.role.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sougata.domain.domain.viewComponent.dto.ViewComponentDto;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.menu.dto.MenuDto;
 import com.sougata.domain.shared.MasterDto;
@@ -29,6 +30,8 @@ public class RoleDto implements Serializable, MasterDto {
     private Set<UserDto> users;
     @JsonIgnore
     private Set<UserDto> defaultRoleUsers;
+    @JsonIgnore
+    private Set<ViewComponentDto> components;
 
     @Override
     public String toString() {

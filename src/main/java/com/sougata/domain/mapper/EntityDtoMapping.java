@@ -36,6 +36,8 @@ import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.domain.status.entity.StatusEntity;
 import com.sougata.domain.domain.subService.dto.SubServiceDto;
 import com.sougata.domain.domain.subService.entity.SubServiceEntity;
+import com.sougata.domain.domain.viewComponent.dto.ViewComponentDto;
+import com.sougata.domain.domain.viewComponent.entity.ViewComponentEntity;
 import com.sougata.domain.domain.workFlowAction.dto.WorkFlowActionDto;
 import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workFlowGroup.dto.WorkFlowGroupDto;
@@ -89,7 +91,8 @@ public class EntityDtoMapping {
                 Map.entry(JobWorkFlowHistoryEntity.class, JobWorkFlowHistoryDto.class),
                 Map.entry(LabTestTemplateEntity.class, LabTestTemplateDto.class),
                 Map.entry(LabTestRecordEntity.class, LabTestRecordDto.class),
-                Map.entry(CertificationEntity.class, CertificationDto.class)
+                Map.entry(CertificationEntity.class, CertificationDto.class),
+                Map.entry(ViewComponentEntity.class, ViewComponentDto.class)
         );
 
         dtoToEntityMap = Map.ofEntries(
@@ -117,7 +120,8 @@ public class EntityDtoMapping {
                 Map.entry(JobWorkFlowHistoryDto.class, JobWorkFlowHistoryEntity.class),
                 Map.entry(LabTestTemplateDto.class, LabTestTemplateEntity.class),
                 Map.entry(LabTestRecordDto.class, LabTestRecordEntity.class),
-                Map.entry(CertificationDto.class, CertificationEntity.class)
+                Map.entry(CertificationDto.class, CertificationEntity.class),
+                Map.entry(ViewComponentDto.class, ViewComponentEntity.class)
         );
     }
 }
