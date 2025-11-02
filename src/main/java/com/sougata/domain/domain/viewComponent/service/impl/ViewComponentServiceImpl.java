@@ -23,6 +23,16 @@ public class ViewComponentServiceImpl implements ViewComponentService {
     private final RelationalMapper mapper;
 
     @Override
+    public List<ViewComponentDto> findAll() {
+        try {
+            List<ViewComponentEntity> entities = repository.findAll();
+            return entities.stream().map(e -> (ViewComponentDto) mapper.mapToDto(e)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<ViewComponentDto> findAllByRoleIdAndApplicationType(Long roleId, String applicationType) {
         try {
             Optional<RoleEntity> role = roleRepository.findById(roleId);
