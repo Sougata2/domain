@@ -24,9 +24,9 @@ public class ViewComponentController {
     }
 
     @GetMapping("/by-role-and-application-type")
-    public ResponseEntity<List<ViewComponentDto>> findByRoleIdAndApplicationType(@RequestParam(value = "role") Long roleId, @RequestParam(value = "type") String applicationType) {
-        logger.info("ViewComponentController.findByRoleIdAndApplicationType : roleId={}, applicationType={}", roleId, applicationType);
-        return ResponseEntity.ok(service.findAllByRoleIdAndApplicationType(roleId, applicationType));
+    public ResponseEntity<List<ViewComponentDto>> findByRoleIdAndApplicationType(@RequestParam(value = "role") String role, @RequestParam(value = "type") String applicationType) {
+        logger.info("ViewComponentController.findByRoleIdAndApplicationType : role={}, applicationType={}", role, applicationType);
+        return ResponseEntity.ok(service.findAllByRoleIdAndApplicationType(role, applicationType));
     }
 
     @GetMapping("/{id}")

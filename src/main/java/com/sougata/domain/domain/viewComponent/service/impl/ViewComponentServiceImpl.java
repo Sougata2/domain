@@ -33,14 +33,14 @@ public class ViewComponentServiceImpl implements ViewComponentService {
     }
 
     @Override
-    public List<ViewComponentDto> findAllByRoleIdAndApplicationType(Long roleId, String applicationType) {
+    public List<ViewComponentDto> findAllByRoleIdAndApplicationType(String role, String applicationType) {
         try {
-            Optional<RoleEntity> role = roleRepository.findById(roleId);
-            if (role.isEmpty()) {
-                throw new EntityNotFoundException("Role Entity with id %d is not found!".formatted(roleId));
+            Optional<RoleEntity> roleEntity = roleRepository.findByRoleName(role);
+            if (roleEntity.isEmpty()) {
+                throw new EntityNotFoundException("Role Entity with name %s is not found!".formatted(role));
             }
 
-            List<ViewComponentEntity> entities = repository.findAllByRoleIdAndApplicationType(roleId, applicationType);
+            List<ViewComponentEntity> entities = repository.findAllByRoleIdAndApplicationType(roleEntity.get().getId(), applicationType);
             return entities.stream().map(e -> (ViewComponentDto) mapper.mapToDto(e)).toList();
         } catch (EntityNotFoundException e) {
             throw e;
