@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ViewComponentRepository extends JpaRepository<ViewComponentEntity, Long> {
     @Query("select e from ViewComponentEntity e " +
-            "join fetch RoleEntity f " +
+            "join fetch e.roles f " +
             "where f.id = :roleId and e.applicationType = :applicationType")
     List<ViewComponentEntity> findAllByRoleIdAndApplicationType(Long roleId, String applicationType);
 }
