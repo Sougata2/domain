@@ -166,9 +166,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
         // set the reference of status
-        Optional<StatusEntity> statusEntity = statusRepository.findById(dto.getStatus().getId());
+        Optional<StatusEntity> statusEntity = statusRepository.findByStatusName(dto.getStatus().getName());
         if (statusEntity.isEmpty()) {
-            throw new EntityNotFoundException("Status Entity with id %d not found".formatted(dto.getStatus().getId()));
+            throw new EntityNotFoundException("Status Entity with name %s not found".formatted(dto.getStatus().getName()));
         }
         entity.setStatus(statusEntity.get());
 

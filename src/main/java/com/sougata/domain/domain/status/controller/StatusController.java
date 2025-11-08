@@ -27,6 +27,12 @@ public class StatusController {
         }
     }
 
+    @GetMapping("/by-status-name/{name}")
+    public ResponseEntity<StatusDto> findByStatusName(@PathVariable String name) {
+        logger.debug("findByStatusName: {}", name);
+        return ResponseEntity.ok(service.findByStatusName(name));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StatusDto> findById(@PathVariable Long id) {
         logger.debug("find by id {}", id);

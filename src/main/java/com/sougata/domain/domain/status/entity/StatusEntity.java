@@ -49,7 +49,7 @@ public class StatusEntity implements MasterEntity {
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
     private Set<WorkFlowHistoryEntity> workFlowHistory;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "status")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "status")
     private Set<WorkFlowActionEntity> actions;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "targetStatus")

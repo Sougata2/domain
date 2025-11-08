@@ -9,6 +9,8 @@ public interface StatusService {
 
     StatusDto findById(Long id);
 
+    StatusDto findByStatusName(String name);
+
     StatusDto create(StatusDto dto);
 
     StatusDto update(StatusDto dto);
