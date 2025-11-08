@@ -27,6 +27,7 @@ public class StatusDto implements Serializable, MasterDto {
     private String name;
     private Boolean isFinal;
     private String postDescription;
+    private String applicationType;
     private String actionType;
     private Set<JobDto> jobs;
     private Set<ApplicationDto> applications;
