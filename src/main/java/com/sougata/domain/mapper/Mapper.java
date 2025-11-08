@@ -45,7 +45,7 @@ public class Mapper {
                             }
                         }
                     }
-                    entityField.set(entity, set);
+                    if (dtoValue != null) entityField.set(entity, set);
                 } else if (isComplex(entityField)) {
                     Object dtoValue = dtoField.get(dto);
                     if (dtoValue == null) {
