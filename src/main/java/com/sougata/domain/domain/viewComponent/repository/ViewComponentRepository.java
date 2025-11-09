@@ -11,6 +11,7 @@ import java.util.List;
 public interface ViewComponentRepository extends JpaRepository<ViewComponentEntity, Long> {
     @Query("select e from ViewComponentEntity e " +
             "join fetch e.roles f " +
-            "where f.id = :roleId and e.applicationType = :applicationType")
-    List<ViewComponentEntity> findAllByRoleIdAndApplicationType(Long roleId, String applicationType);
+            "join fetch e.statuses g " +
+            "where f.id = :roleId and g.id = :statusId and e.applicationType = :applicationType")
+    List<ViewComponentEntity> findAllByRoleIdStatusIdAndApplicationType(Long roleId, Long statusId, String applicationType);
 }

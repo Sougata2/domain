@@ -23,10 +23,14 @@ public class ViewComponentController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/by-role-and-application-type")
-    public ResponseEntity<List<ViewComponentDto>> findByRoleIdAndApplicationType(@RequestParam(value = "role") String role, @RequestParam(value = "type") String applicationType) {
-        logger.info("ViewComponentController.findByRoleIdAndApplicationType : role={}, applicationType={}", role, applicationType);
-        return ResponseEntity.ok(service.findAllByRoleIdAndApplicationType(role, applicationType));
+    @GetMapping("/by-role-status-and-application-type")
+    public ResponseEntity<List<ViewComponentDto>> findAllByRoleIdStatusIdAndApplicationType(
+            @RequestParam(value = "role") String role,
+            @RequestParam(value = "status") String status,
+            @RequestParam(value = "type") String applicationType
+    ) {
+        logger.info("ViewComponentController.findAllByRoleIdStatusIdAndApplicationType : role={}, status={}, applicationType={}", role, status, applicationType);
+        return ResponseEntity.ok(service.findAllByRoleIdStatusIdAndApplicationType(role, status, applicationType));
     }
 
     @GetMapping("/{id}")

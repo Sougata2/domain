@@ -7,7 +7,7 @@ import java.util.List;
 public interface ViewComponentService {
     List<ViewComponentDto> findAll();
 
-    List<ViewComponentDto> findAllByRoleIdAndApplicationType(String role, String applicationType);
+    List<ViewComponentDto> findAllByRoleIdStatusIdAndApplicationType(String role, String status, String applicationType);
 
     ViewComponentDto findById(Long id);
 

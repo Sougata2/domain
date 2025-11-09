@@ -1,5 +1,7 @@
 package com.sougata.domain.domain.viewComponent.service.impl;
 
+import com.sougata.domain.domain.status.entity.StatusEntity;
+import com.sougata.domain.domain.status.repository.StatusRepository;
 import com.sougata.domain.domain.viewComponent.dto.ViewComponentDto;
 import com.sougata.domain.domain.viewComponent.entity.ViewComponentEntity;
 import com.sougata.domain.domain.viewComponent.repository.ViewComponentRepository;
@@ -19,6 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ViewComponentServiceImpl implements ViewComponentService {
     private final ViewComponentRepository repository;
+    private final StatusRepository statusRepository;
     private final RoleRepository roleRepository;
     private final RelationalMapper mapper;
 
@@ -33,14 +36,19 @@ public class ViewComponentServiceImpl implements ViewComponentService {
     }
 
     @Override
-    public List<ViewComponentDto> findAllByRoleIdAndApplicationType(String role, String applicationType) {
+    public List<ViewComponentDto> findAllByRoleIdStatusIdAndApplicationType(String role, String status, String applicationType) {
         try {
             Optional<RoleEntity> roleEntity = roleRepository.findByRoleName(role);
             if (roleEntity.isEmpty()) {
                 throw new EntityNotFoundException("Role Entity with name %s is not found!".formatted(role));
             }
 
-            List<ViewComponentEntity> entities = repository.findAllByRoleIdAndApplicationType(roleEntity.get().getId(), applicationType);
+            Optional<StatusEntity> statusEntity = statusRepository.findByStatusName(status);
+            if (statusEntity.isEmpty()) {
+                throw new EntityNotFoundException("Status Entity with name %s is not found!".formatted(status));
+            }
+
+            List<ViewComponentEntity> entities = repository.findAllByRoleIdStatusIdAndApplicationType(roleEntity.get().getId(), statusEntity.get().getId(), applicationType);
             return entities.stream().map(e -> (ViewComponentDto) mapper.mapToDto(e)).toList();
         } catch (EntityNotFoundException e) {
             throw e;
