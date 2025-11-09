@@ -3,6 +3,7 @@ package com.sougata.domain.domain.status.entity;
 import com.sougata.domain.domain.application.entity.ApplicationEntity;
 import com.sougata.domain.domain.job.entity.JobEntity;
 import com.sougata.domain.domain.jobWorkFlowHistory.entity.JobWorkFlowHistoryEntity;
+import com.sougata.domain.domain.viewComponent.entity.ViewComponentEntity;
 import com.sougata.domain.domain.workFlowAction.entity.WorkFlowActionEntity;
 import com.sougata.domain.domain.workflowHistory.entity.WorkFlowHistoryEntity;
 import com.sougata.domain.shared.MasterEntity;
@@ -60,6 +61,10 @@ public class StatusEntity implements MasterEntity {
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "status")
     private Set<JobWorkFlowHistoryEntity> jobWorkFlowHistory;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "view_component_status", joinColumns = @JoinColumn(name = "status_id"), inverseJoinColumns = @JoinColumn(name = "component_id"))
+    private Set<ViewComponentEntity> components;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

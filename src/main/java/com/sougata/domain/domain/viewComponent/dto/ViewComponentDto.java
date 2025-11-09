@@ -1,5 +1,6 @@
 package com.sougata.domain.domain.viewComponent.dto;
 
+import com.sougata.domain.domain.status.dto.StatusDto;
 import com.sougata.domain.role.dto.RoleDto;
 import com.sougata.domain.shared.MasterDto;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class ViewComponentDto implements Serializable, MasterDto {
     private String name;
     private String applicationType;
     private Set<RoleDto> roles;
+    private Set<StatusDto> statuses;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
